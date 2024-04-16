@@ -1,9 +1,10 @@
 package com.docpoint;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+import com.docpoint.annotation.IntegrationTest;
+
+@IntegrationTest
 class EntitdocumentApplicationTests {
 
 	@Test
