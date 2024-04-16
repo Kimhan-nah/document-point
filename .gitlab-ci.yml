@@ -23,6 +23,7 @@ stages:          # List of stages for jobs, and their order of execution
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
+  image: maven:3-eclipse-temurin-17-alpine
   script:
     - echo "Running unit tests..."
     - mvn test
@@ -37,6 +38,7 @@ lint-test-job:   # This job also runs in the test stage.
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
+  image: maven:3-eclipse-temurin-17-alpine
   script:
     - echo "Building the application..."
     - mvn package -DskipTests
