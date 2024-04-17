@@ -1,4 +1,4 @@
-package com.docpoint.workingdoc.domain;
+package com.docpoint.user.domain;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -6,9 +6,9 @@ import lombok.NonNull;
 @Getter
 public class Team {
 	@NonNull
-	private String name;
+	private final String name;
 
-	private boolean isDeleted;
+	private final boolean isDeleted;
 
 	public Team(@NonNull String name, boolean isDeleted) {
 		this.name = name;
