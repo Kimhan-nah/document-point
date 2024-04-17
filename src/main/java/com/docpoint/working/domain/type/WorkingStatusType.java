@@ -1,4 +1,4 @@
-package com.docpoint.workingdoc.domain.type;
+package com.docpoint.working.domain.type;
 
 public enum WorkingStatusType {
 	/**
