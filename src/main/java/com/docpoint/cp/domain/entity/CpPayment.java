@@ -1,13 +1,12 @@
-package com.docpoint.cp.domain;
+package com.docpoint.cp.domain.entity;
 
-import com.docpoint.user.domain.User;
+import com.docpoint.user.domain.entity.User;
 
 import lombok.Getter;
 import lombok.NonNull;
 
 @Getter
 public class CpPayment {
-	@NonNull
 	private final User user;
 
 	private final int cp;

@@ -1,4 +1,4 @@
-package com.docpoint.workingdoc.domain;
+package com.docpoint.workingdoc.domain.entity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,10 +11,8 @@ import lombok.NonNull;
 
 @Getter
 public class DocReview {
-	@NonNull
 	private final DocReviewer reviewer;
 
-	@NonNull
 	private final Map<ReviewQuestionType, ReviewAnswerType> review = new HashMap<>();
 
 	private final boolean isDeleted;

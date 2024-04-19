@@ -1,13 +1,11 @@
-package com.docpoint.cp.domain;
+package com.docpoint.cp.domain.entity;
 
-import com.docpoint.workingdoc.domain.WorkingDoc;
+import com.docpoint.workingdoc.domain.entity.WorkingDoc;
 
 import lombok.Getter;
-import lombok.NonNull;
 
 @Getter
 public class CpRequest {
-	@NonNull
 	private final WorkingDoc workingDoc;
 
 	private final int requestCp;

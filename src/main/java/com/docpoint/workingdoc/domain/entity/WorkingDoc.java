@@ -1,10 +1,10 @@
-package com.docpoint.workingdoc.domain;
+package com.docpoint.workingdoc.domain.entity;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.docpoint.working.domain.Working;
+import com.docpoint.working.domain.entity.Working;
 import com.docpoint.workingdoc.domain.type.DocStatusType;
 import com.docpoint.workingdoc.domain.type.DocType;
 
@@ -13,16 +13,12 @@ import lombok.NonNull;
 
 @Getter
 public class WorkingDoc {
-	@NonNull
 	private final Working working;
 
-	@NonNull
 	private final String title;
 
-	@NonNull
 	private final String content;
 
-	@NonNull
 	private final DocStatusType status;
 
 	private final boolean isDeleted;

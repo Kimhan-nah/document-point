@@ -3,21 +3,6 @@ stages: # List of stages for jobs, and their order of execution
   - build
   - deploy
 
-services:
-  - name: docker:dind
-    command: [ "--tls=false" ]
-
-variables:
-  DOCKER_HOST: "tcp://docker:2375"
-  DOCKER_TLS_CERTDIR: ""
-  DOCKER_DRIVER: overlay2
-  MAVEN_CLI_OPTS: >-
-    --batch-mode
-    --errors
-    --fail-at-end
-    --show-version
-    --no-transfer-progress
-
 test-job:
   stage: test
   image: maven:3-eclipse-temurin-17
@@ -26,13 +11,6 @@ test-job:
     - 'mvn $MAVEN_CLI_OPTS test'
     - echo "✅All unit tests passed."
 
-lint-test-job:
-  stage: test
-  script:
-    - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
-    - echo "✅No lint issues found."
-
 build-job:
   stage: build
   image: maven:3-eclipse-temurin-17-alpine
@@ -40,10 +18,3 @@ build-job:
     - echo "Building the application..."
     - mvn package -DskipTests
     - echo "✅Application successfully built."
-
-deploy-job:
-  stage: deploy
-  environment: production
-  script:
-    - echo "Deploying application..."
-    - echo "✅Application successfully deployed."

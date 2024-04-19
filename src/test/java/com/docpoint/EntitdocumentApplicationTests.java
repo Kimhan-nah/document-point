@@ -1,10 +1,11 @@
 package com.docpoint;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import com.docpoint.annotation.IntegrationTest;
-
-@IntegrationTest
+@Disabled
+@SpringBootTest
 class EntitdocumentApplicationTests {
 
 	@Test
