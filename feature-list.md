@@ -1,0 +1,1 @@
+- [X] WorkingDocument는 제목과 내용을 갖는다.
