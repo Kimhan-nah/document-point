@@ -18,4 +18,11 @@ class TeamTest {
 		// then
 		assertEquals(true, team.isDeleted());
 	}
+
+	@Test
+	@DisplayName("이름(name)이 null이면 NullPointerException")
+	void nameIsNull() {
+		// when, then
+		assertThrows(NullPointerException.class, () -> new Team(null));
+	}
 }

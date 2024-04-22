@@ -20,8 +20,11 @@ public class User {
 
 	private final RoleType role;
 
-	protected User(@NonNull Team team, int employeeNumber, @NonNull String name, @NonNull String email,
+	private User(@NonNull Team team, int employeeNumber, @NonNull String name, @NonNull String email,
 		boolean isDeleted, @NonNull RoleType role) {
+		if (employeeNumber <= 0) {
+			throw new IllegalArgumentException("employeeNumber must be greater than 0");
+		}
 		this.team = team;
 		this.employeeNumber = employeeNumber;
 		this.name = name;
@@ -30,6 +33,9 @@ public class User {
 		this.role = role;
 	}
 
+	/**
+	 * @throws IllegalArgumentException employeeNumber가 0보다 작거나 같은 경우
+	 */
 	@Builder
 	public User(@NonNull Team team, int employeeNumber, @NonNull String name, @NonNull String email,
 		@NonNull RoleType role) {
