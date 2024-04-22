@@ -1,7 +1,8 @@
 package com.docpoint.domain.model;
 
+import java.util.Objects;
+
 import lombok.Getter;
-import lombok.NonNull;
 
 @Getter
 public class Team {
@@ -9,16 +10,8 @@ public class Team {
 
 	private final boolean isDeleted;
 
-	protected Team(@NonNull String name, boolean isDeleted) {
-		this.name = name;
+	public Team(String name, boolean isDeleted) {
+		this.name = Objects.requireNonNull(name);
 		this.isDeleted = isDeleted;
-	}
-
-	public Team(@NonNull String name) {
-		this(name, false);
-	}
-
-	public Team delete() {
-		return new Team(this.name, true);
 	}
 }

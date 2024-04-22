@@ -1,44 +1,33 @@
 package com.docpoint.domain.model;
 
+import java.util.Objects;
+
 import com.docpoint.domain.type.RoleType;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NonNull;
 
 @Getter
 public class User {
 	private final Team team;
 
-	private final int employeeNumber;
-
 	private final String name;
 
 	private final String email;
 
-	private final boolean isDeleted;
-
 	private final RoleType role;
 
-	private User(@NonNull Team team, int employeeNumber, @NonNull String name, @NonNull String email,
-		boolean isDeleted, @NonNull RoleType role) {
-		if (employeeNumber <= 0) {
-			throw new IllegalArgumentException("employeeNumber must be greater than 0");
-		}
-		this.team = team;
-		this.employeeNumber = employeeNumber;
-		this.name = name;
-		this.email = email;
-		this.isDeleted = isDeleted;
-		this.role = role;
-	}
+	private final int employeeNumber;
 
-	/**
-	 * @throws IllegalArgumentException employeeNumber가 0보다 작거나 같은 경우
-	 */
+	private final boolean isDeleted;
+
 	@Builder
-	public User(@NonNull Team team, int employeeNumber, @NonNull String name, @NonNull String email,
-		@NonNull RoleType role) {
-		this(team, employeeNumber, name, email, false, role);
+	public User(Team team, String name, String email, RoleType role, int employeeNumber, boolean isDeleted) {
+		this.team = Objects.requireNonNull(team);
+		this.name = Objects.requireNonNull(name);
+		this.email = Objects.requireNonNull(email);
+		this.role = Objects.requireNonNull(role);
+		this.employeeNumber = employeeNumber;
+		this.isDeleted = isDeleted;
 	}
 }

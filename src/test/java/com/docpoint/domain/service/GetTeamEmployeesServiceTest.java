@@ -18,25 +18,32 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.docpoint.application.port.out.LoadTeamEmployeesPort;
 import com.docpoint.domain.model.Team;
 import com.docpoint.domain.model.User;
-import com.docpoint.domain.service.GetTeamEmployeesService;
 import com.docpoint.domain.type.RoleType;
 import com.docpoint.util.UserTestData;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("팀 구성원 조회 서비스")
 class GetTeamEmployeesServiceTest {
-	Team team = new Team("team");
-	List<User> employees = new ArrayList<>();
-	User teamMember = UserTestData.createTeamMember(team);
-	User partLeader = UserTestData.createPartLeader(team);
-	User teamLeader = UserTestData.createTeamLeader(team);
 
+	private static Team team;
+	private static List<User> employees;
+	private static User teamMember;
+	private static User partLeader;
+	private static User teamLeader;
 	@InjectMocks
 	private GetTeamEmployeesService getTeamEmployeesService;
+
+	// TODO Mock 대신 Adapter를 사용하도록 수정
 	@Mock
 	private LoadTeamEmployeesPort loadTeamEmployeesPort;
 
 	@BeforeEach
 	void setUp() {
+		team = new Team("team", false);
+		employees = new ArrayList<>();
+		teamMember = UserTestData.createTeamMember(team);
+		partLeader = UserTestData.createPartLeader(team);
+		teamLeader = UserTestData.createTeamLeader(team);
 		employees.add(teamMember);
 		employees.add(partLeader);
 		employees.add(teamLeader);

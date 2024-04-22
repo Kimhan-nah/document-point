@@ -1,13 +1,13 @@
 package com.docpoint.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.docpoint.domain.type.WorkingCategoryType;
 import com.docpoint.domain.type.WorkingStatusType;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NonNull;
 
 @Getter
 public class Working {
@@ -15,13 +15,9 @@ public class Working {
 
 	private final User assignee;
 
-	private final int cp;
-
 	private final String title;
 
 	private final String content;
-
-	private final boolean isDeleted;
 
 	private final WorkingStatusType status;
 
@@ -31,51 +27,37 @@ public class Working {
 
 	private final LocalDateTime recruitDate;
 
-	private Working(@NonNull User writer, User assignee, int cp, @NonNull String title, @NonNull String content,
-		boolean isDeleted, @NonNull WorkingStatusType status, @NonNull WorkingCategoryType category,
-		@NonNull LocalDateTime dueDate, @NonNull LocalDateTime recruitDate) {
-		this.writer = writer;
-		this.assignee = assignee;
-		this.cp = cp;
-		this.title = title;
-		this.content = content;
-		this.isDeleted = isDeleted;
-		this.status = status;
-		this.category = category;
-		this.dueDate = dueDate;
-		this.recruitDate = recruitDate;
-	}
+	private final int cp;
 
-	/**
-	 * assignee만 null이 가능하며, 나머지는 null이 아닌 값이어야 한다.
-	 * <p> assignee는 null로 초기화 된다. </p>
-	 * <p> isDeleted는 false로 초기화 된다. </p>
-	 * <p> status는 WAITING으로 초기화 된다. </p>
-	 */
+	private final boolean isDeleted;
+
 	@Builder
-	public Working(@NonNull User writer, int cp, @NonNull String title, @NonNull String content,
-		@NonNull WorkingCategoryType category, @NonNull LocalDateTime dueDate, @NonNull LocalDateTime recruitDate) {
-		this(writer, null, cp, title, content, false, WorkingStatusType.WAITING, category, dueDate, recruitDate);
+	public Working(User writer, User assignee, String title, String content, WorkingStatusType status,
+		WorkingCategoryType category, LocalDateTime dueDate, LocalDateTime recruitDate, int cp, boolean isDeleted) {
+		this.writer = Objects.requireNonNull(writer);
+		this.assignee = assignee;
+		this.title = Objects.requireNonNull(title);
+		this.content = Objects.requireNonNull(content);
+		this.status = Objects.requireNonNull(status);
+		this.category = Objects.requireNonNull(category);
+		this.dueDate = Objects.requireNonNull(dueDate);
+		this.recruitDate = Objects.requireNonNull(recruitDate);
+		this.cp = cp;
+		this.isDeleted = isDeleted;
 	}
 
 	public Working updateStatus(WorkingStatusType status) {
-		if (this.isDeleted) {
-			throw new IllegalArgumentException("삭제된 업무는 상태를 변경할 수 없습니다.");
-		}
-		return new Working(this.writer, this.assignee, this.cp, this.title, this.content, this.isDeleted, status,
-			this.category, this.dueDate, this.recruitDate);
-	}
-
-	public Working assign(User assignee) {
-		if (this.isDeleted) {
-			throw new IllegalArgumentException("삭제된 업무는 담당자를 변경할 수 없습니다.");
-		}
-		return new Working(this.writer, assignee, this.cp, this.title, this.content, this.isDeleted, this.status,
-			this.category, this.dueDate, this.recruitDate);
-	}
-
-	public Working delete() {
-		return new Working(this.writer, this.assignee, this.cp, this.title, this.content, true, this.status,
-			this.category, this.dueDate, this.recruitDate);
+		return Working.builder()
+			.writer(writer)
+			.assignee(assignee)
+			.title(title)
+			.content(content)
+			.status(status)
+			.category(category)
+			.dueDate(dueDate)
+			.recruitDate(recruitDate)
+			.cp(cp)
+			.isDeleted(isDeleted)
+			.build();
 	}
 }

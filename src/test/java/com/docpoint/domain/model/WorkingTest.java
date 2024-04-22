@@ -6,15 +6,13 @@ import static org.mockito.Mockito.*;
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import com.docpoint.domain.model.User;
-import com.docpoint.domain.model.Working;
 import com.docpoint.domain.type.WorkingCategoryType;
 import com.docpoint.domain.type.WorkingStatusType;
 
-class WorkingTest {
+@DisplayName("Working 생성 테스트")
+public class WorkingTest {
 	@Test
 	@DisplayName("writer가 null이면 NullPointerException이 발생한다.")
 	void writerNotNullTest() {
@@ -78,6 +76,7 @@ class WorkingTest {
 			.category(WorkingCategoryType.DEV)
 			.dueDate(mock(LocalDateTime.class))
 			.recruitDate(mock(LocalDateTime.class))
+			.status(WorkingStatusType.WAITING)
 			.build();
 
 		// when
@@ -85,89 +84,5 @@ class WorkingTest {
 
 		// then
 		assertThat(working.getStatus()).isEqualTo(WorkingStatusType.DONE);
-	}
-
-	@Nested
-	@DisplayName("삭제된 경우(isDeleted가 true인 경우)")
-	class Deleted {
-		@Test
-		@DisplayName("상태 변경시 IllegalArgumentException이 발생한다.")
-		void changeStatusTest() {
-			// given
-			Working working = Working.builder()
-				.writer(mock(User.class))
-				.cp(1)
-				.title("title")
-				.content("content")
-				.category(WorkingCategoryType.DEV)
-				.dueDate(mock(LocalDateTime.class))
-				.recruitDate(mock(LocalDateTime.class))
-				.build();
-			working = working.delete();
-
-			// when, then
-			Working finalWorking = working;
-			assertThatThrownBy(() -> finalWorking.updateStatus(WorkingStatusType.DONE))
-				.isInstanceOf(IllegalArgumentException.class);
-		}
-	}
-
-	@Nested
-	@DisplayName("생성자 초기화 상태 테스트")
-	class InitValue {
-		@Test
-		@DisplayName("isDeleted는 false로 초기화 된다.")
-		void isDeletedFalseTest() {
-			// when
-			Working working = Working.builder()
-				.writer(mock(User.class))
-				.cp(1)
-				.title("title")
-				.content("content")
-				.category(WorkingCategoryType.DEV)
-				.dueDate(mock(LocalDateTime.class))
-				.recruitDate(mock(LocalDateTime.class))
-				.build();
-
-			// then
-			assertThat(working.isDeleted()).isFalse();
-		}
-
-		@Test
-		@DisplayName("status는 WAITING으로 초기화 된다.")
-		void statusWaitingTest() {
-			// when
-			Working working = Working.builder()
-				.writer(mock(User.class))
-				.cp(1)
-				.title("title")
-				.content("content")
-				.category(WorkingCategoryType.DEV)
-				.dueDate(mock(LocalDateTime.class))
-				.recruitDate(mock(LocalDateTime.class))
-				.build();
-
-			// then
-			assertThat(working.getStatus()).isEqualTo(WorkingStatusType.WAITING);
-		}
-
-		@Test
-		@DisplayName("assignee는 null로 초기화 된다.")
-		void assigneeNullTest() {
-			// when
-			Working working = Working.builder()
-				.writer(mock(User.class))
-				.cp(1)
-				.title("title")
-				.content("content")
-				.category(WorkingCategoryType.DEV)
-				.dueDate(mock(LocalDateTime.class))
-				.recruitDate(mock(LocalDateTime.class))
-				.build();
-
-			// then
-			assertThat(working.getAssignee()).isNull();
-		}
-
 	}
 }
