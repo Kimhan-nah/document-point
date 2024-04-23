@@ -13,12 +13,27 @@ public class WorkingDocumentTestData {
 	/**
 	 * WorkingDocument 생성
 	 * <p> 생성된 WorkingDocument는 status가 검토중(REVIEW)이다. </p>
-	 * @return
 	 */
 	public static WorkingDocument createWorkingDocument() {
 		Working working = WorkingTestData.createWorking();
-		working = working.updateStatus(WorkingStatusType.DONE);
+		// working = working.updateStatus(WorkingStatusType.DONE);
 		return new WorkingDocument(working, "title", "content", DocStatusType.REVIEW, createLinks(), false);
+	}
+
+	public static WorkingDocument createWorkingDocumentWithWorking(Working working) {
+		return new WorkingDocument(working, "title", "content", DocStatusType.REVIEW, createLinks(), false);
+	}
+
+	public static WorkingDocument createWorkingDocumentWithStatus(DocStatusType status) {
+		Working working = WorkingTestData.createWorking();
+		working = working.updateStatus(WorkingStatusType.DONE);
+		return new WorkingDocument(working, "title", "content", status, createLinks(), false);
+	}
+
+	public static WorkingDocument createWorkingDocumentWithLinks(Map<DocType, List<String>> links) {
+		Working working = WorkingTestData.createWorking();
+		working = working.updateStatus(WorkingStatusType.DONE);
+		return new WorkingDocument(working, "title", "content", DocStatusType.REVIEW, links, false);
 	}
 
 	public static Map<DocType, List<String>> createLinks() {

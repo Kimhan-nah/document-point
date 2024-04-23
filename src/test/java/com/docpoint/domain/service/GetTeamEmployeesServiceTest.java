@@ -33,7 +33,6 @@ class GetTeamEmployeesServiceTest {
 	@InjectMocks
 	private GetTeamEmployeesService getTeamEmployeesService;
 
-	// TODO Mock 대신 Adapter를 사용하도록 수정
 	@Mock
 	private LoadTeamEmployeesPort loadTeamEmployeesPort;
 
