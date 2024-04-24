@@ -6,6 +6,8 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.docpoint.common.exception.custom.ForbiddenException;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

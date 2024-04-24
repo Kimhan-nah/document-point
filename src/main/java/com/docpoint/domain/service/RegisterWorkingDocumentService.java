@@ -13,9 +13,11 @@ import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.domain.type.DocType;
 import com.docpoint.domain.type.WorkingStatusType;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Transactional
 public class RegisterWorkingDocumentService implements RegisterWorkingDocumentUseCase {
 	private static final int MIN_URL_COUNT = 1;
 	private final SaveWorkingDocumentPort saveWorkingDocumentPort;

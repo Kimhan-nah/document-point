@@ -16,7 +16,6 @@
 - [ ] 완료 여부를 체크할 수 있다.
 - [ ] Working은 등록이 가능하다.
 - [ ] Working은 담당자 등록이 가능하다.
-- [ ] Working은 삭제가 가능하다. (삭제 여부를 true로 변경)
 
 > 이미 만들어진 기능이므로 사용하지 않는 기능 명세는 생략한다. (상태, 종류에 대한 enum type도 생략)
 
@@ -47,7 +46,11 @@
 - [x] WorkingDocument의 초기 상태인 '검토중(REVIEW)'이 아닌 상태로 등록이 불가능하다.
 - [ ] 리뷰어가 1명 이상이어야 한다. <- TODO 확인 필요
 
----
+[//]: # (out adapter\(port\) level)
+
+- [ ] Reviewer 저장
+- [ ] DocLink 저장
+- [x] WorkingDocument 저장
 
 ### 수정 및 삭제 Use Case
 
@@ -58,7 +61,14 @@
 - [ ] 본인이 작성한 WorkingDocument 조회가 가능하다.
 - [ ] 파트 리더, 팀 리더는 팀 멤버의 WorkingDocument 조회가 가능하다.
 
-## DocumentReviewr (문서 리뷰어)
+### 전체 요청 조회 Use Case (PART_LEADER, TEAM_LEADER)
+
+### 내 요청 조회 Use Case (TEAM_MEMBER)
+
+### 받은 요청 조회 Use case (ALL)
+
+### 상세 조회 Use Case (ALL)
 
 ## DocumentReview (문서 리뷰)
+
 

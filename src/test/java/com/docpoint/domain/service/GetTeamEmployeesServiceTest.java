@@ -24,17 +24,17 @@ import com.docpoint.util.UserTestData;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("팀 구성원 조회 서비스")
 class GetTeamEmployeesServiceTest {
-
-	private static Team team;
-	private static List<User> employees;
-	private static User teamMember;
-	private static User partLeader;
-	private static User teamLeader;
 	@InjectMocks
 	private GetTeamEmployeesService getTeamEmployeesService;
 
 	@Mock
 	private LoadTeamEmployeesPort loadTeamEmployeesPort;
+
+	private Team team;
+	private List<User> employees;
+	private User teamMember;
+	private User partLeader;
+	private User teamLeader;
 
 	@BeforeEach
 	void setUp() {

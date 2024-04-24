@@ -29,10 +29,10 @@ import com.docpoint.util.WorkingTestData;
 @DisplayName("문서(WorkingDocument) 등록 서비스")
 class RegisterWorkingDocumentServiceTest {
 	@InjectMocks
-	private static RegisterWorkingDocumentService registerWorkingDocumentService;
+	private RegisterWorkingDocumentService registerWorkingDocumentService;
 
 	@Mock
-	private static SaveWorkingDocumentPort saveWorkingDocumentPort;
+	private SaveWorkingDocumentPort saveWorkingDocumentPort;
 
 	@Test
 	@DisplayName("WorkingDocument 요청 성공")
