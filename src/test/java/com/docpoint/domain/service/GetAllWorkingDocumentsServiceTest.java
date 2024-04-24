@@ -39,14 +39,14 @@ class GetAllWorkingDocumentsServiceTest {
 		Team team = new Team("team", false);
 		Long teamId = 1L;
 		Pageable pageable = mock(Pageable.class);
-		given(loadTeamPort.loadTeamById(teamId)).willReturn(Optional.of(team));
-		given(loadWorkingDocumentsPort.loadWorkingDocumentsByTeamId(teamId, pageable)).willReturn(List.of());
+		given(loadTeamPort.loadById(teamId)).willReturn(Optional.of(team));
+		given(loadWorkingDocumentsPort.loadByTeamId(teamId, pageable)).willReturn(List.of());
 
 		// when
 		getAllWorkingDocumentsService.getAllWorkingDocumentsByTeamId(teamId, pageable);
 
 		// then
-		verify(loadWorkingDocumentsPort, times(1)).loadWorkingDocumentsByTeamId(teamId, pageable);
+		verify(loadWorkingDocumentsPort, times(1)).loadByTeamId(teamId, pageable);
 	}
 
 	@Nested
@@ -57,7 +57,7 @@ class GetAllWorkingDocumentsServiceTest {
 		void 존재하지_않는_팀() {
 			// given
 			Long notFoundTeamId = 1L;
-			given(loadTeamPort.loadTeamById(notFoundTeamId)).willReturn(Optional.empty());
+			given(loadTeamPort.loadById(notFoundTeamId)).willReturn(Optional.empty());
 
 			// when, then
 			assertThatThrownBy(
@@ -72,7 +72,7 @@ class GetAllWorkingDocumentsServiceTest {
 			// given
 			Team deletedTeam = new Team("deletedTeam", true);
 			Long deletedTeamId = 1L;
-			given(loadTeamPort.loadTeamById(deletedTeamId)).willReturn(Optional.of(deletedTeam));
+			given(loadTeamPort.loadById(deletedTeamId)).willReturn(Optional.of(deletedTeam));
 
 			// when, then
 			assertThatThrownBy(

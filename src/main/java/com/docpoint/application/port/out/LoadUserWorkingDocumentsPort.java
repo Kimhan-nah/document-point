@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.docpoint.domain.model.WorkingDocument;
 
-public interface LoadWorkingDocumentsPort {
-	List<WorkingDocument> loadByTeamId(Long teamId, Pageable pageable);
+public interface LoadUserWorkingDocumentsPort {
+	List<WorkingDocument> loadByUserId(Long userId, Pageable pageable);
 }

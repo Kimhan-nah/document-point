@@ -63,7 +63,11 @@
 
 ### 전체 요청 조회 Use Case (PART_LEADER, TEAM_LEADER)
 
+- [x] 완료
+
 ### 내 요청 조회 Use Case (TEAM_MEMBER)
+
+- [x] 완료
 
 ### 받은 요청 조회 Use case (ALL)
 
