@@ -37,7 +37,7 @@ class GetAllWorkingDocumentsServiceTest {
 	void 조회_성공() {
 		// given
 		Team team = new Team("team", false);
-		Long teamId = 1L;
+		long teamId = 1L;
 		Pageable pageable = mock(Pageable.class);
 		given(loadTeamPort.loadById(teamId)).willReturn(Optional.of(team));
 		given(loadWorkingDocumentsPort.loadByTeamId(teamId, pageable)).willReturn(Page.empty());
@@ -56,7 +56,7 @@ class GetAllWorkingDocumentsServiceTest {
 		@DisplayName("존재하지 않는 팀인 경우, CustomRuntimeException이 발생한다.")
 		void 존재하지_않는_팀() {
 			// given
-			Long notFoundTeamId = 1L;
+			long notFoundTeamId = 1L;
 			given(loadTeamPort.loadById(notFoundTeamId)).willReturn(Optional.empty());
 
 			// when, then
@@ -71,7 +71,7 @@ class GetAllWorkingDocumentsServiceTest {
 		void 삭제된_팀() {
 			// given
 			Team deletedTeam = new Team("deletedTeam", true);
-			Long deletedTeamId = 1L;
+			long deletedTeamId = 1L;
 			given(loadTeamPort.loadById(deletedTeamId)).willReturn(Optional.of(deletedTeam));
 
 			// when, then

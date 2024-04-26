@@ -5,5 +5,5 @@ import java.util.Optional;
 import com.docpoint.domain.model.User;
 
 public interface LoadUserPort {
-	Optional<User> loadById(Long userId);
+	Optional<User> loadById(long userId);
 }

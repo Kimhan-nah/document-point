@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetReceivedRequestsUserCase;
 import com.docpoint.application.port.out.LoadReceivedRequestsPort;
@@ -23,7 +24,8 @@ public class GetReceivedRequestsService implements GetReceivedRequestsUserCase {
 	 * @return
 	 */
 	@Override
-	public Map<WorkingDocument, Optional<Review>> getReceivedRequests(Long userId, Pageable pageable) {
+	@Transactional(readOnly = true)
+	public Map<WorkingDocument, Optional<Review>> getReceivedRequests(long userId, Pageable pageable) {
 		return loadRequestedWorkingDocumentsPort.loadByUserId(userId, pageable);
 	}
 }

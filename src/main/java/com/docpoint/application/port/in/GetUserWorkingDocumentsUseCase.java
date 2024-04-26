@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 import com.docpoint.domain.model.WorkingDocument;
 
 public interface GetUserWorkingDocumentsUseCase {
-	List<WorkingDocument> getUserWorkingDocuments(Long userId, Pageable pageable);
+	List<WorkingDocument> getUserWorkingDocuments(long userId, Pageable pageable);
 }

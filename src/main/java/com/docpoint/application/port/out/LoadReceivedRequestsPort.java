@@ -12,5 +12,5 @@ import com.docpoint.domain.model.WorkingDocument;
  * 요청 받은 DocumentReviewer 목록 조회
  */
 public interface LoadReceivedRequestsPort {
-	Map<WorkingDocument, Optional<Review>> loadByUserId(Long userId, Pageable pageable);
+	Map<WorkingDocument, Optional<Review>> loadByUserId(long userId, Pageable pageable);
 }

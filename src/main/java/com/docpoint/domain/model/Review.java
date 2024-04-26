@@ -13,15 +13,15 @@ import lombok.Getter;
 public class Review {
 	private final Long id;
 
-	private final DocumentReviewer reviewer;
+	private final DocumentReviewer documentReviewer;
 
 	private final Map<ReviewQuestionType, ReviewAnswerType> review = new HashMap<>();
 
 	private final boolean isDeleted;
 
-	public Review(DocumentReviewer reviewer, boolean isDeleted) {
+	public Review(DocumentReviewer documentReviewer, boolean isDeleted) {
 		this.id = null;
-		this.reviewer = Objects.requireNonNull(reviewer);
+		this.documentReviewer = Objects.requireNonNull(documentReviewer);
 		this.isDeleted = isDeleted;
 	}
 }

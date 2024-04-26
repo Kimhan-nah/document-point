@@ -26,7 +26,7 @@ public class GetUserWorkingDocumentsService implements GetUserWorkingDocumentsUs
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<WorkingDocument> getUserWorkingDocuments(Long userId, Pageable pageable) {
+	public List<WorkingDocument> getUserWorkingDocuments(long userId, Pageable pageable) {
 		loadUserPort.loadById(userId).orElseThrow(() -> new NotFoundException("존재하지 않는 유저입니다."));
 		return loadUserWorkingDocumentsPort.loadByUserId(userId, pageable).getContent();
 	}

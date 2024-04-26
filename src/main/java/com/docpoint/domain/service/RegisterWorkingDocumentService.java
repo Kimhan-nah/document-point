@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class RegisterWorkingDocumentService implements RegisterWorkingDocumentUseCase {
-	private static final int MIN_URL_COUNT = 1;
 	private final SaveWorkingDocumentPort saveWorkingDocumentPort;
 
 	@Override

@@ -9,5 +9,5 @@ import com.docpoint.domain.model.Review;
 import com.docpoint.domain.model.WorkingDocument;
 
 public interface GetReceivedRequestsUserCase {
-	Map<WorkingDocument, Optional<Review>> getReceivedRequests(Long userId, Pageable pageable);
+	Map<WorkingDocument, Optional<Review>> getReceivedRequests(long userId, Pageable pageable);
 }

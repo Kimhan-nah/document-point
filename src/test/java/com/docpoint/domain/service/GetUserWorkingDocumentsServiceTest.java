@@ -36,7 +36,7 @@ class GetUserWorkingDocumentsServiceTest {
 	@DisplayName("유저의 워킹 문서(WorkingDocument)를 조회한다")
 	void 조회_성공() {
 		// given
-		Long userId = 1L;
+		long userId = 1L;
 		Pageable pageable = mock(Pageable.class);
 		given(loadUserPort.loadById(userId)).willReturn(Optional.of(mock(User.class)));
 		given(loadUserWorkingDocumentsPort.loadByUserId(userId, pageable)).willReturn(Page.empty());
@@ -55,7 +55,7 @@ class GetUserWorkingDocumentsServiceTest {
 		@DisplayName("존재하지 않는 유저의 경우, CustomRuntimeException을 발생시킨다.")
 		void 존재하지_않는_유저_실패() {
 			// given
-			Long notFoundUserId = 1L;
+			long notFoundUserId = 1L;
 			given(loadUserPort.loadById(notFoundUserId)).willReturn(Optional.empty());
 
 			// when, then

@@ -33,7 +33,7 @@ class GetReceivedRequestsServiceTest {
 		// given
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 		Map<WorkingDocument, Optional<Review>> receivedRequests = Map.of(workingDocument, Optional.empty());
-		Long userId = 1L;
+		long userId = 1L;
 		Pageable pageable = mock(Pageable.class);
 		given(loadReceivedRequestsPort.loadByUserId(userId, pageable)).willReturn(receivedRequests);
 
