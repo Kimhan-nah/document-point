@@ -12,6 +12,8 @@ import lombok.Getter;
 
 @Getter
 public class WorkingDocument {
+	private final Long id;
+
 	private final Working working;
 
 	private final String title;
@@ -27,6 +29,7 @@ public class WorkingDocument {
 	@Builder
 	public WorkingDocument(Working working, String title, String content, DocStatusType status,
 		Map<DocType, List<String>> links, boolean isDeleted) {
+		this.id = null;
 		this.working = Objects.requireNonNull(working);
 		this.title = Objects.requireNonNull(title);
 		this.content = Objects.requireNonNull(content);

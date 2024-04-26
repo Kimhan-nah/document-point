@@ -3,7 +3,6 @@ package com.docpoint.domain.service;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.docpoint.application.port.out.LoadTeamPort;
@@ -40,7 +40,7 @@ class GetAllWorkingDocumentsServiceTest {
 		Long teamId = 1L;
 		Pageable pageable = mock(Pageable.class);
 		given(loadTeamPort.loadById(teamId)).willReturn(Optional.of(team));
-		given(loadWorkingDocumentsPort.loadByTeamId(teamId, pageable)).willReturn(List.of());
+		given(loadWorkingDocumentsPort.loadByTeamId(teamId, pageable)).willReturn(Page.empty());
 
 		// when
 		getAllWorkingDocumentsService.getAllWorkingDocumentsByTeamId(teamId, pageable);

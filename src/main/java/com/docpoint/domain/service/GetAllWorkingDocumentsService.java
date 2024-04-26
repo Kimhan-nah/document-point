@@ -37,6 +37,6 @@ public class GetAllWorkingDocumentsService implements GetAllWorkingDocumentsUseC
 		if (team.isDeleted()) {
 			throw new BadRequestException("삭제된 팀입니다.");
 		}
-		return loadWorkingDocumentsPort.loadByTeamId(teamId, pageable);
+		return loadWorkingDocumentsPort.loadByTeamId(teamId, pageable).getContent();
 	}
 }

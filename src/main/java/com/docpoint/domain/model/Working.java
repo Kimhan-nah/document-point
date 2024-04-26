@@ -11,6 +11,8 @@ import lombok.Getter;
 
 @Getter
 public class Working {
+	private final Long id;
+
 	private final User writer;
 
 	private final User assignee;
@@ -34,6 +36,7 @@ public class Working {
 	@Builder
 	public Working(User writer, User assignee, String title, String content, WorkingStatusType status,
 		WorkingCategoryType category, LocalDateTime dueDate, LocalDateTime recruitDate, int cp, boolean isDeleted) {
+		this.id = null;
 		this.writer = Objects.requireNonNull(writer);
 		this.assignee = assignee;
 		this.title = Objects.requireNonNull(title);

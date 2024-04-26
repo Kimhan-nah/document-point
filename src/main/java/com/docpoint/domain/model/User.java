@@ -9,6 +9,8 @@ import lombok.Getter;
 
 @Getter
 public class User {
+	private final Long id;
+
 	private final Team team;
 
 	private final String name;
@@ -23,6 +25,7 @@ public class User {
 
 	@Builder
 	public User(Team team, String name, String email, RoleType role, int employeeNumber, boolean isDeleted) {
+		this.id = null;
 		this.team = Objects.requireNonNull(team);
 		this.name = Objects.requireNonNull(name);
 		this.email = Objects.requireNonNull(email);

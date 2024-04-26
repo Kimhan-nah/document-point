@@ -71,6 +71,8 @@
 
 ### 받은 요청 조회 Use case (ALL)
 
+- [ ] 완료
+
 ### 상세 조회 Use Case (ALL)
 
 ## DocumentReview (문서 리뷰)

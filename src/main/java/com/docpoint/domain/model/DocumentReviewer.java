@@ -6,12 +6,15 @@ import lombok.Getter;
 
 @Getter
 public class DocumentReviewer {
+	private final Long id;
+
 	private final WorkingDocument workingDocument;
 
-	private final User user;
+	private final User reviewer;
 
-	public DocumentReviewer(WorkingDocument workingDocument, User user) {
+	public DocumentReviewer(WorkingDocument workingDocument, User reviewer) {
+		this.id = null;
 		this.workingDocument = Objects.requireNonNull(workingDocument);
-		this.user = Objects.requireNonNull(user);
+		this.reviewer = Objects.requireNonNull(reviewer);
 	}
 }
