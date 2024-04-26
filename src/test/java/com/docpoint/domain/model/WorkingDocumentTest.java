@@ -1,17 +1,14 @@
 package com.docpoint.domain.model;
 
 import static com.docpoint.domain.type.DocStatusType.*;
+import static com.docpoint.domain.type.DocType.*;
 import static org.assertj.core.api.Assertions.*;
-
-import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import com.docpoint.domain.type.DocType;
 import com.docpoint.util.WorkingDocumentTestData;
 import com.docpoint.util.WorkingTestData;
 
@@ -27,12 +24,10 @@ public class WorkingDocumentTest {
 	@Nested
 	@DisplayName("생성 실패하는 경우")
 	class InitWorkingDocFail {
-		private static Map<DocType, List<String>> links;
 		private static Working working;
 
 		@BeforeEach
 		void setUp() {
-			links = WorkingDocumentTestData.createLinks();
 			working = WorkingTestData.createWorking();
 		}
 
@@ -40,7 +35,7 @@ public class WorkingDocumentTest {
 		@DisplayName("working이 null이면 NullPointerException이 발생한다.")
 		void workingNullTest() {
 			// when, then
-			assertThatThrownBy(() -> new WorkingDocument(null, "title", "content", REVIEW, links, false))
+			assertThatThrownBy(() -> new WorkingDocument(null, "title", "content", REVIEW, GITLAB, "gitlab.com", false))
 				.isInstanceOf(NullPointerException.class);
 		}
 
@@ -48,7 +43,7 @@ public class WorkingDocumentTest {
 		@DisplayName("title은 null이면 NullPointerException이 발생한다.")
 		void titleNotNullTest() {
 			// when, then
-			assertThatThrownBy(() -> new WorkingDocument(working, null, "content", REVIEW, links, false))
+			assertThatThrownBy(() -> new WorkingDocument(working, null, "content", REVIEW, GITLAB, "gitlab.com", false))
 				.isInstanceOf(NullPointerException.class);
 		}
 
@@ -56,15 +51,15 @@ public class WorkingDocumentTest {
 		@DisplayName("content는 null이면 NullPointerException이 발생한다.")
 		void contentNotNullTest() {
 			// when, then
-			assertThatThrownBy(() -> new WorkingDocument(working, "title", null, REVIEW, links, false))
+			assertThatThrownBy(() -> new WorkingDocument(working, "title", null, REVIEW, GITLAB, "gitlab.com", false))
 				.isInstanceOf(NullPointerException.class);
 		}
 
 		@Test
-		@DisplayName("links는 null이면 NullPointerException이 발생한다.")
-		void linksNotNullTest() {
+		@DisplayName("link는 null이면 NullPointerException이 발생한다.")
+		void linkNotNullTest() {
 			// when, then
-			assertThatThrownBy(() -> new WorkingDocument(working, "title", "content", REVIEW, null, false))
+			assertThatThrownBy(() -> new WorkingDocument(working, "title", "content", REVIEW, GITLAB, null, false))
 				.isInstanceOf(NullPointerException.class);
 		}
 	}

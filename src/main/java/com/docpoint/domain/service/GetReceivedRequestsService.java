@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.docpoint.application.port.in.GetReceivedRequestsUserCase;
 import com.docpoint.application.port.out.LoadReceivedRequestsPort;
-import com.docpoint.domain.model.DocumentReview;
+import com.docpoint.domain.model.Review;
 import com.docpoint.domain.model.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class GetReceivedRequestsService implements GetReceivedRequestsUserCase {
 	 * @return
 	 */
 	@Override
-	public Map<WorkingDocument, Optional<DocumentReview>> getReceivedRequests(Long userId, Pageable pageable) {
+	public Map<WorkingDocument, Optional<Review>> getReceivedRequests(Long userId, Pageable pageable) {
 		return loadRequestedWorkingDocumentsPort.loadByUserId(userId, pageable);
 	}
 }

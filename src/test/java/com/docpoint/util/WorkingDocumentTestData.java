@@ -17,27 +17,19 @@ public class WorkingDocumentTestData {
 	public static WorkingDocument createWorkingDocument() {
 		Working working = WorkingTestData.createWorking();
 		// working = working.updateStatus(WorkingStatusType.DONE);
-		return new WorkingDocument(working, "title", "content", DocStatusType.REVIEW, createLinks(), false);
+		return new WorkingDocument(working, "title", "content", DocStatusType.REVIEW, DocType.GITLAB, "gitlab.com",
+			false);
 	}
 
 	public static WorkingDocument createWorkingDocumentWithWorking(Working working) {
-		return new WorkingDocument(working, "title", "content", DocStatusType.REVIEW, createLinks(), false);
+		return new WorkingDocument(working, "title", "content", DocStatusType.REVIEW, DocType.GITLAB, "gitlab.com",
+			false);
 	}
 
 	public static WorkingDocument createWorkingDocumentWithStatus(DocStatusType status) {
 		Working working = WorkingTestData.createWorking();
 		working = working.updateStatus(WorkingStatusType.DONE);
-		return new WorkingDocument(working, "title", "content", status, createLinks(), false);
-	}
-
-	public static WorkingDocument createWorkingDocumentWithLinks(Map<DocType, List<String>> links) {
-		Working working = WorkingTestData.createWorking();
-		working = working.updateStatus(WorkingStatusType.DONE);
-		return new WorkingDocument(working, "title", "content", DocStatusType.REVIEW, links, false);
-	}
-
-	public static Map<DocType, List<String>> createLinks() {
-		return Map.of(DocType.CONFLUENCE, List.of("confluence.com"), DocType.GITLAB, List.of("gitlab.com"));
+		return new WorkingDocument(working, "title", "content", status, DocType.GITLAB, "gitlab.com", false);
 	}
 
 	public static Map<DocType, List<String>> createLinks(DocType docType, List<String> links) {

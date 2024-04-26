@@ -5,19 +5,22 @@ import java.util.Objects;
 import lombok.Getter;
 
 @Getter
-public class CpRequest {
+public class CpEvaluation {
 	private final Long id;
 
 	private final WorkingDocument workingDocument;
 
-	private final int requestCp;
+	private final String comment;
+
+	private final int cp;
 
 	private final boolean isDeleted;
 
-	public CpRequest(WorkingDocument workingDocument, int requestCp, boolean isDeleted) {
+	public CpEvaluation(WorkingDocument workingDocument, String comment, int cp, boolean isDeleted) {
 		this.id = null;
 		this.workingDocument = Objects.requireNonNull(workingDocument);
-		this.requestCp = requestCp;
+		this.comment = Objects.requireNonNull(comment);
+		this.cp = cp;
 		this.isDeleted = isDeleted;
 	}
 }

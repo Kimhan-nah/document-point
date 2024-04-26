@@ -10,7 +10,7 @@ import com.docpoint.domain.type.ReviewQuestionType;
 import lombok.Getter;
 
 @Getter
-public class DocumentReview {
+public class Review {
 	private final Long id;
 
 	private final DocumentReviewer reviewer;
@@ -19,7 +19,7 @@ public class DocumentReview {
 
 	private final boolean isDeleted;
 
-	public DocumentReview(DocumentReviewer reviewer, boolean isDeleted) {
+	public Review(DocumentReviewer reviewer, boolean isDeleted) {
 		this.id = null;
 		this.reviewer = Objects.requireNonNull(reviewer);
 		this.isDeleted = isDeleted;

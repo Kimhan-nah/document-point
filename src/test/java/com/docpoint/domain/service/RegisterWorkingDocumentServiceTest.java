@@ -3,9 +3,6 @@ package com.docpoint.domain.service;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-import java.util.List;
-import java.util.Map;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -20,7 +17,6 @@ import com.docpoint.common.exception.CustomRuntimeException;
 import com.docpoint.domain.model.Working;
 import com.docpoint.domain.model.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
-import com.docpoint.domain.type.DocType;
 import com.docpoint.domain.type.WorkingStatusType;
 import com.docpoint.util.WorkingDocumentTestData;
 import com.docpoint.util.WorkingTestData;
@@ -85,19 +81,6 @@ class RegisterWorkingDocumentServiceTest {
 		@BeforeEach
 		void setUp() {
 			working = WorkingTestData.createWorkingWithStatus(WorkingStatusType.DONE);
-		}
-
-		@Test
-		@DisplayName("links의 url의 갯수가 1개 미만이면, CustomRuntimeException이 발생한다.")
-		void link_갯수_검증_테스트() {
-			// given
-			Map<DocType, List<String>> invalidLinks = WorkingDocumentTestData.createLinks(DocType.CONFLUENCE,
-				List.of());
-			WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocumentWithLinks(invalidLinks);
-
-			// when, then
-			assertThatThrownBy(() -> registerWorkingDocumentService.registerWorkingDocument(workingDocument))
-				.isInstanceOf(CustomRuntimeException.class);
 		}
 
 		@Test

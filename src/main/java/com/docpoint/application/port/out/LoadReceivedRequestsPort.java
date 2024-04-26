@@ -5,12 +5,12 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.docpoint.domain.model.DocumentReview;
+import com.docpoint.domain.model.Review;
 import com.docpoint.domain.model.WorkingDocument;
 
 /**
  * 요청 받은 DocumentReviewer 목록 조회
  */
 public interface LoadReceivedRequestsPort {
-	Map<WorkingDocument, Optional<DocumentReview>> loadByUserId(Long userId, Pageable pageable);
+	Map<WorkingDocument, Optional<Review>> loadByUserId(Long userId, Pageable pageable);
 }

@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
 import com.docpoint.application.port.out.LoadReceivedRequestsPort;
-import com.docpoint.domain.model.DocumentReview;
+import com.docpoint.domain.model.Review;
 import com.docpoint.domain.model.WorkingDocument;
 import com.docpoint.util.WorkingDocumentTestData;
 
@@ -32,7 +32,7 @@ class GetReceivedRequestsServiceTest {
 	void getReceivedRequests() {
 		// given
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
-		Map<WorkingDocument, Optional<DocumentReview>> receivedRequests = Map.of(workingDocument, Optional.empty());
+		Map<WorkingDocument, Optional<Review>> receivedRequests = Map.of(workingDocument, Optional.empty());
 		Long userId = 1L;
 		Pageable pageable = mock(Pageable.class);
 		given(loadReceivedRequestsPort.loadByUserId(userId, pageable)).willReturn(receivedRequests);
