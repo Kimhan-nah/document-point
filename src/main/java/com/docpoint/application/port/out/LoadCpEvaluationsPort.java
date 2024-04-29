@@ -9,4 +9,6 @@ public interface LoadCpEvaluationsPort {
 	List<CpEvaluation> loadByWorkingDocumentId(long workingDocumentId);
 
 	Optional<CpEvaluation> loadFinalCpByWorkingDocumentId(long workingDocumentId);
+
+	Optional<CpEvaluation> loadCpRequestByWorkingDocumentId(long workingDocumentId);
 }
