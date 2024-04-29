@@ -2,8 +2,8 @@ package com.docpoint.domain.service;
 
 import com.docpoint.application.port.in.RegisterWorkingDocumentUseCase;
 import com.docpoint.application.port.out.SaveWorkingDocumentPort;
-import com.docpoint.common.exception.CustomRuntimeException;
-import com.docpoint.common.exception.ErrorCode;
+import com.docpoint.common.exception.ErrorType;
+import com.docpoint.common.exception.custom.BadRequestException;
 import com.docpoint.domain.model.Working;
 import com.docpoint.domain.model.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
@@ -29,19 +29,19 @@ public class RegisterWorkingDocumentService implements RegisterWorkingDocumentUs
 
 	private void checkWorkingIsDeleted(Working working) {
 		if (working.isDeleted()) {
-			throw new CustomRuntimeException(ErrorCode.BAD_REQUEST, "삭제된 업무는 문서를 생성할 수 없습니다.");
+			throw new BadRequestException(ErrorType.DELETED_WORKING);
 		}
 	}
 
 	private void checkWorkingStatus(WorkingStatusType status) {
 		if (status == WorkingStatusType.WAITING) {
-			throw new CustomRuntimeException(ErrorCode.BAD_REQUEST, "대기 상태인 업무만 문서를 생성할 수 있습니다.");
+			throw new BadRequestException(ErrorType.BAD_WORKING_STATUS);
 		}
 	}
 
 	private void checkWorkingDocumentStatus(DocStatusType status) {
 		if (status != DocStatusType.REVIEW) {
-			throw new CustomRuntimeException(ErrorCode.BAD_REQUEST, "문서 상태가 잘못되었습니다.");
+			throw new BadRequestException(ErrorType.BAD_WORKING_DOCUMENT_STATUS);
 		}
 	}
 

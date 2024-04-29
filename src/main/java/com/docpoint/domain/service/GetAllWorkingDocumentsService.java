@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.docpoint.application.port.in.GetAllWorkingDocumentsUseCase;
 import com.docpoint.application.port.out.LoadTeamPort;
 import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
+import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.BadRequestException;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.model.Team;
@@ -33,9 +34,9 @@ public class GetAllWorkingDocumentsService implements GetAllWorkingDocumentsUseC
 	@Transactional(readOnly = true)
 	public List<WorkingDocument> getAllWorkingDocumentsByTeamId(long teamId, Pageable pageable) {
 		Team team = loadTeamPort.loadById(teamId)
-			.orElseThrow(() -> new NotFoundException("존재하지 않는 팀입니다."));
+			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_TEAM));
 		if (team.isDeleted()) {
-			throw new BadRequestException("삭제된 팀입니다.");
+			throw new BadRequestException(ErrorType.DELETED_TEAM);
 		}
 		return loadWorkingDocumentsPort.loadByTeamId(teamId, pageable).getContent();
 	}

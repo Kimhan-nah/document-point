@@ -1,15 +1,15 @@
 package com.docpoint.common.exception.custom;
 
 import com.docpoint.common.exception.CustomRuntimeException;
-import com.docpoint.common.exception.ErrorCode;
+import com.docpoint.common.exception.ErrorType;
 
 public class ForbiddenException extends CustomRuntimeException {
 
 	public ForbiddenException() {
-		super(ErrorCode.FORBIDDEN);
+		super(ErrorType.FORBIDDEN);
 	}
 
-	public ForbiddenException(String message) {
-		super(ErrorCode.FORBIDDEN, message);
+	public ForbiddenException(ErrorType errorType) {
+		super(errorType);
 	}
 }

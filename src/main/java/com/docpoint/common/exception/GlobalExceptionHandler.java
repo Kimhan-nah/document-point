@@ -17,16 +17,16 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler({BindException.class})
 	private ResponseEntity<ErrorResponse> validException(BindException ex) {
 		log.error("bind error", ex.getBindingResult().getAllErrors().get(0));
-		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
-		errorCode.setMessage(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
-		ErrorResponse response = ErrorResponse.toErrorResponse(errorCode);
+		ErrorType errorType = ErrorType.BAD_REQUEST;
+		errorType.setMessage(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+		ErrorResponse response = ErrorResponse.toErrorResponse(errorType);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	}
 
 	@ExceptionHandler({ForbiddenException.class})
 	private ResponseEntity<ErrorResponse> forbiddenException(ForbiddenException ex) {
 		log.error("forbidden", ex);
-		ErrorResponse response = ErrorResponse.toErrorResponse(ex.getErrorCode());
+		ErrorResponse response = ErrorResponse.toErrorResponse(ex.getErrorType());
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
 	}
 

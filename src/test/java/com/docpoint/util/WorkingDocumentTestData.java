@@ -21,6 +21,12 @@ public class WorkingDocumentTestData {
 			false);
 	}
 
+	public static WorkingDocument createDeletedWorkingDocument() {
+		Working working = WorkingTestData.createDeletedWorking();
+		return new WorkingDocument(working, "title", "content", DocStatusType.REVIEW, DocType.GITLAB, "gitlab.com",
+			true);
+	}
+
 	public static WorkingDocument createWorkingDocumentWithWorking(Working working) {
 		return new WorkingDocument(working, "title", "content", DocStatusType.REVIEW, DocType.GITLAB, "gitlab.com",
 			false);

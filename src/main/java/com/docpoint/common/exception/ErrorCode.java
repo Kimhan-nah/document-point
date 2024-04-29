@@ -5,26 +5,40 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 	// 5xx Server Error
-	BUSINESS_EXCEPTION(500, "BUSINESS ERROR"),
-	NULL_POINT(500, "NULL POINT ERROR"),
-	INTERNAL_SERVER_ERR(500, "INTERNAL SERVER ERROR"),
+	E500000("INTERNAL SERVER ERROR"),
+	E500001("NULL POINT ERROR"),
+	E500002("BUSINESS ERROR"),
 
-	// 4xx Client Error
-	BAD_REQUEST(400, "BAD REQUEST"),
-	UNAUTHORIZED(401, "UNAUTHORIZED"),
-	FORBIDDEN(403, "FORBIDDEN"),
-	NOT_FOUND(404, "NOT FOUND"),
-	CONFLICT(409, "CONFLICT");
+	// 400 Bad Request Error
+	E400000("BAD REQUEST"),
+	E400001("BAD WORKING STATUS"),
+	E400002("BAD WORKING DOCUMENT STATUS"),
 
-	private final int status;
-	private String message;
+	// 401 Unauthorized Error
+	E401000("UNAUTHORIZED"),
 
-	ErrorCode(int status, String message) {
-		this.status = status;
-		this.message = message;
-	}
+	// 403 Forbidden Error
+	E403000("FORBIDDEN"),
+	E403001("FORBIDDEN REVIEWER"),
 
-	public void setMessage(String message) {
+	// 404 Not Found Error
+	E404000("NOT FOUND"),
+	E404001("NOT FOUND CP"),
+	E404002("NOT FOUND WORKING DOCUMENT"),
+	E404003("NOT FOUND TEAM"),
+	E404004("DELETED WORKING"),
+	E404005("DELETED TEAM"),
+	E404006("DELETED WORKING DOCUMENT"),
+	E404007("NOT FOUND REVIEW"),
+	E404008("DELETED REVIEW"),
+
+	// 409 Conflict Error
+	E409000("CONFLICT"),
+
+	;
+	private final String message;
+
+	ErrorCode(String message) {
 		this.message = message;
 	}
 }

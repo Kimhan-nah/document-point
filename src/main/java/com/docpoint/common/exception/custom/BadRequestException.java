@@ -1,15 +1,15 @@
 package com.docpoint.common.exception.custom;
 
 import com.docpoint.common.exception.CustomRuntimeException;
-import com.docpoint.common.exception.ErrorCode;
+import com.docpoint.common.exception.ErrorType;
 
 public class BadRequestException extends CustomRuntimeException {
 
 	public BadRequestException() {
-		super(ErrorCode.BAD_REQUEST);
+		super(ErrorType.BAD_REQUEST);
 	}
 
-	public BadRequestException(String message) {
-		super(ErrorCode.BAD_REQUEST, message);
+	public BadRequestException(ErrorType errorType) {
+		super(errorType);
 	}
 }

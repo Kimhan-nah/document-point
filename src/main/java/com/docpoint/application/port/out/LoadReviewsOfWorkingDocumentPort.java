@@ -8,5 +8,5 @@ import com.docpoint.domain.model.Review;
 public interface LoadReviewsOfWorkingDocumentPort {
 	List<Review> loadByWorkingDocumentId(long workingDocumentId);
 
-	Optional<Review> loadByWorkingDocumentIdAndReviewId(long workingDocumentId, long reviewId);
+	Optional<Review> loadByReviewId(long reviewId);
 }

@@ -2,7 +2,6 @@ package com.docpoint.domain.model;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import com.docpoint.domain.type.ReviewAnswerType;
 import com.docpoint.domain.type.ReviewQuestionType;
@@ -21,7 +20,17 @@ public class Review {
 
 	public Review(DocumentReviewer documentReviewer, boolean isDeleted) {
 		this.id = null;
-		this.documentReviewer = Objects.requireNonNull(documentReviewer);
+		this.documentReviewer = documentReviewer;
 		this.isDeleted = isDeleted;
+	}
+
+	public Review(Long id, DocumentReviewer documentReviewer, boolean isDeleted) {
+		this.id = id;
+		this.documentReviewer = documentReviewer;
+		this.isDeleted = isDeleted;
+	}
+
+	public Review updateDocumentReviewer(DocumentReviewer documentReviewer) {
+		return new Review(this.id, documentReviewer, this.isDeleted);
 	}
 }

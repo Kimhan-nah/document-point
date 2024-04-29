@@ -4,6 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetWorkingDocumentUseCase;
 import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
+import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.model.WorkingDocument;
 
@@ -16,11 +17,17 @@ public class GetWorkingDocumentService implements GetWorkingDocumentUseCase {
 	/**
 	 * @param workingDocumentId 조회할 workingDocument ID
 	 * @return 조회된 workingDocument
+	 * @throws NotFoundException WorkingDocument가 존재하지 않을 경우
+	 * @throws NotFoundException 삭제된 WorkingDocument일 경우
 	 */
 	@Override
 	@Transactional(readOnly = true)
 	public WorkingDocument getWorkingDocument(long workingDocumentId) {
-		return loadWorkingDocumentsPort.loadById(workingDocumentId)
-			.orElseThrow(() -> new NotFoundException("WorkingDocument가 존재하지 않습니다. ID: " + workingDocumentId));
+		WorkingDocument workingDocument = loadWorkingDocumentsPort.loadById(workingDocumentId)
+			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_WORKING_DOCUMENT));
+		if (workingDocument.isDeleted()) {
+			throw new NotFoundException(ErrorType.DELETED_WORKING_DOCUMENT);
+		}
+		return workingDocument;
 	}
 }

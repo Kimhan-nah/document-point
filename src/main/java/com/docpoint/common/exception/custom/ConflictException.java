@@ -1,14 +1,14 @@
 package com.docpoint.common.exception.custom;
 
 import com.docpoint.common.exception.CustomRuntimeException;
-import com.docpoint.common.exception.ErrorCode;
+import com.docpoint.common.exception.ErrorType;
 
 public class ConflictException extends CustomRuntimeException {
 	public ConflictException() {
-		super(ErrorCode.CONFLICT);
+		super(ErrorType.CONFLICT);
 	}
 
-	public ConflictException(String message) {
-		super(ErrorCode.CONFLICT, message);
+	public ConflictException(ErrorType errorType) {
+		super(errorType);
 	}
 }

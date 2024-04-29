@@ -1,16 +1,15 @@
 package com.docpoint.common.exception.custom;
 
 import com.docpoint.common.exception.CustomRuntimeException;
-import com.docpoint.common.exception.ErrorCode;
+import com.docpoint.common.exception.ErrorType;
 
 public class NotFoundException extends CustomRuntimeException {
 
 	public NotFoundException() {
-		super(ErrorCode.NOT_FOUND);
+		super(ErrorType.NOT_FOUND);
 	}
 
-	public NotFoundException(String message) {
-		super(ErrorCode.NOT_FOUND, message);
+	public NotFoundException(ErrorType errorType) {
+		super(errorType);
 	}
-
 }
