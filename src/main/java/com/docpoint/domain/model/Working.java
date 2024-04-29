@@ -63,4 +63,19 @@ public class Working {
 			.isDeleted(isDeleted)
 			.build();
 	}
+
+	public Working updateAssignee(User assignee) {
+		return Working.builder()
+			.writer(writer)
+			.assignee(assignee)
+			.title(title)
+			.content(content)
+			.status(status)
+			.category(category)
+			.dueDate(dueDate)
+			.recruitDate(recruitDate)
+			.cp(cp)
+			.isDeleted(isDeleted)
+			.build();
+	}
 }

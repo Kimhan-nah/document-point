@@ -5,8 +5,11 @@ import com.docpoint.domain.model.User;
 import com.docpoint.domain.type.RoleType;
 
 public class UserTestData {
+	private static Long id = 1L;
+
 	public static User createTeamMember(Team team) {
 		return User.builder()
+			.id(id++)
 			.team(team)
 			.name("팀 멤버")
 			.email("email")
@@ -17,6 +20,7 @@ public class UserTestData {
 
 	public static User createPartLeader(Team team) {
 		return User.builder()
+			.id(id++)
 			.team(team)
 			.name("파트 리더")
 			.email("email")
@@ -27,6 +31,7 @@ public class UserTestData {
 
 	public static User createTeamLeader(Team team) {
 		return User.builder()
+			.id(id++)
 			.team(team)
 			.name("팀 리더")
 			.email("email")

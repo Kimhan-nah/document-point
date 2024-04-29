@@ -24,6 +24,7 @@ public enum ErrorType {
 
 	// 403 Forbidden Error
 	FORBIDDEN_REVIEWER(403, E403001, E403001.getMessage()),
+	FORBIDDEN_CP_ACCESS(403, E403002, E403002.getMessage()),
 
 	// 404 Not Found Error
 	NOT_FOUND_CP(404, E404001, E404001.getMessage()),

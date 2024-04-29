@@ -19,7 +19,8 @@ public enum ErrorCode {
 
 	// 403 Forbidden Error
 	E403000("FORBIDDEN"),
-	E403001("FORBIDDEN REVIEWER"),
+	E403001("You are not REVIEWER of this WORKING DOCUMENT"),
+	E403002("You are not ASSIGNEE of this WORKING"),
 
 	// 404 Not Found Error
 	E404000("NOT FOUND"),
