@@ -38,6 +38,7 @@ public enum ErrorType {
 
 	// 409 Conflict Error
 	CONFLICT_DOCUMENT_STATUS(409, E409001, E409001.getMessage()),
+	CONFLICT_CP_EVALUATION(409, E409002, E409002.getMessage()),
 
 	;
 

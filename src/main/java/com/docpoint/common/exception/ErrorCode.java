@@ -36,6 +36,7 @@ public enum ErrorCode {
 	// 409 Conflict Error
 	E409000("CONFLICT"),
 	E409001("CONFLICT DOCUMENT STATUS"),
+	E409002("CONFLICT CP EVALUATION"),
 
 	;
 	private final String message;

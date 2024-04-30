@@ -24,7 +24,7 @@ public class RegisterWorkingDocumentService implements RegisterWorkingDocumentUs
 		checkWorkingStatus(working.getStatus());
 		checkWorkingDocumentStatus(workingDocument.getStatus());
 
-		saveWorkingDocumentPort.saveWorkingDocument(workingDocument);
+		saveWorkingDocumentPort.save(workingDocument);
 	}
 
 	private void checkWorkingIsDeleted(Working working) {

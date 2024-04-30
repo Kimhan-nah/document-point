@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.docpoint.application.port.in.UpdateWorkingDocumentUseCase;
 import com.docpoint.application.port.out.LoadCpEvaluationsPort;
 import com.docpoint.application.port.out.LoadDocumentReviewersPort;
 import com.docpoint.application.port.out.SaveCpEvaluationPort;
@@ -20,9 +21,11 @@ import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.model.CpEvaluation;
 import com.docpoint.domain.model.DocumentReviewer;
+import com.docpoint.domain.model.Team;
 import com.docpoint.domain.model.User;
 import com.docpoint.domain.model.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
+import com.docpoint.util.UserTestData;
 import com.docpoint.util.WorkingDocumentTestData;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,21 +43,43 @@ class RegisterCpEvaluationServiceTest {
 	@Mock
 	private LoadCpEvaluationsPort loadCpEvaluationsPort;
 
+	@Mock
+	private UpdateWorkingDocumentUseCase updateWorkingDocumentUseCase;
+
 	@Test
-	@DisplayName("기여도 입력 성공")
+	@DisplayName("파트 리더인 경우, 승인 요청(APPROVAL_REQUEST) 상태로 변경하는 메서드를 호출한다.")
 	void 기여도_입력_성공() {
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
-		User reviewer = mock(User.class);
-		given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
+		User partLeader = UserTestData.createPartLeader(new Team("team", false));
+		given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
 			.willReturn(Optional.of(mock(DocumentReviewer.class)));
-		given(loadCpEvaluationsPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
+		given(loadCpEvaluationsPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
 			.willReturn(Optional.empty());
 
 		// when
-		registerCpEvaluationService.registerCpEvaluation(mock(CpEvaluation.class), workingDocument, reviewer);
+		registerCpEvaluationService.registerCpEvaluation(mock(CpEvaluation.class), workingDocument, partLeader);
 
 		// then
 		verify(saveCpEvaluationPort, times(1)).save(any(CpEvaluation.class));
+		verify(updateWorkingDocumentUseCase, times(1)).updateStatus(workingDocument, DocStatusType.APPROVAL_REQUEST);
+	}
+
+	@Test
+	@DisplayName("팀 리더인 경우, 승인 완료(APPROVED) 상태로 변경하는 메서드를 호출한다.")
+	void 팀_리더인_경우() {
+		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
+		User teamLeader = UserTestData.createTeamLeader(new Team("team", false));
+		given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, teamLeader))
+			.willReturn(Optional.of(mock(DocumentReviewer.class)));
+		given(loadCpEvaluationsPort.loadByWorkingDocumentAndUser(workingDocument, teamLeader))
+			.willReturn(Optional.empty());
+
+		// when
+		registerCpEvaluationService.registerCpEvaluation(mock(CpEvaluation.class), workingDocument, teamLeader);
+
+		// then
+		verify(saveCpEvaluationPort, times(1)).save(any(CpEvaluation.class));
+		verify(updateWorkingDocumentUseCase, times(1)).updateStatus(workingDocument, DocStatusType.APPROVED);
 	}
 
 	@Nested

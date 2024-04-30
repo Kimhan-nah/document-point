@@ -27,9 +27,10 @@ public class WorkingDocument {
 	private final boolean isDeleted;
 
 	@Builder
-	public WorkingDocument(Working working, String title, String content, DocStatusType status, DocType docType,
+	public WorkingDocument(Long id, Working working, String title, String content, DocStatusType status,
+		DocType docType,
 		String link, boolean isDeleted) {
-		this.id = null;
+		this.id = id;
 		this.working = Objects.requireNonNull(working);
 		this.title = Objects.requireNonNull(title);
 		this.content = Objects.requireNonNull(content);

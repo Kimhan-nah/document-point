@@ -35,7 +35,8 @@ public class WorkingDocumentTest {
 		@DisplayName("working이 null이면 NullPointerException이 발생한다.")
 		void workingNullTest() {
 			// when, then
-			assertThatThrownBy(() -> new WorkingDocument(null, "title", "content", REVIEW, GITLAB, "gitlab.com", false))
+			assertThatThrownBy(
+				() -> new WorkingDocument(1L, null, "title", "content", REVIEW, GITLAB, "gitlab.com", false))
 				.isInstanceOf(NullPointerException.class);
 		}
 
@@ -43,7 +44,8 @@ public class WorkingDocumentTest {
 		@DisplayName("title은 null이면 NullPointerException이 발생한다.")
 		void titleNotNullTest() {
 			// when, then
-			assertThatThrownBy(() -> new WorkingDocument(working, null, "content", REVIEW, GITLAB, "gitlab.com", false))
+			assertThatThrownBy(
+				() -> new WorkingDocument(1L, working, null, "content", REVIEW, GITLAB, "gitlab.com", false))
 				.isInstanceOf(NullPointerException.class);
 		}
 
@@ -51,7 +53,8 @@ public class WorkingDocumentTest {
 		@DisplayName("content는 null이면 NullPointerException이 발생한다.")
 		void contentNotNullTest() {
 			// when, then
-			assertThatThrownBy(() -> new WorkingDocument(working, "title", null, REVIEW, GITLAB, "gitlab.com", false))
+			assertThatThrownBy(
+				() -> new WorkingDocument(1L, working, "title", null, REVIEW, GITLAB, "gitlab.com", false))
 				.isInstanceOf(NullPointerException.class);
 		}
 
@@ -59,7 +62,7 @@ public class WorkingDocumentTest {
 		@DisplayName("link는 null이면 NullPointerException이 발생한다.")
 		void linkNotNullTest() {
 			// when, then
-			assertThatThrownBy(() -> new WorkingDocument(working, "title", "content", REVIEW, GITLAB, null, false))
+			assertThatThrownBy(() -> new WorkingDocument(1L, working, "title", "content", REVIEW, GITLAB, null, false))
 				.isInstanceOf(NullPointerException.class);
 		}
 	}
