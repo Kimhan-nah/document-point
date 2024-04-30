@@ -34,7 +34,12 @@ public enum ErrorType {
 	DELETED_TEAM(404, E404005, E404005.getMessage()),
 	DELETED_WORKING_DOCUMENT(404, E404006, E404006.getMessage()),
 	NOT_FOUND_REVIEW(404, E404007, E404007.getMessage()),
-	DELETED_REVIEW(404, E404008, E404008.getMessage());
+	DELETED_REVIEW(404, E404008, E404008.getMessage()),
+
+	// 409 Conflict Error
+	CONFLICT_DOCUMENT_STATUS(409, E409001, E409001.getMessage()),
+
+	;
 
 	private final int status;
 	private ErrorCode errorCode;

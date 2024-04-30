@@ -12,6 +12,7 @@ import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.model.DocumentReviewer;
 import com.docpoint.domain.model.Review;
 import com.docpoint.domain.model.User;
+import com.docpoint.domain.model.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,11 +35,11 @@ public class RegisterReviewService implements RegisterReviewUseCase {
 	@Override
 	@Transactional
 	public void registerReview(Review review, User reviewer, long workingDocumentId) {
-		loadWorkingDocumentsPort.loadById(workingDocumentId)
+		WorkingDocument workingDocument = loadWorkingDocumentsPort.loadById(workingDocumentId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_WORKING_DOCUMENT));
 
-		DocumentReviewer documentReviewer = loadDocumentReviewersPort.loadByWorkingDocumentIdAndUserId(
-				workingDocumentId, reviewer.getId())
+		DocumentReviewer documentReviewer = loadDocumentReviewersPort.loadByWorkingDocumentAndUser(
+				workingDocument, reviewer)
 			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));
 
 		review = review.updateDocumentReviewer(documentReviewer);

@@ -47,7 +47,7 @@ class RegisterReviewServiceTest {
 		User reviewer = mock(User.class);
 		Review review = new Review(documentReviewer, false);
 		given(loadWorkingDocumentsPort.loadById(anyLong())).willReturn(Optional.of(workingDocument));
-		given(loadDocumentReviewersPort.loadByWorkingDocumentIdAndUserId(anyLong(), anyLong()))
+		given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 			.willReturn(Optional.of(documentReviewer));
 
 		// when
@@ -82,7 +82,7 @@ class RegisterReviewServiceTest {
 			User reviewer = mock(User.class);
 			Review review = mock(Review.class);
 			given(loadWorkingDocumentsPort.loadById(anyLong())).willReturn(Optional.of(workingDocument));
-			given(loadDocumentReviewersPort.loadByWorkingDocumentIdAndUserId(anyLong(), anyLong()))
+			given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 				.willReturn(Optional.empty());
 
 			// when, then
