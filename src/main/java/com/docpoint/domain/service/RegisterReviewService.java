@@ -8,7 +8,6 @@ import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
 import com.docpoint.application.port.out.SaveReviewPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ForbiddenException;
-import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.model.DocumentReviewer;
 import com.docpoint.domain.model.Review;
 import com.docpoint.domain.model.User;
@@ -26,18 +25,14 @@ public class RegisterReviewService implements RegisterReviewUseCase {
 
 	/**
 	 * review 등록
-	 * @param review 등록할 review, workingDocument는 null
+	 * @param review 등록할 review, documentReviewer는 null
 	 * @param reviewer review를 등록할 사용자
-	 * @param workingDocumentId
-	 * @throws NotFoundException workingDocumentId에 해당하는 workingDocument가 없을 경우
+	 * @param workingDocument review를 등록할 workingDocument
 	 * @throws ForbiddenException 지정된 reivewer가 아닌 경우
 	 */
 	@Override
 	@Transactional
-	public void registerReview(Review review, User reviewer, long workingDocumentId) {
-		WorkingDocument workingDocument = loadWorkingDocumentsPort.loadById(workingDocumentId)
-			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_WORKING_DOCUMENT));
-
+	public void registerReview(Review review, User reviewer, WorkingDocument workingDocument) {
 		DocumentReviewer documentReviewer = loadDocumentReviewersPort.loadByWorkingDocumentAndUser(
 				workingDocument, reviewer)
 			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));

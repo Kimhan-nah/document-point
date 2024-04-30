@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.docpoint.application.port.in.GetReceivedRequestsUserCase;
 import com.docpoint.application.port.out.LoadReceivedRequestsPort;
 import com.docpoint.domain.model.Review;
+import com.docpoint.domain.model.User;
 import com.docpoint.domain.model.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class GetReceivedRequestsService implements GetReceivedRequestsUserCase {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Map<WorkingDocument, Optional<Review>> getReceivedRequests(long userId, Pageable pageable) {
-		return loadRequestedWorkingDocumentsPort.loadByUserId(userId, pageable);
+	public Map<WorkingDocument, Optional<Review>> getReceivedRequests(User user, Pageable pageable) {
+		return loadRequestedWorkingDocumentsPort.loadByUser(user, pageable);
 	}
 }

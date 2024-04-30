@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.docpoint.application.port.out.LoadReceivedRequestsPort;
 import com.docpoint.domain.model.Review;
+import com.docpoint.domain.model.User;
 import com.docpoint.domain.model.WorkingDocument;
 import com.docpoint.util.WorkingDocumentTestData;
 
@@ -33,14 +34,14 @@ class GetReceivedRequestsServiceTest {
 		// given
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 		Map<WorkingDocument, Optional<Review>> receivedRequests = Map.of(workingDocument, Optional.empty());
-		long userId = 1L;
+		User user = mock(User.class);
 		Pageable pageable = mock(Pageable.class);
-		given(loadReceivedRequestsPort.loadByUserId(userId, pageable)).willReturn(receivedRequests);
+		given(loadReceivedRequestsPort.loadByUser(user, pageable)).willReturn(receivedRequests);
 
 		// when
-		getReceivedRequestsService.getReceivedRequests(userId, pageable);
+		getReceivedRequestsService.getReceivedRequests(user, pageable);
 
 		// then
-		verify(loadReceivedRequestsPort, times(1)).loadByUserId(userId, pageable);
+		verify(loadReceivedRequestsPort, times(1)).loadByUser(user, pageable);
 	}
 }

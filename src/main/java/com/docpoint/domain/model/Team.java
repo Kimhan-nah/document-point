@@ -12,8 +12,8 @@ public class Team {
 
 	private final boolean isDeleted;
 
-	public Team(String name, boolean isDeleted) {
-		this.id = null;
+	public Team(Long id, String name, boolean isDeleted) {
+		this.id = id;
 		this.name = Objects.requireNonNull(name);
 		this.isDeleted = isDeleted;
 	}

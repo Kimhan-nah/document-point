@@ -13,8 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.docpoint.application.port.out.LoadReviewsOfWorkingDocumentPort;
-import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
+import com.docpoint.application.port.out.LoadReviewsPort;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.model.Review;
 import com.docpoint.domain.model.WorkingDocument;
@@ -24,25 +23,20 @@ import com.docpoint.util.WorkingDocumentTestData;
 @DisplayName("WorkingDocument의 리뷰 조회 서비스 테스트")
 class GetReviewsServiceTest {
 	@InjectMocks
-	private GetReviewsOfWorkingDocumentService getReviewsService;
+	private GetReviewsService getReviewsService;
 
 	@Mock
-	private LoadReviewsOfWorkingDocumentPort loadReviewsOfWorkingDocumentPort;
-
-	@Mock
-	private LoadWorkingDocumentsPort loadWorkingDocumentPort;
+	private LoadReviewsPort loadReviewsPort;
 
 	@Test
 	@DisplayName("WorkingDocument의 리뷰 전체 조회 성공")
 	void getReviewsOfWorkingDocument() {
 		// given
-		long workingDocumentId = 1L;
-		given(loadReviewsOfWorkingDocumentPort.loadByWorkingDocumentId(workingDocumentId)).willReturn(List.of());
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
-		given(loadWorkingDocumentPort.loadById(workingDocumentId)).willReturn(Optional.of(workingDocument));
+		given(loadReviewsPort.loadByWorkingDocument(workingDocument)).willReturn(List.of());
 
 		// when
-		List<Review> reviews = getReviewsService.getAllReviews(workingDocumentId);
+		List<Review> reviews = getReviewsService.getAllReviews(workingDocument);
 
 		// then
 		assertThat(reviews).isEmpty();
@@ -52,14 +46,12 @@ class GetReviewsServiceTest {
 	@DisplayName("리뷰 조회 성공")
 	void getReviewOfWorkingDocument() {
 		// given
-		long workingDocumentId = 1L;
 		long reviewId = 1L;
-		given(loadReviewsOfWorkingDocumentPort.loadByReviewId(reviewId)).willReturn(Optional.of(mock(Review.class)));
+		given(loadReviewsPort.load(reviewId)).willReturn(Optional.of(mock(Review.class)));
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
-		given(loadWorkingDocumentPort.loadById(workingDocumentId)).willReturn(Optional.of(workingDocument));
 
 		// when
-		Review review = getReviewsService.getReview(workingDocumentId, reviewId);
+		Review review = getReviewsService.getReview(reviewId);
 
 		// then
 		assertThat(review).isNotNull();
@@ -69,41 +61,12 @@ class GetReviewsServiceTest {
 	@DisplayName("리뷰가 없는 경우, Not Found Exception 발생")
 	void getReviewOfWorkingDocumentNotFound() {
 		// given
-		long workingDocumentId = 1L;
 		long reviewId = 1L;
-		given(loadReviewsOfWorkingDocumentPort.loadByReviewId(reviewId)).willReturn(Optional.empty());
+		given(loadReviewsPort.load(reviewId)).willReturn(Optional.empty());
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
-		given(loadWorkingDocumentPort.loadById(workingDocumentId)).willReturn(Optional.of(workingDocument));
 
 		// when, then
-		assertThatThrownBy(() -> getReviewsService.getReview(workingDocumentId, reviewId))
-			.isInstanceOf(NotFoundException.class);
-	}
-
-	@Test
-	@DisplayName("WorkingDocument가 없는 경우, Not Found Exception 발생")
-	void getReviewOfWorkingDocumentNotFoundWorkingDocument() {
-		// given
-		long workingDocumentId = 1L;
-		long reviewId = 1L;
-		given(loadWorkingDocumentPort.loadById(workingDocumentId)).willReturn(Optional.empty());
-
-		// when, then
-		assertThatThrownBy(() -> getReviewsService.getReview(workingDocumentId, reviewId))
-			.isInstanceOf(NotFoundException.class);
-	}
-
-	@Test
-	@DisplayName("삭제된 WorkingDocument의 리뷰 조회 시, Not Found Exception 발생")
-	void getReviewOfWorkingDocumentDeletedWorkingDocument() {
-		// given
-		long workingDocumentId = 1L;
-		long reviewId = 1L;
-		WorkingDocument deletedWorkingDocument = WorkingDocumentTestData.createDeletedWorkingDocument();
-		given(loadWorkingDocumentPort.loadById(workingDocumentId)).willReturn(Optional.of(deletedWorkingDocument));
-
-		// when, then
-		assertThatThrownBy(() -> getReviewsService.getReview(workingDocumentId, reviewId))
+		assertThatThrownBy(() -> getReviewsService.getReview(reviewId))
 			.isInstanceOf(NotFoundException.class);
 	}
 }

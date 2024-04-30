@@ -50,7 +50,7 @@ class RegisterCpEvaluationServiceTest {
 	@DisplayName("파트 리더인 경우, 승인 요청(APPROVAL_REQUEST) 상태로 변경하는 메서드를 호출한다.")
 	void 기여도_입력_성공() {
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
-		User partLeader = UserTestData.createPartLeader(new Team("team", false));
+		User partLeader = UserTestData.createPartLeader(new Team(null, "team", false));
 		given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
 			.willReturn(Optional.of(mock(DocumentReviewer.class)));
 		given(loadCpEvaluationsPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
@@ -68,7 +68,7 @@ class RegisterCpEvaluationServiceTest {
 	@DisplayName("팀 리더인 경우, 승인 완료(APPROVED) 상태로 변경하는 메서드를 호출한다.")
 	void 팀_리더인_경우() {
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
-		User teamLeader = UserTestData.createTeamLeader(new Team("team", false));
+		User teamLeader = UserTestData.createTeamLeader(new Team(null, "team", false));
 		given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, teamLeader))
 			.willReturn(Optional.of(mock(DocumentReviewer.class)));
 		given(loadCpEvaluationsPort.loadByWorkingDocumentAndUser(workingDocument, teamLeader))

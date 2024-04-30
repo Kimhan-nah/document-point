@@ -25,20 +25,10 @@ public class User {
 
 	private final boolean isDeleted;
 
-	public User(Team team, String name, String email, RoleType role, int employeeNumber, boolean isDeleted) {
-		this.id = null;
-		this.team = Objects.requireNonNull(team);
-		this.name = Objects.requireNonNull(name);
-		this.email = Objects.requireNonNull(email);
-		this.role = Objects.requireNonNull(role);
-		this.employeeNumber = employeeNumber;
-		this.isDeleted = isDeleted;
-	}
-
 	@Builder
 	public User(Long id, Team team, String name, String email, RoleType role, int employeeNumber, boolean isDeleted) {
 		this.id = id;
-		this.team = Objects.requireNonNull(team);
+		this.team = team;
 		this.name = Objects.requireNonNull(name);
 		this.email = Objects.requireNonNull(email);
 		this.role = Objects.requireNonNull(role);

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetUserWorkingDocumentsUseCase;
 import com.docpoint.application.port.out.LoadUserWorkingDocumentsPort;
+import com.docpoint.domain.model.User;
 import com.docpoint.domain.model.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
@@ -17,13 +18,13 @@ public class GetUserWorkingDocumentsService implements GetUserWorkingDocumentsUs
 
 	/**
 	 * 유저의 워킹 문서(WorkingDocument)를 조회한다
-	 * @param userId 유저 ID
+	 * @param user 유저 ID
 	 * @param pageable 페이징 정보
 	 * @return 유저의 워킹 문서(WorkingDocument) 목록
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<WorkingDocument> getUserWorkingDocuments(long userId, Pageable pageable) {
-		return loadUserWorkingDocumentsPort.loadByUserId(userId, pageable).getContent();
+	public List<WorkingDocument> getUserWorkingDocuments(User user, Pageable pageable) {
+		return loadUserWorkingDocumentsPort.loadByUser(user, pageable).getContent();
 	}
 }

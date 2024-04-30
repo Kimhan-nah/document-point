@@ -32,15 +32,6 @@ public class WorkingDocumentTest {
 		}
 
 		@Test
-		@DisplayName("working이 null이면 NullPointerException이 발생한다.")
-		void workingNullTest() {
-			// when, then
-			assertThatThrownBy(
-				() -> new WorkingDocument(1L, null, "title", "content", REVIEW, GITLAB, "gitlab.com", false))
-				.isInstanceOf(NullPointerException.class);
-		}
-
-		@Test
 		@DisplayName("title은 null이면 NullPointerException이 발생한다.")
 		void titleNotNullTest() {
 			// when, then

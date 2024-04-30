@@ -28,10 +28,9 @@ public class WorkingDocument {
 
 	@Builder
 	public WorkingDocument(Long id, Working working, String title, String content, DocStatusType status,
-		DocType docType,
-		String link, boolean isDeleted) {
+		DocType docType, String link, boolean isDeleted) {
 		this.id = id;
-		this.working = Objects.requireNonNull(working);
+		this.working = working;
 		this.title = Objects.requireNonNull(title);
 		this.content = Objects.requireNonNull(content);
 		this.status = Objects.requireNonNull(status);

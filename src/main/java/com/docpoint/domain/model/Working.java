@@ -34,10 +34,10 @@ public class Working {
 	private final boolean isDeleted;
 
 	@Builder
-	public Working(User writer, User assignee, String title, String content, WorkingStatusType status,
+	public Working(Long id, User writer, User assignee, String title, String content, WorkingStatusType status,
 		WorkingCategoryType category, LocalDateTime dueDate, LocalDateTime recruitDate, int cp, boolean isDeleted) {
-		this.id = null;
-		this.writer = Objects.requireNonNull(writer);
+		this.id = id;
+		this.writer = writer;
 		this.assignee = assignee;
 		this.title = Objects.requireNonNull(title);
 		this.content = Objects.requireNonNull(content);
@@ -51,31 +51,33 @@ public class Working {
 
 	public Working updateStatus(WorkingStatusType status) {
 		return Working.builder()
-			.writer(writer)
-			.assignee(assignee)
-			.title(title)
-			.content(content)
+			.id(this.id)
+			.writer(this.writer)
+			.assignee(this.assignee)
+			.title(this.title)
+			.content(this.content)
 			.status(status)
-			.category(category)
-			.dueDate(dueDate)
-			.recruitDate(recruitDate)
-			.cp(cp)
-			.isDeleted(isDeleted)
+			.category(this.category)
+			.dueDate(this.dueDate)
+			.recruitDate(this.recruitDate)
+			.cp(this.cp)
+			.isDeleted(this.isDeleted)
 			.build();
 	}
 
 	public Working updateAssignee(User assignee) {
 		return Working.builder()
-			.writer(writer)
+			.id(this.id)
+			.writer(this.writer)
 			.assignee(assignee)
-			.title(title)
-			.content(content)
-			.status(status)
-			.category(category)
-			.dueDate(dueDate)
-			.recruitDate(recruitDate)
-			.cp(cp)
-			.isDeleted(isDeleted)
+			.title(this.title)
+			.content(this.content)
+			.status(this.status)
+			.category(this.category)
+			.dueDate(this.dueDate)
+			.recruitDate(this.recruitDate)
+			.cp(this.cp)
+			.isDeleted(this.isDeleted)
 			.build();
 	}
 }

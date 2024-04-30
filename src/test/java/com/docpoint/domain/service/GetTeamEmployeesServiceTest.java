@@ -38,7 +38,7 @@ class GetTeamEmployeesServiceTest {
 
 	@BeforeEach
 	void setUp() {
-		team = new Team("team", false);
+		team = new Team(null, "team", false);
 		employees = new ArrayList<>();
 		teamMember = UserTestData.createTeamMember(team);
 		partLeader = UserTestData.createPartLeader(team);

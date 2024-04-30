@@ -36,7 +36,7 @@ class GetAllWorkingDocumentsServiceTest {
 	@DisplayName("조회 성공")
 	void 조회_성공() {
 		// given
-		Team team = new Team("team", false);
+		Team team = new Team(null, "team", false);
 		long teamId = 1L;
 		Pageable pageable = mock(Pageable.class);
 		given(loadTeamPort.loadById(teamId)).willReturn(Optional.of(team));
@@ -70,8 +70,8 @@ class GetAllWorkingDocumentsServiceTest {
 		@DisplayName("삭제된 팀인 경우, CustomRuntimeException이 발생한다.")
 		void 삭제된_팀() {
 			// given
-			Team deletedTeam = new Team("deletedTeam", true);
 			long deletedTeamId = 1L;
+			Team deletedTeam = new Team(deletedTeamId, "deletedTeam", true);
 			given(loadTeamPort.loadById(deletedTeamId)).willReturn(Optional.of(deletedTeam));
 
 			// when, then

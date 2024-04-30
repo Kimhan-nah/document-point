@@ -1,5 +1,7 @@
 package com.docpoint.domain.model;
 
+import java.util.Objects;
+
 import lombok.Getter;
 
 @Getter
@@ -13,7 +15,7 @@ public class CpEvaluation {
 	public CpEvaluation(Long id, DocumentReviewer documentReviewer, String comment, int cp, boolean isDeleted) {
 		this.id = id;
 		this.documentReviewer = documentReviewer;
-		this.comment = comment;
+		this.comment = Objects.requireNonNull(comment);
 		this.cp = cp;
 		this.isDeleted = isDeleted;
 	}

@@ -12,7 +12,7 @@ public class WorkingTestData {
 
 	public static Working createWorking() {
 		return Working.builder()
-			.writer(UserTestData.createTeamMember(new Team("team", false)))
+			.writer(UserTestData.createTeamMember(new Team(null, "team", false)))
 			.cp(1)
 			.title("title")
 			.content("content")
@@ -29,7 +29,7 @@ public class WorkingTestData {
 	 */
 	public static Working createDeletedWorking() {
 		return Working.builder()
-			.writer(UserTestData.createTeamMember(new Team("team", false)))
+			.writer(UserTestData.createTeamMember(new Team(null, "team", false)))
 			.cp(1)
 			.title("title")
 			.content("content")
@@ -46,7 +46,7 @@ public class WorkingTestData {
 	 */
 	public static Working createWorkingWithStatus(WorkingStatusType status) {
 		return Working.builder()
-			.writer(UserTestData.createTeamMember(new Team("team", false)))
+			.writer(UserTestData.createTeamMember(new Team(null, "team", false)))
 			.cp(1)
 			.title("title")
 			.content("content")
@@ -66,7 +66,7 @@ public class WorkingTestData {
 	 */
 	public static Working createWorkingWithAssignee(User assignee) {
 		return Working.builder()
-			.writer(UserTestData.createTeamMember(new Team("team", false)))
+			.writer(UserTestData.createTeamMember(new Team(null, "team", false)))
 			.assignee(assignee)
 			.cp(1)
 			.title("title")

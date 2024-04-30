@@ -8,11 +8,7 @@ import com.docpoint.domain.model.User;
 import com.docpoint.domain.model.WorkingDocument;
 
 public interface LoadCpEvaluationsPort {
-	List<CpEvaluation> loadByWorkingDocumentId(long workingDocumentId);
-
-	Optional<CpEvaluation> loadFinalCpByWorkingDocumentId(long workingDocumentId);
-
-	Optional<CpEvaluation> loadCpRequestByWorkingDocumentId(long workingDocumentId);
+	List<CpEvaluation> loadByWorkingDocument(WorkingDocument workingDocument);
 
 	Optional<CpEvaluation> loadByWorkingDocumentAndUser(WorkingDocument workingDocument, User user);
 }

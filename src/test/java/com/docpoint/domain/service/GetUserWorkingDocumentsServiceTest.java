@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.docpoint.application.port.out.LoadUserWorkingDocumentsPort;
+import com.docpoint.domain.model.User;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("유저의 워킹 문서(WorkingDocument) 조회")
@@ -26,13 +27,11 @@ class GetUserWorkingDocumentsServiceTest {
 	@DisplayName("유저의 워킹 문서(WorkingDocument)를 조회한다")
 	void 조회_성공() {
 		// given
-		long userId = 1L;
 		Pageable pageable = mock(Pageable.class);
-		given(loadUserWorkingDocumentsPort.loadByUserId(userId, pageable)).willReturn(Page.empty());
+		User user = mock(User.class);
+		given(loadUserWorkingDocumentsPort.loadByUser(user, pageable)).willReturn(Page.empty());
 
 		// when
-		getUserWorkingDocumentsService.getUserWorkingDocuments(userId, pageable);
-
-		// then
+		getUserWorkingDocumentsService.getUserWorkingDocuments(user, pageable);
 	}
 }

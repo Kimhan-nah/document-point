@@ -6,8 +6,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.docpoint.domain.model.Review;
+import com.docpoint.domain.model.User;
 import com.docpoint.domain.model.WorkingDocument;
 
 public interface GetReceivedRequestsUserCase {
-	Map<WorkingDocument, Optional<Review>> getReceivedRequests(long userId, Pageable pageable);
+	Map<WorkingDocument, Optional<Review>> getReceivedRequests(User user, Pageable pageable);
 }
