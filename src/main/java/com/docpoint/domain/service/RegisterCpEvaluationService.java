@@ -19,7 +19,7 @@ import com.docpoint.domain.type.RoleType;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
+class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 	private final LoadDocumentReviewersPort loadDocumentReviewersPort;
 	private final SaveCpEvaluationPort saveCpEvaluationPort;
 	private final LoadCpEvaluationsPort loadCpEvaluationsPort;

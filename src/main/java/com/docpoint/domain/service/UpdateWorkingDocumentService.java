@@ -10,7 +10,7 @@ import com.docpoint.domain.type.DocStatusType;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class UpdateWorkingDocumentService implements UpdateWorkingDocumentUseCase {
+class UpdateWorkingDocumentService implements UpdateWorkingDocumentUseCase {
 	private final SaveWorkingDocumentPort saveWorkingDocumentPort;
 
 	@Override

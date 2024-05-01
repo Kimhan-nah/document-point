@@ -13,7 +13,7 @@ import com.docpoint.domain.type.WorkingStatusType;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetWorkingsService implements GetWorkingsUseCase {
+class GetWorkingsService implements GetWorkingsUseCase {
 	private final LoadUserWorkingsPort loadUserWorkingsPort;
 
 	/**

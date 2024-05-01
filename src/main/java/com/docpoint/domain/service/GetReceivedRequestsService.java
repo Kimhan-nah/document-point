@@ -15,7 +15,7 @@ import com.docpoint.domain.model.WorkingDocument;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetReceivedRequestsService implements GetReceivedRequestsUserCase {
+class GetReceivedRequestsService implements GetReceivedRequestsUserCase {
 	private final LoadReceivedRequestsPort loadRequestedWorkingDocumentsPort;
 
 	/**

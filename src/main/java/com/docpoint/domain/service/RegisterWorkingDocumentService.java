@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Transactional
-public class RegisterWorkingDocumentService implements RegisterWorkingDocumentUseCase {
+class RegisterWorkingDocumentService implements RegisterWorkingDocumentUseCase {
 	private final SaveWorkingDocumentPort saveWorkingDocumentPort;
 
 	@Override

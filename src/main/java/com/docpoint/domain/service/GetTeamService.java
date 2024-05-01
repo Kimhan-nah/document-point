@@ -11,7 +11,7 @@ import com.docpoint.domain.model.Team;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetTeamService implements GetTeamUseCase {
+class GetTeamService implements GetTeamUseCase {
 	private final LoadTeamPort loadTeamPort;
 
 	@Override

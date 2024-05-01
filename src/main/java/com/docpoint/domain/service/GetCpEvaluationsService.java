@@ -15,7 +15,7 @@ import com.docpoint.domain.model.WorkingDocument;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetCpEvaluationsService implements GetCpEvaluationsUseCase {
+class GetCpEvaluationsService implements GetCpEvaluationsUseCase {
 	private final LoadCpEvaluationsPort loadCpEvaluationsPort;
 
 	/**

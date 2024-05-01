@@ -13,7 +13,7 @@ import com.docpoint.domain.type.RoleType;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetTeamEmployeesService implements GetTeamEmployeesUseCase {
+class GetTeamEmployeesService implements GetTeamEmployeesUseCase {
 	private final LoadEmployeesPort loadEmployeesPort;
 
 	@Override

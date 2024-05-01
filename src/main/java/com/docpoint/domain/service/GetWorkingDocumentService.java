@@ -11,7 +11,7 @@ import com.docpoint.domain.model.WorkingDocument;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetWorkingDocumentService implements GetWorkingDocumentUseCase {
+class GetWorkingDocumentService implements GetWorkingDocumentUseCase {
 	private final LoadWorkingDocumentsPort loadWorkingDocumentsPort;
 
 	/**

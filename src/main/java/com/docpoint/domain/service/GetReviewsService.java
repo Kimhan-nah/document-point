@@ -14,7 +14,7 @@ import com.docpoint.domain.model.WorkingDocument;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetReviewsService implements GetReviewsUseCase {
+class GetReviewsService implements GetReviewsUseCase {
 	private final LoadReviewsPort loadReviewsPort;
 
 	/**
