@@ -33,7 +33,7 @@ public class GetAllWorkingDocumentsService implements GetAllWorkingDocumentsUseC
 	@Override
 	@Transactional(readOnly = true)
 	public List<WorkingDocument> getAllWorkingDocumentsByTeamId(long teamId, Pageable pageable) {
-		Team team = loadTeamPort.loadById(teamId)
+		Team team = loadTeamPort.load(teamId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_TEAM));
 		if (team.isDeleted()) {
 			throw new BadRequestException(ErrorType.DELETED_TEAM);

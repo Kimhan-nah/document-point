@@ -15,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.docpoint.application.port.out.LoadTeamEmployeesPort;
+import com.docpoint.application.port.out.LoadEmployeesPort;
 import com.docpoint.domain.model.Team;
 import com.docpoint.domain.model.User;
 import com.docpoint.domain.type.RoleType;
@@ -28,7 +28,7 @@ class GetTeamEmployeesServiceTest {
 	private GetTeamEmployeesService getTeamEmployeesService;
 
 	@Mock
-	private LoadTeamEmployeesPort loadTeamEmployeesPort;
+	private LoadEmployeesPort loadEmployeesPort;
 
 	private Team team;
 	private List<User> employees;
@@ -55,10 +55,10 @@ class GetTeamEmployeesServiceTest {
 		@DisplayName("3명의 구성원이 모두 조회된다.")
 		void getTeamEmployees() {
 			// given
-			given(loadTeamEmployeesPort.loadTeamEmployees(team)).willReturn(employees);
+			given(loadEmployeesPort.loadByTeam(team)).willReturn(employees);
 
 			// when
-			List<User> teamMembers = getTeamEmployeesService.getEmployeesByTeam(team);
+			List<User> teamMembers = getTeamEmployeesService.getEmployeesByTeam(team, null);
 
 			// then
 			assertThat(teamMembers).hasSize(3);
@@ -68,10 +68,10 @@ class GetTeamEmployeesServiceTest {
 		@DisplayName("1명의 팀 멤버가 조회된다.")
 		void getTeamMembers() {
 			// given
-			given(loadTeamEmployeesPort.loadTeamMembers(team)).willReturn(List.of(teamMember));
+			given(loadEmployeesPort.loadByTeamAndRole(team, RoleType.TEAM_MEMBER)).willReturn(List.of(teamMember));
 
 			// when
-			List<User> teamMembers = getTeamEmployeesService.getTeamMembersByTeam(team);
+			List<User> teamMembers = getTeamEmployeesService.getEmployeesByTeam(team, RoleType.TEAM_MEMBER);
 
 			// then
 			assertThat(teamMembers).hasSize(1);
@@ -82,10 +82,10 @@ class GetTeamEmployeesServiceTest {
 		@DisplayName("1명의 파트 리더가 조회된다.")
 		void getPartLeaders() {
 			// given
-			given(loadTeamEmployeesPort.loadPartLeaders(team)).willReturn(List.of(partLeader));
+			given(loadEmployeesPort.loadByTeamAndRole(team, RoleType.PART_LEADER)).willReturn(List.of(partLeader));
 
 			// when
-			List<User> teamMembers = getTeamEmployeesService.getPartLeadersByTeam(team);
+			List<User> teamMembers = getTeamEmployeesService.getEmployeesByTeam(team, RoleType.PART_LEADER);
 
 			// then
 			assertThat(teamMembers).hasSize(1);
@@ -96,10 +96,10 @@ class GetTeamEmployeesServiceTest {
 		@DisplayName("1명의 팀 리더가 조회된다.")
 		void getTeamLeaders() {
 			// given
-			given(loadTeamEmployeesPort.loadTeamLeaders(team)).willReturn(List.of(teamLeader));
+			given(loadEmployeesPort.loadByTeamAndRole(team, RoleType.TEAM_LEADER)).willReturn(List.of(teamLeader));
 
 			// when
-			List<User> teamMembers = getTeamEmployeesService.getTeamLeadersByTeam(team);
+			List<User> teamMembers = getTeamEmployeesService.getEmployeesByTeam(team, RoleType.TEAM_LEADER);
 
 			// then
 			assertThat(teamMembers).hasSize(1);

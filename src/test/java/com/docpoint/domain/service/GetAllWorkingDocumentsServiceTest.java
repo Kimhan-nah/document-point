@@ -39,7 +39,7 @@ class GetAllWorkingDocumentsServiceTest {
 		Team team = new Team(null, "team", false);
 		long teamId = 1L;
 		Pageable pageable = mock(Pageable.class);
-		given(loadTeamPort.loadById(teamId)).willReturn(Optional.of(team));
+		given(loadTeamPort.load(teamId)).willReturn(Optional.of(team));
 		given(loadWorkingDocumentsPort.loadByTeamId(teamId, pageable)).willReturn(Page.empty());
 
 		// when
@@ -57,7 +57,7 @@ class GetAllWorkingDocumentsServiceTest {
 		void 존재하지_않는_팀() {
 			// given
 			long notFoundTeamId = 1L;
-			given(loadTeamPort.loadById(notFoundTeamId)).willReturn(Optional.empty());
+			given(loadTeamPort.load(notFoundTeamId)).willReturn(Optional.empty());
 
 			// when, then
 			assertThatThrownBy(
@@ -72,7 +72,7 @@ class GetAllWorkingDocumentsServiceTest {
 			// given
 			long deletedTeamId = 1L;
 			Team deletedTeam = new Team(deletedTeamId, "deletedTeam", true);
-			given(loadTeamPort.loadById(deletedTeamId)).willReturn(Optional.of(deletedTeam));
+			given(loadTeamPort.load(deletedTeamId)).willReturn(Optional.of(deletedTeam));
 
 			// when, then
 			assertThatThrownBy(
