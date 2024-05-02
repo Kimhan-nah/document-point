@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetUserWorkingDocumentsUseCase;
 import com.docpoint.application.port.out.LoadUserWorkingDocumentsPort;
-import com.docpoint.domain.model.User;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.User;
+import com.docpoint.domain.entity.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
 

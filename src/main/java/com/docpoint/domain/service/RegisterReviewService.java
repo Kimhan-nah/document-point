@@ -8,10 +8,10 @@ import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
 import com.docpoint.application.port.out.SaveReviewPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ForbiddenException;
-import com.docpoint.domain.model.DocumentReviewer;
-import com.docpoint.domain.model.Review;
-import com.docpoint.domain.model.User;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.DocumentReviewer;
+import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.User;
+import com.docpoint.domain.entity.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
 

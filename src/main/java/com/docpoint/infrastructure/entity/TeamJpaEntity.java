@@ -1,4 +1,4 @@
-package com.docpoint.infrastructure.repository;
+package com.docpoint.infrastructure.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,8 +9,10 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @Table(name = "team")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

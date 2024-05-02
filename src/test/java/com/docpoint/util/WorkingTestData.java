@@ -2,9 +2,9 @@ package com.docpoint.util;
 
 import java.time.LocalDateTime;
 
-import com.docpoint.domain.model.Team;
-import com.docpoint.domain.model.User;
-import com.docpoint.domain.model.Working;
+import com.docpoint.domain.entity.Team;
+import com.docpoint.domain.entity.User;
+import com.docpoint.domain.entity.Working;
 import com.docpoint.domain.type.WorkingCategoryType;
 import com.docpoint.domain.type.WorkingStatusType;
 

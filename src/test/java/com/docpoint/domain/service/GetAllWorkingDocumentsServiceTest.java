@@ -18,7 +18,7 @@ import org.springframework.data.domain.Pageable;
 import com.docpoint.application.port.out.LoadTeamPort;
 import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
 import com.docpoint.common.exception.CustomRuntimeException;
-import com.docpoint.domain.model.Team;
+import com.docpoint.domain.entity.Team;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("팀의 전체 워킹 문서 조회")

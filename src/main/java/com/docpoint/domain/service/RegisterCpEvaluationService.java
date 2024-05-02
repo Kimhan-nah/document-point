@@ -10,9 +10,9 @@ import com.docpoint.application.port.out.SaveCpEvaluationPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
-import com.docpoint.domain.model.CpEvaluation;
-import com.docpoint.domain.model.User;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.CpEvaluation;
+import com.docpoint.domain.entity.User;
+import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.domain.type.RoleType;
 

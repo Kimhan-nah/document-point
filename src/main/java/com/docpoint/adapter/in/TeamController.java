@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.docpoint.adapter.in.dto.EmployeesResponseDto;
 import com.docpoint.application.port.in.GetTeamEmployeesUseCase;
 import com.docpoint.application.port.in.GetTeamUseCase;
-import com.docpoint.domain.model.Team;
-import com.docpoint.domain.model.User;
+import com.docpoint.domain.entity.Team;
+import com.docpoint.domain.entity.User;
 import com.docpoint.domain.type.RoleType;
 
 import lombok.RequiredArgsConstructor;

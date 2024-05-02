@@ -3,8 +3,8 @@ package com.docpoint.application.port.out;
 import java.util.List;
 import java.util.Optional;
 
-import com.docpoint.domain.model.Review;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.WorkingDocument;
 
 public interface LoadReviewsPort {
 	Optional<Review> load(long reviewId);

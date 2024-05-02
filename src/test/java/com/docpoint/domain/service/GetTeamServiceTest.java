@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.docpoint.application.port.out.LoadTeamPort;
 import com.docpoint.common.exception.custom.NotFoundException;
-import com.docpoint.domain.model.Team;
+import com.docpoint.domain.entity.Team;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("팀 조회 서비스 테스트")

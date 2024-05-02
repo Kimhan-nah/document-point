@@ -1,19 +1,17 @@
 spring:
-  datasource:
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:mysql:8.0.36:///test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: test_db
-
+  h2:
+    console:
+      enabled: true
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-        use_sql_comments: false
-
-  cache:
-    type: redis
+    database: h2
+    generate-ddl: off
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;MODE=MySQL;
+    username: SA
+    password:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+#      data-locations: classpath:data-h2.sql

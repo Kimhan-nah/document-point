@@ -15,11 +15,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.docpoint.application.port.out.LoadCpEvaluationsPort;
 import com.docpoint.common.exception.custom.ForbiddenException;
-import com.docpoint.domain.model.CpEvaluation;
-import com.docpoint.domain.model.Team;
-import com.docpoint.domain.model.User;
-import com.docpoint.domain.model.Working;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.CpEvaluation;
+import com.docpoint.domain.entity.Team;
+import com.docpoint.domain.entity.User;
+import com.docpoint.domain.entity.Working;
+import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.util.UserTestData;
 import com.docpoint.util.WorkingDocumentTestData;
 import com.docpoint.util.WorkingTestData;

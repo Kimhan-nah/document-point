@@ -14,9 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
 import com.docpoint.application.port.out.LoadReceivedRequestsPort;
-import com.docpoint.domain.model.Review;
-import com.docpoint.domain.model.User;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.User;
+import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.util.WorkingDocumentTestData;
 
 @ExtendWith(MockitoExtension.class)

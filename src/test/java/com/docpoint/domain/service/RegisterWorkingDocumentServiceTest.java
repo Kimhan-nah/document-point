@@ -14,8 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.docpoint.application.port.out.SaveWorkingDocumentPort;
 import com.docpoint.common.exception.CustomRuntimeException;
-import com.docpoint.domain.model.Working;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.Working;
+import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.domain.type.WorkingStatusType;
 import com.docpoint.util.WorkingDocumentTestData;

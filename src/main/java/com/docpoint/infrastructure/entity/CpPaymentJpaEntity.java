@@ -1,5 +1,6 @@
-package com.docpoint.infrastructure.repository;
+package com.docpoint.infrastructure.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,25 +14,19 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "document_reviewer")
+@Table(name = "cp_payment")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DocumentReviewerJpaEntity extends BaseTimeEntity {
+public class CpPaymentJpaEntity extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "working_document_id")
-	private WorkingDocumentJpaEntity workingDocument;
-
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private UserJpaEntity user;
 
-	public DocumentReviewerJpaEntity(WorkingDocumentJpaEntity workingDocument, UserJpaEntity user) {
-		this.workingDocument = workingDocument;
-		this.user = user;
-	}
+	@NotNull
+	@Column(name = "cp")
+	private Integer cp;
 }

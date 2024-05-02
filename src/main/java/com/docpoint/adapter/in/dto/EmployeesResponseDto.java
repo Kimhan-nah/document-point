@@ -3,7 +3,7 @@ package com.docpoint.adapter.in.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.docpoint.domain.model.User;
+import com.docpoint.domain.entity.User;
 
 public class EmployeesResponseDto {
 	private final List<EmployeeDto> employees = new ArrayList<>();

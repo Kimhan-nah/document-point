@@ -6,7 +6,7 @@ import com.docpoint.application.port.in.GetTeamUseCase;
 import com.docpoint.application.port.out.LoadTeamPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.NotFoundException;
-import com.docpoint.domain.model.Team;
+import com.docpoint.domain.entity.Team;
 
 import lombok.RequiredArgsConstructor;
 

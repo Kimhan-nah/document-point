@@ -4,7 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.UpdateWorkingDocumentUseCase;
 import com.docpoint.application.port.out.SaveWorkingDocumentPort;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
 
 import lombok.RequiredArgsConstructor;

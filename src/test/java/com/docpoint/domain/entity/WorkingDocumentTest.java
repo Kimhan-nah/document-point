@@ -1,4 +1,4 @@
-package com.docpoint.domain.model;
+package com.docpoint.domain.entity;
 
 import static com.docpoint.domain.type.DocStatusType.*;
 import static com.docpoint.domain.type.DocType.*;

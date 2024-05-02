@@ -4,8 +4,8 @@ import com.docpoint.application.port.in.RegisterWorkingDocumentUseCase;
 import com.docpoint.application.port.out.SaveWorkingDocumentPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.BadRequestException;
-import com.docpoint.domain.model.Working;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.Working;
+import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.domain.type.WorkingStatusType;
 

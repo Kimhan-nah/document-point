@@ -1,4 +1,4 @@
-package com.docpoint.domain.model;
+package com.docpoint.domain.entity;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;

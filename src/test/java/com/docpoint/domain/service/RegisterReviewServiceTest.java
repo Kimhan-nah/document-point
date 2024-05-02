@@ -16,10 +16,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.docpoint.application.port.out.LoadDocumentReviewersPort;
 import com.docpoint.application.port.out.SaveReviewPort;
 import com.docpoint.common.exception.custom.ForbiddenException;
-import com.docpoint.domain.model.DocumentReviewer;
-import com.docpoint.domain.model.Review;
-import com.docpoint.domain.model.User;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.DocumentReviewer;
+import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.User;
+import com.docpoint.domain.entity.WorkingDocument;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("review 등록 테스트")

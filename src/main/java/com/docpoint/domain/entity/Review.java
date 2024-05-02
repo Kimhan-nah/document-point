@@ -1,4 +1,4 @@
-package com.docpoint.domain.model;
+package com.docpoint.domain.entity;
 
 import java.util.HashMap;
 import java.util.Map;

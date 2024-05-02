@@ -11,8 +11,8 @@ import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.BadRequestException;
 import com.docpoint.common.exception.custom.NotFoundException;
-import com.docpoint.domain.model.Team;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.Team;
+import com.docpoint.domain.entity.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
 

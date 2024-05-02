@@ -1,4 +1,4 @@
-package com.docpoint.infrastructure.repository;
+package com.docpoint.infrastructure.entity;
 
 import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.domain.type.DocType;

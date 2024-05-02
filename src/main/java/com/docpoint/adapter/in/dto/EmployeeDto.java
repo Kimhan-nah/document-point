@@ -1,6 +1,6 @@
 package com.docpoint.adapter.in.dto;
 
-import com.docpoint.domain.model.User;
+import com.docpoint.domain.entity.User;
 import com.docpoint.domain.type.RoleType;
 
 import lombok.Builder;

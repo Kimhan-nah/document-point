@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.docpoint.domain.model.Review;
-import com.docpoint.domain.model.User;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.User;
+import com.docpoint.domain.entity.WorkingDocument;
 
 /**
  * 요청 받은 DocumentReviewer 목록 조회

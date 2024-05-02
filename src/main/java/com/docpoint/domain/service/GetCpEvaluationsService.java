@@ -8,9 +8,9 @@ import com.docpoint.application.port.in.GetCpEvaluationsUseCase;
 import com.docpoint.application.port.out.LoadCpEvaluationsPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ForbiddenException;
-import com.docpoint.domain.model.CpEvaluation;
-import com.docpoint.domain.model.User;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.CpEvaluation;
+import com.docpoint.domain.entity.User;
+import com.docpoint.domain.entity.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
 

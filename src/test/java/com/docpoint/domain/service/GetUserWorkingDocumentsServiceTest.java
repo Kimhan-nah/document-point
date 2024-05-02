@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.docpoint.application.port.out.LoadUserWorkingDocumentsPort;
-import com.docpoint.domain.model.User;
+import com.docpoint.domain.entity.User;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("유저의 워킹 문서(WorkingDocument) 조회")

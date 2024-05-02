@@ -1,7 +1,7 @@
 package com.docpoint.util;
 
-import com.docpoint.domain.model.Team;
-import com.docpoint.domain.model.User;
+import com.docpoint.domain.entity.Team;
+import com.docpoint.domain.entity.User;
 import com.docpoint.domain.type.RoleType;
 
 public class UserTestData {

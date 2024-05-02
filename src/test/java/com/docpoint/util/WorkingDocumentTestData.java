@@ -3,8 +3,8 @@ package com.docpoint.util;
 import java.util.List;
 import java.util.Map;
 
-import com.docpoint.domain.model.Working;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.Working;
+import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.domain.type.DocType;
 import com.docpoint.domain.type.WorkingStatusType;

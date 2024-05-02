@@ -1,6 +1,6 @@
 package com.docpoint.application.port.out;
 
-import com.docpoint.domain.model.Review;
+import com.docpoint.domain.entity.Review;
 
 public interface SaveReviewPort {
 	Review save(Review review);

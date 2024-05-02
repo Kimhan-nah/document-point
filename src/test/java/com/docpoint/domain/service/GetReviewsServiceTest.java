@@ -15,8 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.docpoint.application.port.out.LoadReviewsPort;
 import com.docpoint.common.exception.custom.NotFoundException;
-import com.docpoint.domain.model.Review;
-import com.docpoint.domain.model.WorkingDocument;
+import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.util.WorkingDocumentTestData;
 
 @ExtendWith(MockitoExtension.class)
