@@ -3,8 +3,8 @@ package com.docpoint.domain.service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.RegisterReviewUseCase;
-import com.docpoint.application.port.out.LoadDocumentReviewersPort;
-import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
+import com.docpoint.application.port.out.LoadDocumentReviewerPort;
+import com.docpoint.application.port.out.LoadWorkingDocumentPort;
 import com.docpoint.application.port.out.SaveReviewPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ForbiddenException;
@@ -17,9 +17,9 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class RegisterReviewService implements RegisterReviewUseCase {
-	private final LoadDocumentReviewersPort loadDocumentReviewersPort;
+	private final LoadDocumentReviewerPort loadDocumentReviewerPort;
 
-	private final LoadWorkingDocumentsPort loadWorkingDocumentsPort;
+	private final LoadWorkingDocumentPort loadWorkingDocumentPort;
 
 	private final SaveReviewPort saveReviewPort;
 
@@ -33,7 +33,7 @@ public class RegisterReviewService implements RegisterReviewUseCase {
 	@Override
 	@Transactional
 	public void registerReview(Review review, User reviewer, WorkingDocument workingDocument) {
-		DocumentReviewer documentReviewer = loadDocumentReviewersPort.loadByWorkingDocumentAndUser(
+		DocumentReviewer documentReviewer = loadDocumentReviewerPort.loadByWorkingDocumentAndUser(
 				workingDocument, reviewer)
 			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));
 

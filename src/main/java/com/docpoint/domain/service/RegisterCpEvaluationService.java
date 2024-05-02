@@ -4,8 +4,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.RegisterCpEvaluationUseCase;
 import com.docpoint.application.port.in.UpdateWorkingDocumentUseCase;
-import com.docpoint.application.port.out.LoadCpEvaluationsPort;
-import com.docpoint.application.port.out.LoadDocumentReviewersPort;
+import com.docpoint.application.port.out.LoadCpEvaluationPort;
+import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.SaveCpEvaluationPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ConflictException;
@@ -20,9 +20,9 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
-	private final LoadDocumentReviewersPort loadDocumentReviewersPort;
+	private final LoadDocumentReviewerPort loadDocumentReviewerPort;
 	private final SaveCpEvaluationPort saveCpEvaluationPort;
-	private final LoadCpEvaluationsPort loadCpEvaluationsPort;
+	private final LoadCpEvaluationPort loadCpEvaluationPort;
 	private final UpdateWorkingDocumentUseCase updateWorkingDocumentUseCase;
 
 	@Override
@@ -37,7 +37,7 @@ class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 	}
 
 	private void checkReviewer(WorkingDocument workingDocument, User reviewer) {
-		loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, reviewer)
+		loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer)
 			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));
 	}
 
@@ -48,7 +48,7 @@ class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 	}
 
 	private void checkCpEvaluation(WorkingDocument workingDocument, User reviewer) {
-		loadCpEvaluationsPort.loadByWorkingDocumentAndUser(workingDocument, reviewer)
+		loadCpEvaluationPort.loadByWorkingDocumentAndUser(workingDocument, reviewer)
 			.ifPresent(cpEvaluation -> {
 				throw new ConflictException(ErrorType.CONFLICT_CP_EVALUATION);
 			});

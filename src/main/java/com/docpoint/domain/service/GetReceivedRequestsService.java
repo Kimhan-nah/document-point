@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetReceivedRequestsUserCase;
-import com.docpoint.application.port.out.LoadReceivedRequestsPort;
+import com.docpoint.application.port.out.LoadReceivedRequestPort;
 import com.docpoint.domain.entity.Review;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 class GetReceivedRequestsService implements GetReceivedRequestsUserCase {
-	private final LoadReceivedRequestsPort loadRequestedWorkingDocumentsPort;
+	private final LoadReceivedRequestPort loadRequestedWorkingDocumentsPort;
 
 	/**
 	 * 요청 받은 WorkingReviewer 목록 조회

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetReviewsUseCase;
-import com.docpoint.application.port.out.LoadReviewsPort;
+import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.Review;
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 class GetReviewsService implements GetReviewsUseCase {
-	private final LoadReviewsPort loadReviewsPort;
+	private final LoadReviewPort loadReviewPort;
 
 	/**
 	 * @param workingDocument 리뷰를 조회할 WorkingDocument
@@ -24,7 +24,7 @@ class GetReviewsService implements GetReviewsUseCase {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Review> getAllReviews(WorkingDocument workingDocument) {
-		return loadReviewsPort.loadByWorkingDocument(workingDocument);
+		return loadReviewPort.loadByWorkingDocument(workingDocument);
 	}
 
 	/**
@@ -36,7 +36,7 @@ class GetReviewsService implements GetReviewsUseCase {
 	@Override
 	@Transactional(readOnly = true)
 	public Review getReview(long reviewId) {
-		Review review = loadReviewsPort.load(reviewId)
+		Review review = loadReviewPort.load(reviewId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_REVIEW));
 		if (review.isDeleted()) {
 			throw new NotFoundException(ErrorType.DELETED_REVIEW);

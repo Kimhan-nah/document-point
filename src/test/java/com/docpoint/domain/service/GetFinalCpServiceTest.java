@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.docpoint.application.port.out.LoadCpEvaluationsPort;
+import com.docpoint.application.port.out.LoadCpEvaluationPort;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.CpEvaluation;
 import com.docpoint.domain.entity.Team;
@@ -31,7 +31,7 @@ class GetFinalCpServiceTest {
 	private GetCpEvaluationsService getFinalCpService;
 
 	@Mock
-	private LoadCpEvaluationsPort loadCpEvaluationsPort;
+	private LoadCpEvaluationPort loadCpEvaluationPort;
 
 	@Test
 	@DisplayName("기여도 조회 성공 - 1개의 CpEvaluation이 조회되는 경우, CpEvaluation 1개를 반환한다.")
@@ -40,7 +40,7 @@ class GetFinalCpServiceTest {
 		User assignee = UserTestData.createTeamMember(mock(Team.class));
 		Working working = WorkingTestData.createWorkingWithAssignee(assignee);
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocumentWithWorking(working);
-		given(loadCpEvaluationsPort.loadByWorkingDocument(workingDocument))
+		given(loadCpEvaluationPort.loadByWorkingDocument(workingDocument))
 			.willReturn(List.of(mock(CpEvaluation.class)));
 
 		// when
@@ -49,7 +49,7 @@ class GetFinalCpServiceTest {
 		// then
 		assertThat(cpEvaluations).isNotNull();
 		assertThat(cpEvaluations.size()).isEqualTo(1);
-		verify(loadCpEvaluationsPort, times(1)).loadByWorkingDocument(workingDocument);
+		verify(loadCpEvaluationPort, times(1)).loadByWorkingDocument(workingDocument);
 
 	}
 

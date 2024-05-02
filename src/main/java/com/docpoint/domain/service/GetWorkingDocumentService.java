@@ -3,7 +3,7 @@ package com.docpoint.domain.service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetWorkingDocumentUseCase;
-import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
+import com.docpoint.application.port.out.LoadWorkingDocumentPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.WorkingDocument;
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 class GetWorkingDocumentService implements GetWorkingDocumentUseCase {
-	private final LoadWorkingDocumentsPort loadWorkingDocumentsPort;
+	private final LoadWorkingDocumentPort loadWorkingDocumentPort;
 
 	/**
 	 * @param workingDocumentId 조회할 workingDocument ID
@@ -23,7 +23,7 @@ class GetWorkingDocumentService implements GetWorkingDocumentUseCase {
 	@Override
 	@Transactional(readOnly = true)
 	public WorkingDocument getWorkingDocument(long workingDocumentId) {
-		WorkingDocument workingDocument = loadWorkingDocumentsPort.loadById(workingDocumentId)
+		WorkingDocument workingDocument = loadWorkingDocumentPort.loadById(workingDocumentId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_WORKING_DOCUMENT));
 		if (workingDocument.isDeleted()) {
 			throw new NotFoundException(ErrorType.DELETED_WORKING_DOCUMENT);

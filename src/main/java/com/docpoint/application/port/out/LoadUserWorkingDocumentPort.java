@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 
-public interface LoadUserWorkingDocumentsPort {
+public interface LoadUserWorkingDocumentPort {
 	Page<WorkingDocument> loadByUser(User user, Pageable pageable);
 }

@@ -7,7 +7,7 @@ import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 
-public interface LoadDocumentReviewersPort {
+public interface LoadDocumentReviewerPort {
 	List<DocumentReviewer> loadByWorkingDocumentId(long workingDocumentId);
 
 	Optional<DocumentReviewer> loadByWorkingDocumentAndUser(WorkingDocument workingDocument, User user);

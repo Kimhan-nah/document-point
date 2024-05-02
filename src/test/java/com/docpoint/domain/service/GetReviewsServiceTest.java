@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.docpoint.application.port.out.LoadReviewsPort;
+import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.Review;
 import com.docpoint.domain.entity.WorkingDocument;
@@ -26,14 +26,14 @@ class GetReviewsServiceTest {
 	private GetReviewsService getReviewsService;
 
 	@Mock
-	private LoadReviewsPort loadReviewsPort;
+	private LoadReviewPort loadReviewPort;
 
 	@Test
 	@DisplayName("WorkingDocument의 리뷰 전체 조회 성공")
 	void getReviewsOfWorkingDocument() {
 		// given
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
-		given(loadReviewsPort.loadByWorkingDocument(workingDocument)).willReturn(List.of());
+		given(loadReviewPort.loadByWorkingDocument(workingDocument)).willReturn(List.of());
 
 		// when
 		List<Review> reviews = getReviewsService.getAllReviews(workingDocument);
@@ -47,7 +47,7 @@ class GetReviewsServiceTest {
 	void getReviewOfWorkingDocument() {
 		// given
 		long reviewId = 1L;
-		given(loadReviewsPort.load(reviewId)).willReturn(Optional.of(mock(Review.class)));
+		given(loadReviewPort.load(reviewId)).willReturn(Optional.of(mock(Review.class)));
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 
 		// when
@@ -62,7 +62,7 @@ class GetReviewsServiceTest {
 	void getReviewOfWorkingDocumentNotFound() {
 		// given
 		long reviewId = 1L;
-		given(loadReviewsPort.load(reviewId)).willReturn(Optional.empty());
+		given(loadReviewPort.load(reviewId)).willReturn(Optional.empty());
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 
 		// when, then

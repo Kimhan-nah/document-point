@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
+import com.docpoint.application.port.out.LoadWorkingDocumentPort;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.util.WorkingDocumentTestData;
@@ -24,7 +24,7 @@ class GetWorkingDocumentServiceTest {
 	private GetWorkingDocumentService getWorkingDocumentService;
 
 	@Mock
-	private LoadWorkingDocumentsPort loadWorkingDocumentsPort;
+	private LoadWorkingDocumentPort loadWorkingDocumentPort;
 
 	@Test
 	@DisplayName("WorkingDocument 조회 성공")
@@ -32,7 +32,7 @@ class GetWorkingDocumentServiceTest {
 		// given
 		long workingDocumentId = 1L;
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
-		given(loadWorkingDocumentsPort.loadById(workingDocumentId)).willReturn(Optional.of(workingDocument));
+		given(loadWorkingDocumentPort.loadById(workingDocumentId)).willReturn(Optional.of(workingDocument));
 
 		// when
 		getWorkingDocumentService.getWorkingDocument(workingDocumentId);

@@ -14,8 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.docpoint.application.port.in.UpdateWorkingDocumentUseCase;
-import com.docpoint.application.port.out.LoadCpEvaluationsPort;
-import com.docpoint.application.port.out.LoadDocumentReviewersPort;
+import com.docpoint.application.port.out.LoadCpEvaluationPort;
+import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.SaveCpEvaluationPort;
 import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
@@ -38,10 +38,10 @@ class RegisterCpEvaluationServiceTest {
 	private SaveCpEvaluationPort saveCpEvaluationPort;
 
 	@Mock
-	private LoadDocumentReviewersPort loadDocumentReviewersPort;
+	private LoadDocumentReviewerPort loadDocumentReviewerPort;
 
 	@Mock
-	private LoadCpEvaluationsPort loadCpEvaluationsPort;
+	private LoadCpEvaluationPort loadCpEvaluationPort;
 
 	@Mock
 	private UpdateWorkingDocumentUseCase updateWorkingDocumentUseCase;
@@ -51,9 +51,9 @@ class RegisterCpEvaluationServiceTest {
 	void 기여도_입력_성공() {
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 		User partLeader = UserTestData.createPartLeader(new Team(null, "team", false));
-		given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
+		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
 			.willReturn(Optional.of(mock(DocumentReviewer.class)));
-		given(loadCpEvaluationsPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
+		given(loadCpEvaluationPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
 			.willReturn(Optional.empty());
 
 		// when
@@ -69,9 +69,9 @@ class RegisterCpEvaluationServiceTest {
 	void 팀_리더인_경우() {
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 		User teamLeader = UserTestData.createTeamLeader(new Team(null, "team", false));
-		given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, teamLeader))
+		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, teamLeader))
 			.willReturn(Optional.of(mock(DocumentReviewer.class)));
-		given(loadCpEvaluationsPort.loadByWorkingDocumentAndUser(workingDocument, teamLeader))
+		given(loadCpEvaluationPort.loadByWorkingDocumentAndUser(workingDocument, teamLeader))
 			.willReturn(Optional.empty());
 
 		// when
@@ -90,7 +90,7 @@ class RegisterCpEvaluationServiceTest {
 		void 리뷰어가_아닌_경우() {
 			WorkingDocument workingDocument = WorkingDocumentTestData.createDeletedWorkingDocument();
 			User nonReviewer = mock(User.class);
-			given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, nonReviewer))
+			given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, nonReviewer))
 				.willReturn(Optional.empty());
 
 			// when, then
@@ -106,7 +106,7 @@ class RegisterCpEvaluationServiceTest {
 			WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocumentWithStatus(
 				DocStatusType.APPROVED);
 			User reviewer = mock(User.class);
-			given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
+			given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 				.willReturn(Optional.of(mock(DocumentReviewer.class)));
 
 			// when, then
@@ -120,9 +120,9 @@ class RegisterCpEvaluationServiceTest {
 		void 이미_등록된_경우() {
 			WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 			User reviewer = mock(User.class);
-			given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
+			given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 				.willReturn(Optional.of(mock(DocumentReviewer.class)));
-			given(loadCpEvaluationsPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
+			given(loadCpEvaluationPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 				.willReturn(Optional.of(mock(CpEvaluation.class)));
 
 			// when, then

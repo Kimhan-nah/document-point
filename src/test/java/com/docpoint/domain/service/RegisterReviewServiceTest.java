@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.docpoint.application.port.out.LoadDocumentReviewersPort;
+import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.SaveReviewPort;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.DocumentReviewer;
@@ -28,7 +28,7 @@ class RegisterReviewServiceTest {
 	private RegisterReviewService registerReviewService;
 
 	@Mock
-	private LoadDocumentReviewersPort loadDocumentReviewersPort;
+	private LoadDocumentReviewerPort loadDocumentReviewerPort;
 
 	@Mock
 	private SaveReviewPort saveReviewPort;
@@ -41,7 +41,7 @@ class RegisterReviewServiceTest {
 		DocumentReviewer documentReviewer = mock(DocumentReviewer.class);
 		User reviewer = mock(User.class);
 		Review review = new Review(documentReviewer, false);
-		given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
+		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 			.willReturn(Optional.of(documentReviewer));
 
 		// when
@@ -62,7 +62,7 @@ class RegisterReviewServiceTest {
 			DocumentReviewer documentReviewer = mock(DocumentReviewer.class);
 			User reviewer = mock(User.class);
 			Review review = mock(Review.class);
-			given(loadDocumentReviewersPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
+			given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 				.willReturn(Optional.empty());
 
 			// when, then

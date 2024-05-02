@@ -16,7 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.docpoint.application.port.out.LoadTeamPort;
-import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
+import com.docpoint.application.port.out.LoadWorkingDocumentPort;
 import com.docpoint.common.exception.CustomRuntimeException;
 import com.docpoint.domain.entity.Team;
 
@@ -30,7 +30,7 @@ class GetAllWorkingDocumentsServiceTest {
 	private LoadTeamPort loadTeamPort;
 
 	@Mock
-	private LoadWorkingDocumentsPort loadWorkingDocumentsPort;
+	private LoadWorkingDocumentPort loadWorkingDocumentPort;
 
 	@Test
 	@DisplayName("조회 성공")
@@ -40,13 +40,13 @@ class GetAllWorkingDocumentsServiceTest {
 		long teamId = 1L;
 		Pageable pageable = mock(Pageable.class);
 		given(loadTeamPort.load(teamId)).willReturn(Optional.of(team));
-		given(loadWorkingDocumentsPort.loadByTeamId(teamId, pageable)).willReturn(Page.empty());
+		given(loadWorkingDocumentPort.loadByTeamId(teamId, pageable)).willReturn(Page.empty());
 
 		// when
 		getAllWorkingDocumentsService.getAllWorkingDocumentsByTeamId(teamId, pageable);
 
 		// then
-		verify(loadWorkingDocumentsPort, times(1)).loadByTeamId(teamId, pageable);
+		verify(loadWorkingDocumentPort, times(1)).loadByTeamId(teamId, pageable);
 	}
 
 	@Nested

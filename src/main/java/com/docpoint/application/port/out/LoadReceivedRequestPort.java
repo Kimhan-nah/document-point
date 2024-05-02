@@ -12,6 +12,6 @@ import com.docpoint.domain.entity.WorkingDocument;
 /**
  * 요청 받은 DocumentReviewer 목록 조회
  */
-public interface LoadReceivedRequestsPort {
+public interface LoadReceivedRequestPort {
 	Map<WorkingDocument, Optional<Review>> loadByUser(User user, Pageable pageable);
 }

@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
-import com.docpoint.application.port.out.LoadReceivedRequestsPort;
+import com.docpoint.application.port.out.LoadReceivedRequestPort;
 import com.docpoint.domain.entity.Review;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
@@ -26,7 +26,7 @@ class GetReceivedRequestsServiceTest {
 	private GetReceivedRequestsService getReceivedRequestsService;
 
 	@Mock
-	private LoadReceivedRequestsPort loadReceivedRequestsPort;
+	private LoadReceivedRequestPort loadReceivedRequestPort;
 
 	@Test
 	@DisplayName("요청 받은 WorkingDocument 목록 조회 성공")
@@ -36,12 +36,12 @@ class GetReceivedRequestsServiceTest {
 		Map<WorkingDocument, Optional<Review>> receivedRequests = Map.of(workingDocument, Optional.empty());
 		User user = mock(User.class);
 		Pageable pageable = mock(Pageable.class);
-		given(loadReceivedRequestsPort.loadByUser(user, pageable)).willReturn(receivedRequests);
+		given(loadReceivedRequestPort.loadByUser(user, pageable)).willReturn(receivedRequests);
 
 		// when
 		getReceivedRequestsService.getReceivedRequests(user, pageable);
 
 		// then
-		verify(loadReceivedRequestsPort, times(1)).loadByUser(user, pageable);
+		verify(loadReceivedRequestPort, times(1)).loadByUser(user, pageable);
 	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetCpEvaluationsUseCase;
-import com.docpoint.application.port.out.LoadCpEvaluationsPort;
+import com.docpoint.application.port.out.LoadCpEvaluationPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.CpEvaluation;
@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 class GetCpEvaluationsService implements GetCpEvaluationsUseCase {
-	private final LoadCpEvaluationsPort loadCpEvaluationsPort;
+	private final LoadCpEvaluationPort loadCpEvaluationPort;
 
 	/**
 	 * 최종 기여도 조회
@@ -31,6 +31,6 @@ class GetCpEvaluationsService implements GetCpEvaluationsUseCase {
 		if (!workingDocument.getWorking().getAssignee().equals(user)) {
 			throw new ForbiddenException(ErrorType.FORBIDDEN_CP_ACCESS);
 		}
-		return loadCpEvaluationsPort.loadByWorkingDocument(workingDocument);
+		return loadCpEvaluationPort.loadByWorkingDocument(workingDocument);
 	}
 }

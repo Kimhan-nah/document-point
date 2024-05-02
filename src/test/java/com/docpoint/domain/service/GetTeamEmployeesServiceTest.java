@@ -15,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.docpoint.application.port.out.LoadEmployeesPort;
+import com.docpoint.application.port.out.LoadEmployeePort;
 import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.type.RoleType;
@@ -28,7 +28,7 @@ class GetTeamEmployeesServiceTest {
 	private GetTeamEmployeesService getTeamEmployeesService;
 
 	@Mock
-	private LoadEmployeesPort loadEmployeesPort;
+	private LoadEmployeePort loadEmployeePort;
 
 	private Team team;
 	private List<User> employees;
@@ -55,7 +55,7 @@ class GetTeamEmployeesServiceTest {
 		@DisplayName("3명의 구성원이 모두 조회된다.")
 		void getTeamEmployees() {
 			// given
-			given(loadEmployeesPort.loadByTeam(team)).willReturn(employees);
+			given(loadEmployeePort.loadByTeam(team)).willReturn(employees);
 
 			// when
 			List<User> teamMembers = getTeamEmployeesService.getEmployeesByTeam(team, null);
@@ -68,7 +68,7 @@ class GetTeamEmployeesServiceTest {
 		@DisplayName("1명의 팀 멤버가 조회된다.")
 		void getTeamMembers() {
 			// given
-			given(loadEmployeesPort.loadByTeamAndRole(team, RoleType.TEAM_MEMBER)).willReturn(List.of(teamMember));
+			given(loadEmployeePort.loadByTeamAndRole(team, RoleType.TEAM_MEMBER)).willReturn(List.of(teamMember));
 
 			// when
 			List<User> teamMembers = getTeamEmployeesService.getEmployeesByTeam(team, RoleType.TEAM_MEMBER);
@@ -82,7 +82,7 @@ class GetTeamEmployeesServiceTest {
 		@DisplayName("1명의 파트 리더가 조회된다.")
 		void getPartLeaders() {
 			// given
-			given(loadEmployeesPort.loadByTeamAndRole(team, RoleType.PART_LEADER)).willReturn(List.of(partLeader));
+			given(loadEmployeePort.loadByTeamAndRole(team, RoleType.PART_LEADER)).willReturn(List.of(partLeader));
 
 			// when
 			List<User> teamMembers = getTeamEmployeesService.getEmployeesByTeam(team, RoleType.PART_LEADER);
@@ -96,7 +96,7 @@ class GetTeamEmployeesServiceTest {
 		@DisplayName("1명의 팀 리더가 조회된다.")
 		void getTeamLeaders() {
 			// given
-			given(loadEmployeesPort.loadByTeamAndRole(team, RoleType.TEAM_LEADER)).willReturn(List.of(teamLeader));
+			given(loadEmployeePort.loadByTeamAndRole(team, RoleType.TEAM_LEADER)).willReturn(List.of(teamLeader));
 
 			// when
 			List<User> teamMembers = getTeamEmployeesService.getEmployeesByTeam(team, RoleType.TEAM_LEADER);

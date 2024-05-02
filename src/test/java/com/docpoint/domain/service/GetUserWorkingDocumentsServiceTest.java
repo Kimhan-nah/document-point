@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.docpoint.application.port.out.LoadUserWorkingDocumentsPort;
+import com.docpoint.application.port.out.LoadUserWorkingDocumentPort;
 import com.docpoint.domain.entity.User;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,7 +21,7 @@ class GetUserWorkingDocumentsServiceTest {
 	private GetUserWorkingDocumentsService getUserWorkingDocumentsService;
 
 	@Mock
-	private LoadUserWorkingDocumentsPort loadUserWorkingDocumentsPort;
+	private LoadUserWorkingDocumentPort loadUserWorkingDocumentPort;
 
 	@Test
 	@DisplayName("유저의 워킹 문서(WorkingDocument)를 조회한다")
@@ -29,7 +29,7 @@ class GetUserWorkingDocumentsServiceTest {
 		// given
 		Pageable pageable = mock(Pageable.class);
 		User user = mock(User.class);
-		given(loadUserWorkingDocumentsPort.loadByUser(user, pageable)).willReturn(Page.empty());
+		given(loadUserWorkingDocumentPort.loadByUser(user, pageable)).willReturn(Page.empty());
 
 		// when
 		getUserWorkingDocumentsService.getUserWorkingDocuments(user, pageable);

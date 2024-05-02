@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetAllWorkingDocumentsUseCase;
 import com.docpoint.application.port.out.LoadTeamPort;
-import com.docpoint.application.port.out.LoadWorkingDocumentsPort;
+import com.docpoint.application.port.out.LoadWorkingDocumentPort;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.BadRequestException;
 import com.docpoint.common.exception.custom.NotFoundException;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class GetAllWorkingDocumentsService implements GetAllWorkingDocumentsUseCase {
 
-	private final LoadWorkingDocumentsPort loadWorkingDocumentsPort;
+	private final LoadWorkingDocumentPort loadWorkingDocumentPort;
 
 	private final LoadTeamPort loadTeamPort;
 
@@ -38,6 +38,6 @@ class GetAllWorkingDocumentsService implements GetAllWorkingDocumentsUseCase {
 		if (team.isDeleted()) {
 			throw new BadRequestException(ErrorType.DELETED_TEAM);
 		}
-		return loadWorkingDocumentsPort.loadByTeamId(teamId, pageable).getContent();
+		return loadWorkingDocumentPort.loadByTeamId(teamId, pageable).getContent();
 	}
 }

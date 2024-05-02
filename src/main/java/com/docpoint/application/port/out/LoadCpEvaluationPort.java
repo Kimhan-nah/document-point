@@ -7,7 +7,7 @@ import com.docpoint.domain.entity.CpEvaluation;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 
-public interface LoadCpEvaluationsPort {
+public interface LoadCpEvaluationPort {
 	List<CpEvaluation> loadByWorkingDocument(WorkingDocument workingDocument);
 
 	Optional<CpEvaluation> loadByWorkingDocumentAndUser(WorkingDocument workingDocument, User user);
