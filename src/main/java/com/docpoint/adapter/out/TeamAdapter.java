@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @PersistenceAdapter
-public class LoadTeamAdapter implements LoadTeamPort {
+public class TeamAdapter implements LoadTeamPort {
 	private final TeamRepository teamRepository;
 
 	@Override
