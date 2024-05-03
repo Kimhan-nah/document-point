@@ -9,11 +9,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import com.docpoint.infrastructure.config.JpaConfig;
+import com.docpoint.infrastructure.config.QueryDslConfig;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @DataJpaTest
-@Import(JpaConfig.class)
+@Import({JpaConfig.class, QueryDslConfig.class})
 public @interface DataJpaUnitTest {
 
 }
