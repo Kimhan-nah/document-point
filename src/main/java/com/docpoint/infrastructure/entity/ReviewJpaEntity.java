@@ -55,4 +55,8 @@ public class ReviewJpaEntity extends BaseTimeEntity {
 		this.answer = answer;
 		this.isDeleted = isDeleted;
 	}
+
+	public boolean isDocumentReviewerEmpty() {
+		return this.documentReviewer == null;
+	}
 }
