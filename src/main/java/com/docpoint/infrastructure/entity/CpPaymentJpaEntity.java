@@ -37,4 +37,8 @@ public class CpPaymentJpaEntity extends BaseTimeEntity {
 		this.user = user;
 		this.cp = cp;
 	}
+
+	public boolean isUserEmpty() {
+		return this.user == null;
+	}
 }
