@@ -3,6 +3,7 @@ package com.docpoint.adapter.out;
 import java.util.List;
 import java.util.Optional;
 
+import com.docpoint.adapter.out.mapper.CpEvaluationMapper;
 import com.docpoint.application.port.out.LoadCpEvaluationPort;
 import com.docpoint.common.annotation.PersistenceAdapter;
 import com.docpoint.domain.entity.CpEvaluation;

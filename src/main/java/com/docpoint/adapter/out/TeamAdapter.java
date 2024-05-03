@@ -2,6 +2,7 @@ package com.docpoint.adapter.out;
 
 import java.util.Optional;
 
+import com.docpoint.adapter.out.mapper.TeamMapper;
 import com.docpoint.application.port.out.LoadTeamPort;
 import com.docpoint.common.annotation.PersistenceAdapter;
 import com.docpoint.common.exception.ErrorType;

@@ -1,4 +1,4 @@
-package com.docpoint.adapter.out;
+package com.docpoint.adapter.out.mapper;
 
 import com.docpoint.domain.entity.Team;
 import com.docpoint.infrastructure.entity.TeamJpaEntity;

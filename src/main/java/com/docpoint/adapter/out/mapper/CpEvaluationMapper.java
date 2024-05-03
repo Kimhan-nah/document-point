@@ -1,4 +1,4 @@
-package com.docpoint.adapter.out;
+package com.docpoint.adapter.out.mapper;
 
 import java.util.List;
 
