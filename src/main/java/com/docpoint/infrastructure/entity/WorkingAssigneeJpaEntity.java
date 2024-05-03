@@ -35,4 +35,12 @@ public class WorkingAssigneeJpaEntity extends BaseTimeEntity {
 		this.working = working;
 		this.assignee = assignee;
 	}
+
+	public boolean isWorkingEmpty() {
+		return this.working == null;
+	}
+
+	public boolean isAssigneeEmpty() {
+		return this.assignee == null;
+	}
 }

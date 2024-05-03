@@ -85,4 +85,8 @@ public class WorkingJpaEntity extends BaseTimeEntity {
 		this.recruitDate = recruitDate;
 		this.isDeleted = isDeleted;
 	}
+
+	public boolean isUserEmpty() {
+		return this.writer == null;
+	}
 }
