@@ -51,4 +51,8 @@ public class CpEvaluationJpaEntity extends BaseTimeEntity {
 		this.comment = comment;
 		this.isDeleted = isDeleted;
 	}
+
+	public boolean isDocumentReviewerEmpty() {
+		return this.documentReviewer == null;
+	}
 }
