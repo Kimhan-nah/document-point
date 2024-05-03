@@ -72,4 +72,8 @@ public class UserJpaEntity extends BaseTimeEntity {
 		this.role = role;
 		this.isDeleted = isDeleted;
 	}
+
+	public boolean isTeamEmpty() {
+		return team == null;
+	}
 }
