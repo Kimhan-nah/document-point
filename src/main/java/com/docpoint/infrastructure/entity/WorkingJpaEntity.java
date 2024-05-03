@@ -33,8 +33,8 @@ public class WorkingJpaEntity extends BaseTimeEntity {
 	private Long id;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private UserJpaEntity user;
+	@JoinColumn(name = "writer_id")
+	private UserJpaEntity writer;
 
 	@NotNull
 	@Column(name = "cp")
@@ -73,9 +73,9 @@ public class WorkingJpaEntity extends BaseTimeEntity {
 	private Boolean isDeleted;
 
 	@Builder
-	public WorkingJpaEntity(UserJpaEntity user, Integer cp, String title, String content, WorkingStatusType status,
+	public WorkingJpaEntity(UserJpaEntity writer, Integer cp, String title, String content, WorkingStatusType status,
 		WorkingCategoryType category, LocalDateTime dueDate, LocalDateTime recruitDate, Boolean isDeleted) {
-		this.user = user;
+		this.writer = writer;
 		this.cp = cp;
 		this.title = title;
 		this.content = content;

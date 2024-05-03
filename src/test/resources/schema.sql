@@ -35,7 +35,7 @@ create table if not exists cp_payment
 create table if not exists working
 (
     id           bigint auto_increment primary key,
-    user_id      bigint                                                       not null,
+    writer_id    bigint                                                       not null,
     cp           int                                                          not null,
     due_date     datetime(6)                                                  not null,
     recruit_date datetime(6)                                                  not null,
@@ -46,8 +46,8 @@ create table if not exists working
     is_deleted   bit                                                          not null,
     created_at   datetime(6)                                                  not null,
     modified_at  datetime(6)                                                  null,
-    constraint UK_dj2dxatwot97fm0k8btnki8ip unique (user_id),
-    constraint FKho4l2oxr9jw8bvk6vycwo6q8d foreign key (user_id) references `user` (id)
+    constraint UK_dj2dxatwot97fm0k8btnki8ip unique (writer_id),
+    constraint FKho4l2oxr9jw8bvk6vycwo6q8d foreign key (writer_id) references `user` (id)
 );
 
 create table if not exists working_assignee
@@ -82,11 +82,11 @@ create table if not exists working_document
 create table if not exists document_reviewer
 (
     id                  bigint auto_increment primary key,
-    user_id             bigint      not null,
+    reviewer_id         bigint      not null,
     working_document_id bigint      not null,
     created_at          datetime(6) not null,
     modified_at         datetime(6) null,
-    constraint FKcuwujt46w1f42d26txobku4ti foreign key (user_id) references `user` (id),
+    constraint FKcuwujt46w1f42d26txobku4ti foreign key (reviewer_id) references `user` (id),
     constraint FKfqia8ykd9upoo9wj95m2ftc2s foreign key (working_document_id) references working_document (id)
 );
 

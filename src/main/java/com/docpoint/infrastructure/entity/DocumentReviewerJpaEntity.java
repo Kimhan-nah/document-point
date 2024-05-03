@@ -27,12 +27,12 @@ public class DocumentReviewerJpaEntity extends BaseTimeEntity {
 	private WorkingDocumentJpaEntity workingDocument;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private UserJpaEntity user;
+	@JoinColumn(name = "reviewer_id")
+	private UserJpaEntity reviewer;
 
 	@Builder
-	public DocumentReviewerJpaEntity(WorkingDocumentJpaEntity workingDocument, UserJpaEntity user) {
+	public DocumentReviewerJpaEntity(WorkingDocumentJpaEntity workingDocument, UserJpaEntity reviewer) {
 		this.workingDocument = workingDocument;
-		this.user = user;
+		this.reviewer = reviewer;
 	}
 }
