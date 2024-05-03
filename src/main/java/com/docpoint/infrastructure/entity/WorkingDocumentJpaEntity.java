@@ -78,4 +78,8 @@ public class WorkingDocumentJpaEntity extends BaseTimeEntity {
 		this.link = link;
 		this.isDeleted = isDeleted;
 	}
+
+	public boolean isWorkingEmpty() {
+		return this.working == null;
+	}
 }
