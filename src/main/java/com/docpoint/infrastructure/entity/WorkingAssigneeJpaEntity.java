@@ -10,11 +10,14 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "working_assignee")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class WorkingAssigneeJpaEntity extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +33,7 @@ public class WorkingAssigneeJpaEntity extends BaseTimeEntity {
 	@JoinColumn(name = "assignee_id")
 	private UserJpaEntity assignee;
 
+	@Builder
 	public WorkingAssigneeJpaEntity(WorkingJpaEntity working, UserJpaEntity assignee) {
 		this.working = working;
 		this.assignee = assignee;

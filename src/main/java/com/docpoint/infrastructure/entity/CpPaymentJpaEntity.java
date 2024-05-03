@@ -11,11 +11,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "cp_payment")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class CpPaymentJpaEntity extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +32,10 @@ public class CpPaymentJpaEntity extends BaseTimeEntity {
 	@NotNull
 	@Column(name = "cp")
 	private Integer cp;
+
+	@Builder
+	public CpPaymentJpaEntity(UserJpaEntity user, Integer cp) {
+		this.user = user;
+		this.cp = cp;
+	}
 }

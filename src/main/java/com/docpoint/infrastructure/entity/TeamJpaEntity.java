@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +31,7 @@ public class TeamJpaEntity extends BaseTimeEntity {
 	@Column(name = "is_deleted")
 	private Boolean isDeleted;
 
+	@Builder
 	public TeamJpaEntity(String name, Boolean isDeleted) {
 		this.name = name;
 		this.isDeleted = isDeleted;

@@ -16,11 +16,14 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class UserJpaEntity extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,6 +62,7 @@ public class UserJpaEntity extends BaseTimeEntity {
 	@Column(name = "is_deleted")
 	private Boolean isDeleted;
 
+	@Builder
 	public UserJpaEntity(TeamJpaEntity team, Integer employeeNumber, String name, String email, String password,
 		RoleType role, Boolean isDeleted) {
 		this.team = team;

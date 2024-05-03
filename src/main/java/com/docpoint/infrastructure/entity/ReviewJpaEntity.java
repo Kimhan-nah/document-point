@@ -16,11 +16,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "review")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class ReviewJpaEntity extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +48,7 @@ public class ReviewJpaEntity extends BaseTimeEntity {
 	@Column(name = "is_deleted")
 	private Boolean isDeleted;
 
+	@Builder
 	public ReviewJpaEntity(DocumentReviewerJpaEntity documentReviewer, ReviewQuestionType question,
 		ReviewAnswerType answer, Boolean isDeleted) {
 		this.documentReviewer = documentReviewer;

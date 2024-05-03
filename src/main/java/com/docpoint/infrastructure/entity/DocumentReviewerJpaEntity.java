@@ -10,11 +10,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "document_reviewer")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class DocumentReviewerJpaEntity extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +33,7 @@ public class DocumentReviewerJpaEntity extends BaseTimeEntity {
 	@JoinColumn(name = "user_id")
 	private UserJpaEntity user;
 
+	@Builder
 	public DocumentReviewerJpaEntity(WorkingDocumentJpaEntity workingDocument, UserJpaEntity user) {
 		this.workingDocument = workingDocument;
 		this.user = user;

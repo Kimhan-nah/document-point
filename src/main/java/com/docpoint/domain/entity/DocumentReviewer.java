@@ -1,5 +1,6 @@
 package com.docpoint.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -10,6 +11,7 @@ public class DocumentReviewer {
 
 	private final User reviewer;
 
+	@Builder
 	public DocumentReviewer(Long id, WorkingDocument workingDocument, User reviewer) {
 		this.id = id;
 		this.workingDocument = workingDocument;

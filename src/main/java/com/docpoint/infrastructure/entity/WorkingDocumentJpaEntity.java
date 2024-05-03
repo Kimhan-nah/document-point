@@ -17,11 +17,14 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "working_document")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class WorkingDocumentJpaEntity extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,6 +67,7 @@ public class WorkingDocumentJpaEntity extends BaseTimeEntity {
 	@Column(name = "is_deleted")
 	private Boolean isDeleted;
 
+	@Builder
 	public WorkingDocumentJpaEntity(WorkingJpaEntity working, Integer cp, String title, String content,
 		DocStatusType status, DocType type, String link, Boolean isDeleted) {
 		this.working = working;

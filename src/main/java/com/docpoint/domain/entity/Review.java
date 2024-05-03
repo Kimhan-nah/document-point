@@ -6,6 +6,7 @@ import java.util.Map;
 import com.docpoint.domain.type.ReviewAnswerType;
 import com.docpoint.domain.type.ReviewQuestionType;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -24,6 +25,7 @@ public class Review {
 		this.isDeleted = isDeleted;
 	}
 
+	@Builder
 	public Review(Long id, DocumentReviewer documentReviewer, boolean isDeleted) {
 		this.id = id;
 		this.documentReviewer = documentReviewer;
