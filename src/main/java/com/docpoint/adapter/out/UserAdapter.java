@@ -1,9 +1,11 @@
 package com.docpoint.adapter.out;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.docpoint.adapter.out.mapper.UserMapper;
 import com.docpoint.application.port.out.LoadEmployeePort;
+import com.docpoint.application.port.out.LoadUserPort;
 import com.docpoint.common.annotation.PersistenceAdapter;
 import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.User;
@@ -14,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class UserAdapter implements LoadEmployeePort {
+public class UserAdapter implements LoadEmployeePort, LoadUserPort {
 	private final UserRepository userRepository;
 
 	@Override
@@ -31,5 +33,11 @@ public class UserAdapter implements LoadEmployeePort {
 			.stream()
 			.map(UserMapper::mapToDomainEntity)
 			.toList();
+	}
+
+	@Override
+	public Optional<User> loadById(long userId) {
+		return userRepository.findFirstById(userId)
+			.map(UserMapper::mapToDomainEntity);
 	}
 }
