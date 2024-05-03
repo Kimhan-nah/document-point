@@ -30,7 +30,6 @@ public class WorkingDocumentJpaEntity extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "working_id")
 	private WorkingJpaEntity working;

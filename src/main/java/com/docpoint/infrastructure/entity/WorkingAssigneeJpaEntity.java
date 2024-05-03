@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,12 +22,10 @@ public class WorkingAssigneeJpaEntity extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "working_id")
 	private WorkingJpaEntity working;
 
-	@NotNull
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "assignee_id")
 	private UserJpaEntity assignee;

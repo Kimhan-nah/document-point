@@ -29,7 +29,6 @@ public class ReviewJpaEntity extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "document_reviewer_id")
 	private DocumentReviewerJpaEntity documentReviewer;
