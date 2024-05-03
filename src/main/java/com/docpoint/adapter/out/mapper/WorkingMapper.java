@@ -5,22 +5,38 @@ import com.docpoint.infrastructure.entity.WorkingAssigneeJpaEntity;
 import com.docpoint.infrastructure.entity.WorkingJpaEntity;
 
 public class WorkingMapper {
-	public static Working mapToDomainEntity(
-		WorkingJpaEntity workingJpaEntity,
-		WorkingAssigneeJpaEntity workingAssigneeJpaEntity) {
+	public static Working mapToDomainEntityWithAssignee(
+		WorkingJpaEntity working,
+		WorkingAssigneeJpaEntity workingAssignee) {
 		return Working.builder()
-			.id(workingJpaEntity.getId())
-			.writer(workingJpaEntity.isUserEmpty() ? null : UserMapper.mapToDomainEntity(workingJpaEntity.getWriter()))
-			.assignee(workingAssigneeJpaEntity.isAssigneeEmpty() ? null :
-				UserMapper.mapToDomainEntity(workingAssigneeJpaEntity.getAssignee()))
-			.title(workingJpaEntity.getTitle())
-			.content(workingJpaEntity.getContent())
-			.status(workingJpaEntity.getStatus())
-			.category(workingJpaEntity.getCategory())
-			.dueDate(workingJpaEntity.getDueDate())
-			.recruitDate(workingJpaEntity.getRecruitDate())
-			.cp(workingJpaEntity.getCp())
-			.isDeleted(workingJpaEntity.getIsDeleted())
+			.id(working.getId())
+			.writer(working.isUserEmpty() ? null : UserMapper.mapToDomainEntity(working.getWriter()))
+			.assignee(workingAssignee.isAssigneeEmpty() ? null :
+				UserMapper.mapToDomainEntity(workingAssignee.getAssignee()))
+			.title(working.getTitle())
+			.content(working.getContent())
+			.status(working.getStatus())
+			.category(working.getCategory())
+			.dueDate(working.getDueDate())
+			.recruitDate(working.getRecruitDate())
+			.cp(working.getCp())
+			.isDeleted(working.getIsDeleted())
 			.build();
 	}
+
+	public static Working mapToDomainEntity(WorkingJpaEntity working) {
+		return Working.builder()
+			.id(working.getId())
+			.writer(working.isUserEmpty() ? null : UserMapper.mapToDomainEntity(working.getWriter()))
+			.title(working.getTitle())
+			.content(working.getContent())
+			.status(working.getStatus())
+			.category(working.getCategory())
+			.dueDate(working.getDueDate())
+			.recruitDate(working.getRecruitDate())
+			.cp(working.getCp())
+			.isDeleted(working.getIsDeleted())
+			.build();
+	}
+
 }
