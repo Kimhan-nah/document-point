@@ -35,4 +35,12 @@ public class DocumentReviewerJpaEntity extends BaseTimeEntity {
 		this.workingDocument = workingDocument;
 		this.reviewer = reviewer;
 	}
+
+	public boolean isWorkingDocumentEmpty() {
+		return this.workingDocument == null;
+	}
+
+	public boolean isReviewerEmpty() {
+		return this.reviewer == null;
+	}
 }
