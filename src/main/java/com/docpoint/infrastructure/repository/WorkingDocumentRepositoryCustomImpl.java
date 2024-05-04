@@ -1,16 +1,29 @@
 package com.docpoint.infrastructure.repository;
 
+import static com.docpoint.infrastructure.entity.QDocumentReviewerJpaEntity.*;
+import static com.docpoint.infrastructure.entity.QReviewJpaEntity.*;
 import static com.docpoint.infrastructure.entity.QWorkingAssigneeJpaEntity.*;
 import static com.docpoint.infrastructure.entity.QWorkingDocumentJpaEntity.*;
 import static com.docpoint.infrastructure.entity.QWorkingJpaEntity.*;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
+import com.docpoint.infrastructure.entity.QDocumentReviewerJpaEntity;
+import com.docpoint.infrastructure.entity.QReviewJpaEntity;
+import com.docpoint.infrastructure.entity.QWorkingAssigneeJpaEntity;
+import com.docpoint.infrastructure.entity.QWorkingDocumentJpaEntity;
+import com.docpoint.infrastructure.entity.QWorkingJpaEntity;
+import com.docpoint.infrastructure.entity.ReviewJpaEntity;
 import com.docpoint.infrastructure.entity.WorkingDocumentJpaEntity;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -21,21 +34,63 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 
 	@Override
 	public Page<WorkingDocumentJpaEntity> findByUserId(long userId, Pageable pageable) {
-		List<WorkingDocumentJpaEntity> content = jpaQueryFactory.selectFrom(workingDocumentJpaEntity)
-			.join(workingDocumentJpaEntity.working, workingJpaEntity)
-			.join(workingAssigneeJpaEntity.working, workingJpaEntity)
-			.where(workingAssigneeJpaEntity.assignee.id.eq(userId))
-			.orderBy(workingDocumentJpaEntity.id.desc())
+		QWorkingDocumentJpaEntity workingDocument = workingDocumentJpaEntity;
+		QWorkingAssigneeJpaEntity workingAssignee = workingAssigneeJpaEntity;
+		QWorkingJpaEntity working = workingJpaEntity;
+
+		List<WorkingDocumentJpaEntity> content = jpaQueryFactory
+			.select(workingDocument)
+			.from(working)
+			.join(workingAssignee)
+			.on(working.id.eq(workingAssignee.working.id).and(workingAssignee.assignee.id.eq(userId)))
+			.join(workingDocument)
+			.on(workingAssignee.working.id.eq(workingDocument.working.id))
+			.orderBy(workingDocument.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
 
-		long totalCount = jpaQueryFactory.selectFrom(workingDocumentJpaEntity)
-			.join(workingDocumentJpaEntity.working, workingJpaEntity)
-			.join(workingAssigneeJpaEntity.working, workingJpaEntity)
-			.where(workingAssigneeJpaEntity.assignee.id.eq(userId))
-			.fetch().size();
+		JPAQuery<Long> countQuery = jpaQueryFactory
+			.select(working.count())
+			.from(working)
+			.join(workingAssignee)
+			.on(working.id.eq(workingAssignee.working.id).and(workingAssignee.assignee.id.eq(userId)))
+			.join(workingDocument)
+			.on(workingAssignee.working.id.eq(workingDocument.working.id));
 
-		return new PageImpl<>(content, pageable, totalCount);
+		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+	}
+
+	@Override
+	public Page<Map.Entry<WorkingDocumentJpaEntity, ReviewJpaEntity>> findWithReviewByUserId(long userId,
+		Pageable pageable) {
+		QWorkingDocumentJpaEntity workingDocument = workingDocumentJpaEntity;
+		QReviewJpaEntity review = reviewJpaEntity;
+		QDocumentReviewerJpaEntity documentReviewer = documentReviewerJpaEntity;
+
+		List<Tuple> tuples = jpaQueryFactory.select(documentReviewer, review)
+			.from(review)
+			.rightJoin(review.documentReviewer, documentReviewer)
+			.on(documentReviewer.reviewer.id.eq(userId))
+			.join(documentReviewer.workingDocument, workingDocument)
+			.orderBy(workingDocument.createdAt.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		JPAQuery<Long> countQuery = jpaQueryFactory.select(documentReviewer.count())
+			.from(review)
+			.rightJoin(review.documentReviewer, documentReviewer)
+			.on(documentReviewer.reviewer.id.eq(userId))
+			.join(documentReviewer.workingDocument, workingDocument);
+
+		Map<WorkingDocumentJpaEntity, ReviewJpaEntity> resultMap = new LinkedHashMap<>();
+		for (Tuple tuple : tuples) {
+			WorkingDocumentJpaEntity workingDoc = tuple.get(workingDocument);
+			ReviewJpaEntity reviewEntity = tuple.get(review);
+			resultMap.put(workingDoc, reviewEntity);
+		}
+
+		return PageableExecutionUtils.getPage(new ArrayList<>(resultMap.entrySet()), pageable, countQuery::fetchOne);
 	}
 }
