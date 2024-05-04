@@ -4,5 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.docpoint.infrastructure.entity.WorkingDocumentJpaEntity;
 
-public interface WorkingDocumentRepository extends JpaRepository<WorkingDocumentJpaEntity, Long> {
+public interface WorkingDocumentRepository
+	extends JpaRepository<WorkingDocumentJpaEntity, Long>, WorkingDocumentRepositoryCustom {
 }
