@@ -7,7 +7,7 @@ create table if not exists team
     modified_at datetime(6)  null
 );
 
-create table if not exists `user`
+create table if not exists `users`
 (
     id              bigint auto_increment primary key,
     team_id         bigint                                             not null,
@@ -29,7 +29,7 @@ create table if not exists cp_payment
     cp          int         not null,
     created_at  datetime(6) not null,
     modified_at datetime(6) null,
-    constraint FKd14davkyi64d0lovjebhqody7 foreign key (user_id) references `user` (id)
+    constraint FKd14davkyi64d0lovjebhqody7 foreign key (user_id) references `users` (id)
 );
 
 create table if not exists working
@@ -46,7 +46,7 @@ create table if not exists working
     is_deleted   bit                                                          not null,
     created_at   datetime(6)                                                  not null,
     modified_at  datetime(6)                                                  null,
-    constraint FKho4l2oxr9jw8bvk6vycwo6q8d foreign key (writer_id) references `user` (id)
+    constraint FKho4l2oxr9jw8bvk6vycwo6q8d foreign key (writer_id) references `users` (id)
 );
 
 create table if not exists working_assignee
@@ -58,7 +58,7 @@ create table if not exists working_assignee
     modified_at datetime(6) null,
     constraint UK_l0vipxu11qifcq9ltmuucy587 unique (working_id),
     constraint FK4mgu1indnefqqdt9eu49locw9 foreign key (working_id) references working (id),
-    constraint FKfigvlbwuv0r58vt90t4on9xk7 foreign key (assignee_id) references `user` (id)
+    constraint FKfigvlbwuv0r58vt90t4on9xk7 foreign key (assignee_id) references `users` (id)
 );
 
 create table if not exists working_document
@@ -84,7 +84,7 @@ create table if not exists document_reviewer
     working_document_id bigint      not null,
     created_at          datetime(6) not null,
     modified_at         datetime(6) null,
-    constraint FKcuwujt46w1f42d26txobku4ti foreign key (reviewer_id) references `user` (id),
+    constraint FKcuwujt46w1f42d26txobku4ti foreign key (reviewer_id) references `users` (id),
     constraint FKfqia8ykd9upoo9wj95m2ftc2s foreign key (working_document_id) references working_document (id)
 );
 

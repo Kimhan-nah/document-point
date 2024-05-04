@@ -5,6 +5,11 @@ spring:
   jpa:
     database: h2
     generate-ddl: off
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: false
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb;MODE=MySQL;
@@ -12,9 +17,6 @@ spring:
     password:
   sql:
     init:
-      mode: never
-#      mode: always
-#      schema-locations: classpath:schema.sql
-#      data-locations: classpath:data-h2.sql
+      data-locations: classpath:data.sql
 logging.level:
   org.hibernate.SQL: debug

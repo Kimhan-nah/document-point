@@ -1,22 +1,23 @@
 # Team
-INSERT INTO team (`is_deleted`, `name`, `created_at`) VALUE (false, '엔터프라이즈IT개발팀', now());
+INSERT INTO team (`is_deleted`, `name`, `created_at`)
+    VALUE (false, '엔터프라이즈IT개발팀', now());
 SET @team_id = LAST_INSERT_ID();
 
 # User
 -- 1
-INSERT INTO `user` (`is_deleted`, `name`, `password`, `employee_number`, `team_id`, `email`, `role`, `created_at`)
+INSERT INTO `users` (`is_deleted`, `name`, `password`, `employee_number`, `team_id`, `email`, `role`, `created_at`)
     VALUE (false, '이파트', 1234, 1111001, @team_id, 'prolee@hae.com', 'PART_LEADER', now());
 -- 2
-INSERT INTO `user` (`is_deleted`, `name`, `password`, `employee_number`, `team_id`, `email`, `role`, `created_at`)
+INSERT INTO `users` (`is_deleted`, `name`, `password`, `employee_number`, `team_id`, `email`, `role`, `created_at`)
     VALUE (false, '김팀장', 1234, 1111002, @team_id, 'bush@hyundai-autoever.com', 'TEAM_LEADER', now());
 -- 3
-INSERT INTO `user` (`is_deleted`, `name`, `password`, `employee_number`, `team_id`, `email`, `role`, `created_at`)
+INSERT INTO `users` (`is_deleted`, `name`, `password`, `employee_number`, `team_id`, `email`, `role`, `created_at`)
     VALUE (false, '최파트', 1234, 1111003, @team_id, 'prochoi@hae.com', 'PART_LEADER', now());
 -- 4
-INSERT INTO `user` (`is_deleted`, `name`, `password`, `employee_number`, `team_id`, `email`, `role`, `created_at`)
+INSERT INTO `users` (`is_deleted`, `name`, `password`, `employee_number`, `team_id`, `email`, `role`, `created_at`)
     VALUE (false, '박멤버', 1234, 1111004, @team_id, 'jihyun@hyundai-autoever.com', 'TEAM_MEMBER', now());
 -- 5
-INSERT INTO `user` (`is_deleted`, `name`, `password`, `employee_number`, `team_id`, `email`, `role`, `created_at`)
+INSERT INTO `users` (`is_deleted`, `name`, `password`, `employee_number`, `team_id`, `email`, `role`, `created_at`)
     VALUE (false, '김멤버', 1234, 1111005, @team_id, 'mj@hyundai-autoever.com', 'TEAM_MEMBER', now());
 
 SET @part_leader_id_1 = LAST_INSERT_ID() - 4;
@@ -189,4 +190,5 @@ INSERT INTO `working_assignee` (`assignee_id`, `working_id`, `created_at`)
 -- 3
 INSERT INTO `working_assignee` (`assignee_id`, `working_id`, `created_at`)
     VALUE (@member_id_2, @member_2_working_id_3, now());
+
 
