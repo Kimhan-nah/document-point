@@ -12,8 +12,9 @@ spring:
     password:
   sql:
     init:
-      mode: always
-      schema-locations: classpath:schema.sql
+      mode: never
+#      mode: always
+#      schema-locations: classpath:schema.sql
 #      data-locations: classpath:data-h2.sql
 logging.level:
   org.hibernate.SQL: debug
