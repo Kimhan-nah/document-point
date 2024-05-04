@@ -46,7 +46,6 @@ create table if not exists working
     is_deleted   bit                                                          not null,
     created_at   datetime(6)                                                  not null,
     modified_at  datetime(6)                                                  null,
-    constraint UK_dj2dxatwot97fm0k8btnki8ip unique (writer_id),
     constraint FKho4l2oxr9jw8bvk6vycwo6q8d foreign key (writer_id) references `user` (id)
 );
 
@@ -58,7 +57,6 @@ create table if not exists working_assignee
     created_at  datetime(6) not null,
     modified_at datetime(6) null,
     constraint UK_l0vipxu11qifcq9ltmuucy587 unique (working_id),
-    constraint UK_o0jxou0lrfd75tnpq5j927cv4 unique (assignee_id),
     constraint FK4mgu1indnefqqdt9eu49locw9 foreign key (working_id) references working (id),
     constraint FKfigvlbwuv0r58vt90t4on9xk7 foreign key (assignee_id) references `user` (id)
 );
