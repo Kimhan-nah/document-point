@@ -1,8 +1,5 @@
 package com.docpoint.domain.entity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.docpoint.domain.type.ReviewAnswerType;
 import com.docpoint.domain.type.ReviewQuestionType;
 
@@ -15,24 +12,27 @@ public class Review {
 
 	private final DocumentReviewer documentReviewer;
 
-	private final Map<ReviewQuestionType, ReviewAnswerType> review = new HashMap<>();
+	private final ReviewQuestionType question;
+
+	private final ReviewAnswerType answer;
 
 	private final boolean isDeleted;
 
-	public Review(DocumentReviewer documentReviewer, boolean isDeleted) {
-		this.id = null;
-		this.documentReviewer = documentReviewer;
-		this.isDeleted = isDeleted;
-	}
-
 	@Builder
-	public Review(Long id, DocumentReviewer documentReviewer, boolean isDeleted) {
+	public Review(Long id, DocumentReviewer documentReviewer, ReviewQuestionType question, ReviewAnswerType answer,
+		boolean isDeleted) {
 		this.id = id;
 		this.documentReviewer = documentReviewer;
+		this.question = question;
+		this.answer = answer;
 		this.isDeleted = isDeleted;
 	}
 
 	public Review updateDocumentReviewer(DocumentReviewer documentReviewer) {
-		return new Review(this.id, documentReviewer, this.isDeleted);
+		return new Review(this.id, documentReviewer, this.question, this.answer, this.isDeleted);
+	}
+
+	public boolean isDocumentReviewerEmpty() {
+		return this.documentReviewer == null;
 	}
 }
