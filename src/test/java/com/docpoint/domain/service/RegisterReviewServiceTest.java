@@ -3,6 +3,7 @@ package com.docpoint.domain.service;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +21,7 @@ import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.Review;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.util.ReviewTestData;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("review 등록 테스트")
@@ -40,15 +42,15 @@ class RegisterReviewServiceTest {
 		WorkingDocument workingDocument = mock(WorkingDocument.class);
 		DocumentReviewer documentReviewer = mock(DocumentReviewer.class);
 		User reviewer = mock(User.class);
-		Review review = new Review(documentReviewer, false);
+		List<Review> reviews = ReviewTestData.createReviewsWithoutReviewer();
 		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 			.willReturn(Optional.of(documentReviewer));
 
 		// when
-		registerReviewService.registerReview(review, reviewer, workingDocument);
+		registerReviewService.registerReview(reviews, reviewer, workingDocument);
 
 		// then
-		verify(saveReviewPort, times(1)).save(any(Review.class));
+		verify(saveReviewPort, times(reviews.size())).save(any(Review.class));
 	}
 
 	@Nested
@@ -61,22 +63,15 @@ class RegisterReviewServiceTest {
 			WorkingDocument workingDocument = mock(WorkingDocument.class);
 			DocumentReviewer documentReviewer = mock(DocumentReviewer.class);
 			User reviewer = mock(User.class);
-			Review review = mock(Review.class);
+			List<Review> reviews = List.of(mock(Review.class));
 			given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 				.willReturn(Optional.empty());
 
 			// when, then
 			assertThatThrownBy(
-				() -> registerReviewService.registerReview(review, reviewer, workingDocument))
+				() -> registerReviewService.registerReview(reviews, reviewer, workingDocument))
 				.isInstanceOf(ForbiddenException.class);
 		}
 
-		// @Test
-		// @DisplayName("삭제되지 않은 리뷰가 이미 존재하는 경우, ConflictException 발생")
-		// void registerReviewFailWhenReviewIsAlreadyExist() {
-		// 	// given
-		// 	// when
-		// 	// then
-		// }
 	}
 }
