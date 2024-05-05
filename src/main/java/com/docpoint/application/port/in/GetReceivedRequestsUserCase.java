@@ -1,14 +1,11 @@
 package com.docpoint.application.port.in;
 
-import java.util.Map;
-import java.util.Optional;
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.docpoint.domain.entity.Review;
+import com.docpoint.application.port.out.dto.WorkingDocumentWithReviewDto;
 import com.docpoint.domain.entity.User;
-import com.docpoint.domain.entity.WorkingDocument;
 
 public interface GetReceivedRequestsUserCase {
-	Map<WorkingDocument, Optional<Review>> getReceivedRequests(User user, Pageable pageable);
+	Page<WorkingDocumentWithReviewDto> getReceivedRequests(User user, Pageable pageable);
 }

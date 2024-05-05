@@ -1,16 +1,13 @@
 package com.docpoint.domain.service;
 
-import java.util.Map;
-import java.util.Optional;
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetReceivedRequestsUserCase;
 import com.docpoint.application.port.out.LoadReceivedRequestPort;
-import com.docpoint.domain.entity.Review;
+import com.docpoint.application.port.out.dto.WorkingDocumentWithReviewDto;
 import com.docpoint.domain.entity.User;
-import com.docpoint.domain.entity.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,13 +17,13 @@ class GetReceivedRequestsService implements GetReceivedRequestsUserCase {
 
 	/**
 	 * 요청 받은 WorkingReviewer 목록 조회
-	 * @param userId
+	 * @param user
 	 * @param pageable
 	 * @return
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Map<WorkingDocument, Optional<Review>> getReceivedRequests(User user, Pageable pageable) {
+	public Page<WorkingDocumentWithReviewDto> getReceivedRequests(User user, Pageable pageable) {
 		return loadRequestedWorkingDocumentsPort.loadByUser(user, pageable);
 	}
 }
