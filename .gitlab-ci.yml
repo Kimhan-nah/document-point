@@ -3,14 +3,6 @@ stages: # List of stages for jobs, and their order of execution
   - build
   - deploy
 
-test-job:
-  stage: test
-  image: maven:3-eclipse-temurin-17
-  script:
-    - echo "Running tests..."
-    - 'mvn $MAVEN_CLI_OPTS test'
-    - echo "✅All unit tests passed."
-
 build-job:
   stage: build
   image: maven:3-eclipse-temurin-17-alpine
@@ -18,3 +10,11 @@ build-job:
     - echo "Building the application..."
     - mvn package -DskipTests
     - echo "✅Application successfully built."
+
+test-job:
+  stage: test
+  image: maven:3-eclipse-temurin-17
+  script:
+    - echo "Running tests..."
+    - 'mvn $MAVEN_CLI_OPTS test'
+    - echo "✅All unit tests passed."
