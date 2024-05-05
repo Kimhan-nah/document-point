@@ -2,7 +2,6 @@ package com.docpoint.infrastructure.repository;
 
 import java.util.List;
 
-import com.docpoint.domain.type.WorkingStatusType;
 import com.docpoint.infrastructure.entity.QWorkingAssigneeJpaEntity;
 import com.docpoint.infrastructure.entity.QWorkingJpaEntity;
 import com.docpoint.infrastructure.entity.WorkingJpaEntity;
@@ -14,9 +13,8 @@ import lombok.RequiredArgsConstructor;
 public class WorkingRepositoryCustomImpl implements WorkingRepositoryCustom {
 	private final JPAQueryFactory jpaQueryFactory;
 
-	// TODO status 불필요하면 삭제하기
 	@Override
-	public List<WorkingJpaEntity> searchUserWorking(long userId, WorkingStatusType status, String search) {
+	public List<WorkingJpaEntity> searchUserWorking(long userId, String search) {
 		QWorkingJpaEntity working = QWorkingJpaEntity.workingJpaEntity;
 		QWorkingAssigneeJpaEntity workingAssignee = QWorkingAssigneeJpaEntity.workingAssigneeJpaEntity;
 

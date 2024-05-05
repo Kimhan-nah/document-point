@@ -16,7 +16,6 @@ import com.docpoint.application.port.out.LoadUserWorkingPort;
 import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.Working;
-import com.docpoint.domain.type.WorkingStatusType;
 import com.docpoint.util.UserTestData;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,7 +31,7 @@ class GetWorkingsServiceTest {
 	@DisplayName("조회 성공 - 검색 결과가 없을 경우 빈 목록을 반환한다.")
 	void 조회_성공() {
 		User user = UserTestData.createTeamMember(new Team(null, "team", false));
-		given(loadUserWorkingPort.loadByStatusIsNotAndTitle(user.getId(), WorkingStatusType.WAITING, "검색어"))
+		given(loadUserWorkingPort.loadByTitle(user.getId(), "검색어"))
 			.willReturn(List.of());
 
 		List<Working> workings = getWorkingsService.getWorkingsByTitle(user, "검색어");

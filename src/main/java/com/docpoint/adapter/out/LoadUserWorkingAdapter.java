@@ -6,7 +6,6 @@ import com.docpoint.adapter.out.mapper.WorkingMapper;
 import com.docpoint.application.port.out.LoadUserWorkingPort;
 import com.docpoint.common.annotation.PersistenceAdapter;
 import com.docpoint.domain.entity.Working;
-import com.docpoint.domain.type.WorkingStatusType;
 import com.docpoint.infrastructure.repository.WorkingRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,8 +16,8 @@ public class LoadUserWorkingAdapter implements LoadUserWorkingPort {
 	private final WorkingRepository workingRepository;
 
 	@Override
-	public List<Working> loadByStatusIsNotAndTitle(long userId, WorkingStatusType status, String search) {
-		return workingRepository.searchUserWorking(userId, status, search)
+	public List<Working> loadByTitle(long userId, String search) {
+		return workingRepository.searchUserWorking(userId, search)
 			.stream()
 			.map(WorkingMapper::mapToDomainEntity)
 			.toList();
