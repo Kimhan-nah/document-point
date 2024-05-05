@@ -39,4 +39,18 @@ public class WorkingMapper {
 			.build();
 	}
 
+	public static WorkingJpaEntity mapToJpaEntity(Working working) {
+		return WorkingJpaEntity.builder()
+			.writer(working.isWriterEmpty() ? null :
+				UserMapper.mapToJpaEntity(working.getWriter()))
+			.title(working.getTitle())
+			.content(working.getContent())
+			.status(working.getStatus())
+			.category(working.getCategory())
+			.dueDate(working.getDueDate())
+			.recruitDate(working.getRecruitDate())
+			.cp(working.getCp())
+			.isDeleted(working.isDeleted())
+			.build();
+	}
 }

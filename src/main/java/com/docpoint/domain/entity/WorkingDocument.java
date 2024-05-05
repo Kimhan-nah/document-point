@@ -38,4 +38,8 @@ public class WorkingDocument {
 		this.link = Objects.requireNonNull(link);
 		this.isDeleted = isDeleted;
 	}
+
+	public boolean isWorkingEmpty() {
+		return this.working == null;
+	}
 }

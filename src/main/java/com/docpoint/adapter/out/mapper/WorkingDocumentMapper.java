@@ -17,4 +17,17 @@ public class WorkingDocumentMapper {
 			.isDeleted(workingDocument.getIsDeleted())
 			.build();
 	}
+
+	public static WorkingDocumentJpaEntity mapToJpaEntity(WorkingDocument workingDocument) {
+		return WorkingDocumentJpaEntity.builder()
+			.working(
+				workingDocument.isWorkingEmpty() ? null : WorkingMapper.mapToJpaEntity(workingDocument.getWorking()))
+			.title(workingDocument.getTitle())
+			.content(workingDocument.getContent())
+			.status(workingDocument.getStatus())
+			.type(workingDocument.getDocType())
+			.link(workingDocument.getLink())
+			.isDeleted(workingDocument.isDeleted())
+			.build();
+	}
 }

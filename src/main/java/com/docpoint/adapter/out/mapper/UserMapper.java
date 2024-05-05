@@ -15,4 +15,16 @@ public class UserMapper {
 			.team(user.isTeamEmpty() ? null : TeamMapper.mapToDomainEntity(user.getTeam()))
 			.build();
 	}
+
+	public static UserJpaEntity mapToJpaEntity(User user) {
+		return UserJpaEntity.builder()
+			.name(user.getName())
+			.email(user.getEmail())
+			.role(user.getRole())
+			.employeeNumber(user.getEmployeeNumber())
+			.isDeleted(user.isDeleted())
+			.team(user.isTeamEmpty() ? null :
+				TeamMapper.mapToJpaEntity(user.getTeam()))
+			.build();
+	}
 }

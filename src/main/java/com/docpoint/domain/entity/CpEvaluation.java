@@ -21,4 +21,18 @@ public class CpEvaluation {
 		this.cp = cp;
 		this.isDeleted = isDeleted;
 	}
+
+	public CpEvaluation updateDocumentReviewer(DocumentReviewer documentReviewer) {
+		return CpEvaluation.builder()
+			.id(this.id)
+			.documentReviewer(documentReviewer)
+			.comment(this.comment)
+			.cp(this.cp)
+			.isDeleted(this.isDeleted)
+			.build();
+	}
+
+	public boolean isDocumentReviewerEmpty() {
+		return this.documentReviewer == null;
+	}
 }

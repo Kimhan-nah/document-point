@@ -11,4 +11,11 @@ public class TeamMapper {
 			.isDeleted(team.getIsDeleted())
 			.build();
 	}
+
+	public static TeamJpaEntity mapToJpaEntity(Team team) {
+		return TeamJpaEntity.builder()
+			.name(team.getName())
+			.isDeleted(team.isDeleted())
+			.build();
+	}
 }

@@ -80,4 +80,12 @@ public class Working {
 			.isDeleted(this.isDeleted)
 			.build();
 	}
+
+	public boolean isWriterEmpty() {
+		return this.writer == null;
+	}
+
+	public boolean isAssigneeEmpty() {
+		return this.assignee == null;
+	}
 }

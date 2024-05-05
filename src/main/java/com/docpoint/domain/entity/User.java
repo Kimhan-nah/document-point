@@ -35,4 +35,8 @@ public class User {
 		this.employeeNumber = employeeNumber;
 		this.isDeleted = isDeleted;
 	}
+
+	public boolean isTeamEmpty() {
+		return this.team == null;
+	}
 }

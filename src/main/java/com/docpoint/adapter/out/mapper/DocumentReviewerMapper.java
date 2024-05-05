@@ -13,4 +13,15 @@ public class DocumentReviewerMapper {
 				UserMapper.mapToDomainEntity(documentReviewer.getReviewer()))
 			.build();
 	}
+
+	public static DocumentReviewerJpaEntity mapToJpaEntity(DocumentReviewer documentReviewer) {
+		return DocumentReviewerJpaEntity.builder()
+			.workingDocument(
+				documentReviewer.isWorkingDocumentEmpty() ? null :
+					WorkingDocumentMapper.mapToJpaEntity(documentReviewer.getWorkingDocument()))
+			.reviewer(
+				documentReviewer.isReviewerEmpty() ? null :
+					UserMapper.mapToJpaEntity(documentReviewer.getReviewer()))
+			.build();
+	}
 }
