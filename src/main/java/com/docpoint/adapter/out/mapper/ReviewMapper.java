@@ -12,4 +12,15 @@ public class ReviewMapper {
 			.isDeleted(review.getIsDeleted())
 			.build();
 	}
+
+	public static ReviewJpaEntity mapToJpaEntity(Review review) {
+		return ReviewJpaEntity.builder()
+			.documentReviewer(
+				review.isDocumentReviewerEmpty() ? null :
+					DocumentReviewerMapper.mapToJpaEntity(review.getDocumentReviewer()))
+			.question(review.getQuestion())
+			.answer(review.getAnswer())
+			.isDeleted(review.isDeleted())
+			.build();
+	}
 }
