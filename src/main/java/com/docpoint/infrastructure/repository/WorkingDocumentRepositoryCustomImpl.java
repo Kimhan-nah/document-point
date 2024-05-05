@@ -2,6 +2,8 @@ package com.docpoint.infrastructure.repository;
 
 import static com.docpoint.infrastructure.entity.QDocumentReviewerJpaEntity.*;
 import static com.docpoint.infrastructure.entity.QReviewJpaEntity.*;
+import static com.docpoint.infrastructure.entity.QTeamJpaEntity.*;
+import static com.docpoint.infrastructure.entity.QUserJpaEntity.*;
 import static com.docpoint.infrastructure.entity.QWorkingAssigneeJpaEntity.*;
 import static com.docpoint.infrastructure.entity.QWorkingDocumentJpaEntity.*;
 import static com.docpoint.infrastructure.entity.QWorkingJpaEntity.*;
@@ -16,6 +18,8 @@ import com.docpoint.application.port.out.dto.QWorkingDocumentWithReviewDto;
 import com.docpoint.application.port.out.dto.WorkingDocumentWithReviewDto;
 import com.docpoint.infrastructure.entity.QDocumentReviewerJpaEntity;
 import com.docpoint.infrastructure.entity.QReviewJpaEntity;
+import com.docpoint.infrastructure.entity.QTeamJpaEntity;
+import com.docpoint.infrastructure.entity.QUserJpaEntity;
 import com.docpoint.infrastructure.entity.QWorkingAssigneeJpaEntity;
 import com.docpoint.infrastructure.entity.QWorkingDocumentJpaEntity;
 import com.docpoint.infrastructure.entity.QWorkingJpaEntity;
@@ -48,7 +52,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 			.fetch();
 
 		JPAQuery<Long> countQuery = jpaQueryFactory
-			.select(working.count())
+			.select(workingDocument.count())
 			.from(working)
 			.join(workingAssignee)
 			.on(working.id.eq(workingAssignee.working.id).and(workingAssignee.assignee.id.eq(userId)))
@@ -59,8 +63,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 	}
 
 	@Override
-	public Page<WorkingDocumentWithReviewDto> findWithReviewByUserId(long userId,
-		Pageable pageable) {
+	public Page<WorkingDocumentWithReviewDto> findWithReviewByUserId(long userId, Pageable pageable) {
 		QWorkingDocumentJpaEntity workingDocument = workingDocumentJpaEntity;
 		QReviewJpaEntity review = reviewJpaEntity;
 		QDocumentReviewerJpaEntity documentReviewer = documentReviewerJpaEntity;
@@ -93,4 +96,35 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
 
 	}
+
+	@Override
+	public Page<WorkingDocumentJpaEntity> findByTeamId(long teamId, Pageable pageable) {
+		QWorkingDocumentJpaEntity workingDocument = workingDocumentJpaEntity;
+		QWorkingAssigneeJpaEntity workingAssignee = workingAssigneeJpaEntity;
+		QWorkingJpaEntity working = workingJpaEntity;
+		QUserJpaEntity user = userJpaEntity;
+		QTeamJpaEntity team = teamJpaEntity;
+
+		List<WorkingDocumentJpaEntity> content = jpaQueryFactory
+			.select(workingDocument)
+			.from(team)
+			.innerJoin(user).on(user.team.id.eq(teamId))
+			.innerJoin(workingAssignee).on(user.id.eq(workingAssignee.assignee.id))
+			.innerJoin(working).on(workingAssignee.working.id.eq(working.id))
+			.innerJoin(workingDocument).on(working.id.eq(workingDocument.working.id))
+			.orderBy(workingDocument.createdAt.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		JPAQuery<Long> countQuery = jpaQueryFactory
+			.select(workingDocument.count())
+			.innerJoin(user).on(user.team.id.eq(teamId))
+			.innerJoin(workingAssignee).on(user.id.eq(workingAssignee.assignee.id))
+			.innerJoin(working).on(workingAssignee.working.id.eq(working.id))
+			.innerJoin(workingDocument).on(working.id.eq(workingDocument.working.id));
+
+		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+	}
+
 }

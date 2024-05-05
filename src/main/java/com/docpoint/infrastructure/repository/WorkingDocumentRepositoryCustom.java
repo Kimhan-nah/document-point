@@ -6,8 +6,10 @@ import org.springframework.data.domain.Pageable;
 import com.docpoint.application.port.out.dto.WorkingDocumentWithReviewDto;
 import com.docpoint.infrastructure.entity.WorkingDocumentJpaEntity;
 
-public interface WorkingDocumentRepositoryCustom {
-	public Page<WorkingDocumentJpaEntity> findByUserId(long userId, Pageable pageable);
+interface WorkingDocumentRepositoryCustom {
+	Page<WorkingDocumentJpaEntity> findByUserId(long userId, Pageable pageable);
 
-	public Page<WorkingDocumentWithReviewDto> findWithReviewByUserId(long userId, Pageable pageable);
+	Page<WorkingDocumentWithReviewDto> findWithReviewByUserId(long userId, Pageable pageable);
+
+	Page<WorkingDocumentJpaEntity> findByTeamId(long teamId, Pageable pageable);
 }
