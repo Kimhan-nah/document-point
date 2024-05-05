@@ -11,6 +11,7 @@ import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.CpEvaluation;
+import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
@@ -25,19 +26,27 @@ class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 	private final LoadCpEvaluationPort loadCpEvaluationPort;
 	private final UpdateWorkingDocumentUseCase updateWorkingDocumentUseCase;
 
+	/**
+	 * CP 평가 등록
+	 * @param cpEvaluation 등록할 CP 평가
+	 * @param workingDocument CP 평가한 working document
+	 * @param reviewer CP 평가한 평가자
+	 * @return 등록된 CP 평가
+	 */
 	@Override
-	@Transactional // TODO 동시성 고려하기?
+	@Transactional
 	public CpEvaluation registerCpEvaluation(CpEvaluation cpEvaluation, WorkingDocument workingDocument,
 		User reviewer) {
-		checkReviewer(workingDocument, reviewer);
+		DocumentReviewer documentReviewer = getDocumentReviewer(workingDocument, reviewer);
 		checkDocumentStatus(workingDocument);
 		checkCpEvaluation(workingDocument, reviewer);
 		updateWorkingDocumentStatus(workingDocument, reviewer);
-		return saveCpEvaluationPort.save(cpEvaluation);    // cascadeType.NONE이어야 함
+		cpEvaluation = cpEvaluation.updateDocumentReviewer(documentReviewer);
+		return saveCpEvaluationPort.save(cpEvaluation);
 	}
 
-	private void checkReviewer(WorkingDocument workingDocument, User reviewer) {
-		loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer)
+	private DocumentReviewer getDocumentReviewer(WorkingDocument workingDocument, User reviewer) {
+		return loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer)
 			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));
 	}
 
