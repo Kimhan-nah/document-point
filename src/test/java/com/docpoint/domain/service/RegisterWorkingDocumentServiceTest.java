@@ -13,11 +13,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.docpoint.application.port.out.SaveWorkingDocumentPort;
-import com.docpoint.common.exception.CustomRuntimeException;
+import com.docpoint.common.exception.custom.BadRequestException;
+import com.docpoint.common.exception.custom.ForbiddenException;
+import com.docpoint.domain.entity.Team;
+import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.Working;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.domain.type.WorkingStatusType;
+import com.docpoint.util.UserTestData;
 import com.docpoint.util.WorkingDocumentTestData;
 import com.docpoint.util.WorkingTestData;
 
@@ -38,7 +42,7 @@ class RegisterWorkingDocumentServiceTest {
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocumentWithWorking(working);
 
 		// when
-		registerWorkingDocumentService.registerWorkingDocument(workingDocument);
+		registerWorkingDocumentService.registerWorkingDocument(workingDocument, working, working.getAssignee());
 
 		// then
 		verify(saveWorkingDocumentPort, times(1)).save(workingDocument);
@@ -48,29 +52,19 @@ class RegisterWorkingDocumentServiceTest {
 	@DisplayName("WorkingDocument 요청이 불가능한 working인 경우")
 	class InvalidWorking {
 		@Test
-		@DisplayName("working이 삭제된 상태이면, CustomRuntimeException이 발생한다.")
-		void 삭제된_working_검증() {
+		@DisplayName("본인의 working이 아닌 경우, ForbiddenException이 발생한다.")
+		void 본인_working_검증() {
 			// given
-			Working deletedWorking = WorkingTestData.createDeletedWorking();
-			WorkingDocument invalidWorkingDocument = WorkingDocumentTestData.createWorkingDocumentWithWorking(
-				deletedWorking);
+			User assignee = UserTestData.createTeamMember(mock(Team.class));
+			Working working = WorkingTestData.createWorkingWithAssignee(assignee);
+			WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocumentWithWorking(working);
+			User other = UserTestData.createTeamMember(mock(Team.class));
 
 			// when, then
-			assertThatThrownBy(() -> registerWorkingDocumentService.registerWorkingDocument(invalidWorkingDocument))
-				.isInstanceOf(CustomRuntimeException.class);
+			assertThatThrownBy(
+				() -> registerWorkingDocumentService.registerWorkingDocument(workingDocument, working, other))
+				.isInstanceOf(ForbiddenException.class);
 		}
-
-		@Test
-		@DisplayName("working이 대기(WAITING) 상태이면, CustomRuntimeException이 발생한다.")
-		void working_상태_검증() {
-			// given
-			WorkingDocument invalidWorkingDocument = WorkingDocumentTestData.createWorkingDocument();
-
-			// when, then
-			assertThatThrownBy(() -> registerWorkingDocumentService.registerWorkingDocument(invalidWorkingDocument))
-				.isInstanceOf(CustomRuntimeException.class);
-		}
-
 	}
 
 	@Nested
@@ -84,15 +78,16 @@ class RegisterWorkingDocumentServiceTest {
 		}
 
 		@Test
-		@DisplayName("WorkingDocument의 상태가 검토중(REVIEW)가 아니면 CustomRuntimeException이 발생한다.")
+		@DisplayName("WorkingDocument의 상태가 검토중(REVIEW)가 아니면 BadRequestException이 발생한다.")
 		void 문서_상태_검증_테스트() {
 			// given
 			WorkingDocument invalidWorkingDocument = WorkingDocumentTestData.createWorkingDocumentWithStatus(
 				DocStatusType.APPROVAL_REQUEST);
 
 			// when, then
-			assertThatThrownBy(() -> registerWorkingDocumentService.registerWorkingDocument(invalidWorkingDocument))
-				.isInstanceOf(CustomRuntimeException.class);
+			assertThatThrownBy(() -> registerWorkingDocumentService
+				.registerWorkingDocument(invalidWorkingDocument, working, working.getAssignee()))
+				.isInstanceOf(BadRequestException.class);
 		}
 	}
 }

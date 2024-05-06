@@ -42,4 +42,17 @@ public class WorkingDocument {
 	public boolean isWorkingEmpty() {
 		return this.working == null;
 	}
+
+	public WorkingDocument updateWorking(Working working) {
+		return WorkingDocument.builder()
+			.id(this.id)
+			.working(working)
+			.title(this.title)
+			.content(this.content)
+			.status(this.status)
+			.docType(this.docType)
+			.link(this.link)
+			.isDeleted(this.isDeleted)
+			.build();
+	}
 }
