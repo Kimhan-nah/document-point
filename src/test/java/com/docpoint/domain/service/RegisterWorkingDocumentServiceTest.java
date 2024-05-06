@@ -45,7 +45,7 @@ class RegisterWorkingDocumentServiceTest {
 		registerWorkingDocumentService.registerWorkingDocument(workingDocument, working, working.getAssignee());
 
 		// then
-		verify(saveWorkingDocumentPort, times(1)).save(workingDocument);
+		verify(saveWorkingDocumentPort, times(1)).save(any(WorkingDocument.class));
 	}
 
 	@Nested

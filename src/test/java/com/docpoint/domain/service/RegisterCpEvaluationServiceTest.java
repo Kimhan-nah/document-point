@@ -51,13 +51,14 @@ class RegisterCpEvaluationServiceTest {
 	void 기여도_입력_성공() {
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 		User partLeader = UserTestData.createPartLeader(new Team(null, "team", false));
+		CpEvaluation cpEvaluation = CpEvaluation.builder().comment("comment").build();
 		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
 			.willReturn(Optional.of(mock(DocumentReviewer.class)));
 		given(loadCpEvaluationPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
 			.willReturn(Optional.empty());
 
 		// when
-		registerCpEvaluationService.registerCpEvaluation(mock(CpEvaluation.class), workingDocument, partLeader);
+		registerCpEvaluationService.registerCpEvaluation(cpEvaluation, workingDocument, partLeader);
 
 		// then
 		verify(saveCpEvaluationPort, times(1)).save(any(CpEvaluation.class));
@@ -69,13 +70,14 @@ class RegisterCpEvaluationServiceTest {
 	void 팀_리더인_경우() {
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 		User teamLeader = UserTestData.createTeamLeader(new Team(null, "team", false));
+		CpEvaluation cpEvaluation = CpEvaluation.builder().comment("comment").build();
 		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, teamLeader))
 			.willReturn(Optional.of(mock(DocumentReviewer.class)));
 		given(loadCpEvaluationPort.loadByWorkingDocumentAndUser(workingDocument, teamLeader))
 			.willReturn(Optional.empty());
 
 		// when
-		registerCpEvaluationService.registerCpEvaluation(mock(CpEvaluation.class), workingDocument, teamLeader);
+		registerCpEvaluationService.registerCpEvaluation(cpEvaluation, workingDocument, teamLeader);
 
 		// then
 		verify(saveCpEvaluationPort, times(1)).save(any(CpEvaluation.class));
