@@ -29,7 +29,7 @@ class GetCpEvaluationsService implements GetCpEvaluationsUseCase {
 	@Transactional(readOnly = true)
 	public List<CpEvaluation> getCpEvaluations(User user, WorkingDocument workingDocument) {
 		if (!workingDocument.getWorking().getAssignee().equals(user)) {
-			throw new ForbiddenException(ErrorType.FORBIDDEN_CP_ACCESS);
+			throw new ForbiddenException(ErrorType.FORBIDDEN_ASSIGNEE);
 		}
 		return loadCpEvaluationPort.loadByWorkingDocument(workingDocument);
 	}
