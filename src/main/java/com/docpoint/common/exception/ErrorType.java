@@ -21,6 +21,7 @@ public enum ErrorType {
 	// 400 Bad Request Error
 	BAD_WORKING_STATUS(400, E400001, E400001.getMessage()),
 	BAD_WORKING_DOCUMENT_STATUS(400, E400002, E400002.getMessage()),
+	INVALID_REVIEWER(400, E400003, E400003.getMessage()),
 
 	// 403 Forbidden Error
 	FORBIDDEN_REVIEWER(403, E403001, E403001.getMessage()),

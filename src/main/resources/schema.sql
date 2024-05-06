@@ -84,6 +84,7 @@ create table if not exists document_reviewer
     working_document_id bigint      not null,
     created_at          datetime(6) not null,
     modified_at         datetime(6) null,
+    constraint UK_document_reviewer unique (working_document_id, reviewer_id),
     constraint FKcuwujt46w1f42d26txobku4ti foreign key (reviewer_id) references `users` (id),
     constraint FKfqia8ykd9upoo9wj95m2ftc2s foreign key (working_document_id) references working_document (id)
 );

@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<UserJpaEntity, Long> {
 	List<UserJpaEntity> findByTeam_IdAndRole(Long teamId, RoleType role);
 
 	Optional<UserJpaEntity> findFirstById(Long userId);
+
+	Optional<UserJpaEntity> findFirstByTeam_IdAndRole(Long teamId, RoleType role);
 }
