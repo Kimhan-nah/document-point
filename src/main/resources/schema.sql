@@ -11,7 +11,7 @@ create table if not exists `users`
 (
     id              bigint auto_increment primary key,
     team_id         bigint                                             not null,
-    employee_number int                                                not null,
+    employee_number varchar(255)                                       not null,
     email           varchar(255)                                       not null,
     name            varchar(255)                                       not null,
     password        varchar(255)                                       not null,
@@ -19,6 +19,7 @@ create table if not exists `users`
     is_deleted      bit                                                not null,
     created_at      datetime(6)                                        not null,
     modified_at     datetime(6)                                        null,
+    constraint UK_employee_number unique (employee_number),
     constraint FKbmqm8c8m2aw1vgrij7h0od0ok foreign key (team_id) references team (id)
 );
 

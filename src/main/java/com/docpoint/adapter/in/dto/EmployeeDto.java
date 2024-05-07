@@ -9,12 +9,12 @@ public class EmployeeDto {
 	private final long id;
 	private final String name;
 
-	private final int employeeNumber;
+	private final String employeeNumber;
 
 	private final RoleType roleType;
 
 	@Builder
-	public EmployeeDto(long id, String name, int employeeNumber, RoleType roleType) {
+	public EmployeeDto(long id, String name, String employeeNumber, RoleType roleType) {
 		this.id = id;
 		this.name = name;
 		this.employeeNumber = employeeNumber;

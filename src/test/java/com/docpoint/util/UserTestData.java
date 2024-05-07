@@ -13,7 +13,7 @@ public class UserTestData {
 			.team(team)
 			.name("팀 멤버")
 			.email("email")
-			.employeeNumber(1234)
+			.employeeNumber("1234")
 			.role(RoleType.TEAM_MEMBER)
 			.build();
 	}
@@ -24,7 +24,7 @@ public class UserTestData {
 			.team(team)
 			.name("파트 리더")
 			.email("email")
-			.employeeNumber(1234)
+			.employeeNumber("1234")
 			.role(RoleType.PART_LEADER)
 			.build();
 	}
@@ -35,7 +35,7 @@ public class UserTestData {
 			.team(team)
 			.name("팀 리더")
 			.email("email")
-			.employeeNumber(1234)
+			.employeeNumber("1234")
 			.role(RoleType.TEAM_LEADER)
 			.build();
 	}

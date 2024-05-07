@@ -21,18 +21,19 @@ public class User {
 
 	private final RoleType role;
 
-	private final int employeeNumber;
+	private final String employeeNumber;
 
 	private final boolean isDeleted;
 
 	@Builder
-	public User(Long id, Team team, String name, String email, RoleType role, int employeeNumber, boolean isDeleted) {
+	public User(Long id, Team team, String name, String email, RoleType role, String employeeNumber,
+		boolean isDeleted) {
 		this.id = id;
 		this.team = team;
 		this.name = Objects.requireNonNull(name);
 		this.email = Objects.requireNonNull(email);
 		this.role = Objects.requireNonNull(role);
-		this.employeeNumber = employeeNumber;
+		this.employeeNumber = Objects.requireNonNull(employeeNumber);
 		this.isDeleted = isDeleted;
 	}
 
