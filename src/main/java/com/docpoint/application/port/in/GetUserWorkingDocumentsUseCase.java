@@ -1,12 +1,12 @@
 package com.docpoint.application.port.in;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.DocStatusType;
 
 public interface GetUserWorkingDocumentsUseCase {
-	List<WorkingDocument> getUserWorkingDocuments(User user, Pageable pageable);
+	Page<WorkingDocument> getUserWorkingDocuments(User user, Pageable pageable, DocStatusType status);
 }

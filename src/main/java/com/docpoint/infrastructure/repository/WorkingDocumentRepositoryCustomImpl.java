@@ -16,6 +16,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import com.docpoint.application.port.out.dto.QWorkingDocumentWithReviewDto;
 import com.docpoint.application.port.out.dto.WorkingDocumentWithReviewDto;
+import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.infrastructure.entity.QDocumentReviewerJpaEntity;
 import com.docpoint.infrastructure.entity.QReviewJpaEntity;
 import com.docpoint.infrastructure.entity.QTeamJpaEntity;
@@ -24,6 +25,7 @@ import com.docpoint.infrastructure.entity.QWorkingAssigneeJpaEntity;
 import com.docpoint.infrastructure.entity.QWorkingDocumentJpaEntity;
 import com.docpoint.infrastructure.entity.QWorkingJpaEntity;
 import com.docpoint.infrastructure.entity.WorkingDocumentJpaEntity;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -34,7 +36,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public Page<WorkingDocumentJpaEntity> findByUserId(long userId, Pageable pageable) {
+	public Page<WorkingDocumentJpaEntity> findByUserId(long userId, Pageable pageable, DocStatusType status) {
 		QWorkingDocumentJpaEntity workingDocument = workingDocumentJpaEntity;
 		QWorkingAssigneeJpaEntity workingAssignee = workingAssigneeJpaEntity;
 		QWorkingJpaEntity working = workingJpaEntity;
@@ -46,6 +48,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 			.on(working.id.eq(workingAssignee.working.id).and(workingAssignee.assignee.id.eq(userId)))
 			.join(workingDocument)
 			.on(workingAssignee.working.id.eq(workingDocument.working.id))
+			.where(eqStatus(status))
 			.orderBy(workingDocument.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
@@ -57,7 +60,8 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 			.join(workingAssignee)
 			.on(working.id.eq(workingAssignee.working.id).and(workingAssignee.assignee.id.eq(userId)))
 			.join(workingDocument)
-			.on(workingAssignee.working.id.eq(workingDocument.working.id));
+			.on(workingAssignee.working.id.eq(workingDocument.working.id))
+			.where(eqStatus(status));
 
 		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
 	}
@@ -127,4 +131,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
 	}
 
+	private BooleanExpression eqStatus(DocStatusType status) {
+		return status != null ? workingDocumentJpaEntity.status.eq(status) : null;
+	}
 }

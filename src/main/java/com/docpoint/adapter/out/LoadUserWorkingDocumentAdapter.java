@@ -8,6 +8,7 @@ import com.docpoint.application.port.out.LoadUserWorkingDocumentPort;
 import com.docpoint.common.annotation.PersistenceAdapter;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.infrastructure.repository.WorkingDocumentRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ public class LoadUserWorkingDocumentAdapter implements LoadUserWorkingDocumentPo
 	private final WorkingDocumentRepository workingDocumentRepository;
 
 	@Override
-	public Page<WorkingDocument> loadByUser(User user, Pageable pageable) {
-		return workingDocumentRepository.findByUserId(user.getId(), pageable)
+	public Page<WorkingDocument> loadByUser(User user, Pageable pageable, DocStatusType status) {
+		return workingDocumentRepository.findByUserId(user.getId(), pageable, status)
 			.map(WorkingDocumentMapper::mapToDomainEntity);
 	}
 }

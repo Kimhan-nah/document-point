@@ -29,9 +29,9 @@ class GetUserWorkingDocumentsServiceTest {
 		// given
 		Pageable pageable = mock(Pageable.class);
 		User user = mock(User.class);
-		given(loadUserWorkingDocumentPort.loadByUser(user, pageable)).willReturn(Page.empty());
+		given(loadUserWorkingDocumentPort.loadByUser(user, pageable, null)).willReturn(Page.empty());
 
 		// when
-		getUserWorkingDocumentsService.getUserWorkingDocuments(user, pageable);
+		getUserWorkingDocumentsService.getUserWorkingDocuments(user, pageable, null);
 	}
 }

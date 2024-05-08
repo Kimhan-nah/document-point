@@ -37,20 +37,24 @@ public class TeamController {
 	private final GetAllWorkingDocumentsUseCase getAllWorkingDocumentsUseCase;
 
 	@GetMapping("/{teamId}/employees")
-	ResponseEntity<EmployeesResponseDto> getEmployeesByTeamId(@PathVariable @Positive Long teamId,
-		@RequestParam(required = false) RoleType role) {
+	ResponseEntity<EmployeesResponseDto> getEmployeesByTeamId(
+		@PathVariable @Positive Long teamId, @RequestParam(required = false) RoleType role) {
 		Team team = getTeamUseCase.getTeam(teamId);
 		List<User> employeesByTeam = getTeamEmployeesUseCase.getEmployeesByTeam(team, role);
+
 		return ResponseEntity.ok(EmployeesResponseDto.from(employeesByTeam));
 	}
 
 	@GetMapping("/{teamId}/workingdocs")
-	ResponseEntity<WorkingDocumentsResponseDto> getTeamWorkingDocs(@PathVariable @Positive Long teamId,
-		@PageableDefault Pageable pageable) {
+	ResponseEntity<WorkingDocumentsResponseDto> getTeamWorkingDocs(
+		@PathVariable @Positive Long teamId, @PageableDefault Pageable pageable) {
 		Page<WorkingDocument> workingDocuments = getAllWorkingDocumentsUseCase.getAllWorkingDocumentsByTeamId(teamId,
 			pageable);
-		int totalPage = workingDocuments.getTotalPages();
-		List<WorkingDocumentDto> list = workingDocuments.stream().map(WorkingDocumentDto::toDto).toList();
-		return ResponseEntity.ok(new WorkingDocumentsResponseDto(list, totalPage));
+
+		return ResponseEntity.ok(WorkingDocumentsResponseDto.of(
+				workingDocuments.map(WorkingDocumentDto::toDto).toList(),
+				workingDocuments.getTotalPages()
+			)
+		);
 	}
 }

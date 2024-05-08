@@ -14,4 +14,7 @@ public class WorkingDocumentsResponseDto {
 		this.totalPage = totalPage;
 	}
 
+	public static WorkingDocumentsResponseDto of(List<WorkingDocumentDto> workingDocuments, int totalPage) {
+		return new WorkingDocumentsResponseDto(workingDocuments, totalPage);
+	}
 }
