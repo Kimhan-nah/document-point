@@ -1,5 +1,6 @@
 package com.docpoint.domain.entity;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 import com.docpoint.domain.type.DocStatusType;
@@ -25,10 +26,11 @@ public class WorkingDocument {
 	private final String link;
 
 	private final boolean isDeleted;
+	private final LocalDate registerDate;
 
 	@Builder
 	public WorkingDocument(Long id, Working working, String title, String content, DocStatusType status,
-		DocType docType, String link, boolean isDeleted) {
+		DocType docType, String link, boolean isDeleted, LocalDate registerDate) {
 		this.id = id;
 		this.working = working;
 		this.title = Objects.requireNonNull(title);
@@ -37,6 +39,7 @@ public class WorkingDocument {
 		this.docType = Objects.requireNonNull(docType);
 		this.link = Objects.requireNonNull(link);
 		this.isDeleted = isDeleted;
+		this.registerDate = registerDate;
 	}
 
 	public boolean isWorkingEmpty() {

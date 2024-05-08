@@ -1,7 +1,6 @@
 package com.docpoint.domain.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,12 +33,12 @@ class GetAllWorkingDocumentsService implements GetAllWorkingDocumentsUseCase {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<WorkingDocument> getAllWorkingDocumentsByTeamId(long teamId, Pageable pageable) {
+	public Page<WorkingDocument> getAllWorkingDocumentsByTeamId(long teamId, Pageable pageable) {
 		Team team = loadTeamPort.load(teamId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_TEAM));
 		if (team.isDeleted()) {
 			throw new BadRequestException(ErrorType.DELETED_TEAM);
 		}
-		return loadWorkingDocumentPort.loadByTeamId(teamId, pageable).getContent();
+		return loadWorkingDocumentPort.loadByTeamId(teamId, pageable);
 	}
 }

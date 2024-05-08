@@ -4,6 +4,8 @@ import static com.docpoint.domain.type.DocStatusType.*;
 import static com.docpoint.domain.type.DocType.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -25,10 +27,12 @@ public class WorkingDocumentTest {
 	@DisplayName("생성 실패하는 경우")
 	class InitWorkingDocFail {
 		private static Working working;
+		private static LocalDate registerDate;
 
 		@BeforeEach
 		void setUp() {
 			working = WorkingTestData.createWorking();
+			registerDate = LocalDate.of(2024, 5, 1);
 		}
 
 		@Test
@@ -36,7 +40,8 @@ public class WorkingDocumentTest {
 		void titleNotNullTest() {
 			// when, then
 			assertThatThrownBy(
-				() -> new WorkingDocument(1L, working, null, "content", REVIEW, GITLAB, "gitlab.com", false))
+				() -> new WorkingDocument(1L, working, null, "content", REVIEW, GITLAB, "gitlab.com", false,
+					registerDate))
 				.isInstanceOf(NullPointerException.class);
 		}
 
@@ -45,7 +50,8 @@ public class WorkingDocumentTest {
 		void contentNotNullTest() {
 			// when, then
 			assertThatThrownBy(
-				() -> new WorkingDocument(1L, working, "title", null, REVIEW, GITLAB, "gitlab.com", false))
+				() -> new WorkingDocument(1L, working, "title", null, REVIEW, GITLAB, "gitlab.com", false,
+					registerDate))
 				.isInstanceOf(NullPointerException.class);
 		}
 
@@ -53,7 +59,8 @@ public class WorkingDocumentTest {
 		@DisplayName("link는 null이면 NullPointerException이 발생한다.")
 		void linkNotNullTest() {
 			// when, then
-			assertThatThrownBy(() -> new WorkingDocument(1L, working, "title", "content", REVIEW, GITLAB, null, false))
+			assertThatThrownBy(
+				() -> new WorkingDocument(1L, working, "title", "content", REVIEW, GITLAB, null, false, registerDate))
 				.isInstanceOf(NullPointerException.class);
 		}
 	}

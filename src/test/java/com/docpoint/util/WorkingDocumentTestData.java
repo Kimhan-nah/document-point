@@ -1,5 +1,6 @@
 package com.docpoint.util;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import com.docpoint.domain.type.WorkingStatusType;
 
 public class WorkingDocumentTestData {
 	private static Long workingId = 1L;
+	private static LocalDate registerDate = LocalDate.of(2024, 5, 1);
 
 	/**
 	 * WorkingDocument 생성
@@ -20,25 +22,25 @@ public class WorkingDocumentTestData {
 		Working working = WorkingTestData.createWorking();
 		// working = working.updateStatus(WorkingStatusType.DONE);
 		return new WorkingDocument(workingId++, working, "title", "content", DocStatusType.REVIEW, DocType.GITLAB,
-			"gitlab.com", false);
+			"gitlab.com", false, registerDate);
 	}
 
 	public static WorkingDocument createDeletedWorkingDocument() {
 		Working working = WorkingTestData.createDeletedWorking();
 		return new WorkingDocument(workingId++, working, "title", "content", DocStatusType.REVIEW, DocType.GITLAB,
-			"gitlab.com", true);
+			"gitlab.com", true, registerDate);
 	}
 
 	public static WorkingDocument createWorkingDocumentWithWorking(Working working) {
 		return new WorkingDocument(workingId++, working, "title", "content", DocStatusType.REVIEW, DocType.GITLAB,
-			"gitlab.com", false);
+			"gitlab.com", false, registerDate);
 	}
 
 	public static WorkingDocument createWorkingDocumentWithStatus(DocStatusType status) {
 		Working working = WorkingTestData.createWorking();
 		working = working.updateStatus(WorkingStatusType.DONE);
 		return new WorkingDocument(workingId++, working, "title", "content", status, DocType.GITLAB, "gitlab.com",
-			false);
+			false, registerDate);
 	}
 
 	public static Map<DocType, List<String>> createLinks(DocType docType, List<String> links) {
