@@ -1,6 +1,9 @@
 package com.docpoint.common.exception;
 
-class ErrorResponse {
+import lombok.Getter;
+
+@Getter
+public class ErrorResponse {
 	private int status;
 	private ErrorCode errorCode;
 	private String message;

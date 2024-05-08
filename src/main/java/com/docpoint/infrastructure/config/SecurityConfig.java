@@ -91,6 +91,19 @@ public class SecurityConfig {
 				}
 			})));
 
+		// spring security
+		http
+			.exceptionHandling(
+				(exceptionHandling) -> exceptionHandling.authenticationEntryPoint(
+					new DelegatedAuthenticationEntryPoint()));
+
+		// http
+		// 	.exceptionHandling(
+		// 		(exceptionHandling) -> exceptionHandling.accessDeniedHandler(
+		// 			(request, response, accessDeniedException) -> {
+		// 				response.sendRedirect("/access-denied");
+		// 			}));
+
 		return http.build();
 	}
 
@@ -100,5 +113,19 @@ public class SecurityConfig {
 		roleHierarchy.setHierarchy("TEAM_LEADER > PART_LEADER > TEAM_MEMBER");
 		return roleHierarchy;
 	}
-
+	//
+	// @Bean
+	// public AuthenticationFailureHandler authenticationFailureHandler() {
+	// 	return new CustomAuthenticationFailureHandler();
+	// }
+	//
+	// @Bean
+	// public AuthenticationSuccessHandler authenticationSuccessHandler() {
+	// 	return new CustomAuthenticationSuccessHandler();
+	// }
+	//
+	// @Bean
+	// public AccessDeniedHandler accessDeniedHandler() {
+	// 	return new CustomAccessDeniedHandler();
+	// }
 }
