@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
-@EqualsAndHashCode(of = {"id", "employeeNumber", "name"})
+@EqualsAndHashCode(of = {"id", "employeeId", "name"})
 public class User {
 	private final Long id;
 
@@ -21,19 +21,19 @@ public class User {
 
 	private final RoleType role;
 
-	private final String employeeNumber;
+	private final String employeeId;
 
 	private final boolean isDeleted;
 
 	@Builder
-	public User(Long id, Team team, String name, String email, RoleType role, String employeeNumber,
+	public User(Long id, Team team, String name, String email, RoleType role, String employeeId,
 		boolean isDeleted) {
 		this.id = id;
 		this.team = team;
 		this.name = Objects.requireNonNull(name);
 		this.email = Objects.requireNonNull(email);
 		this.role = Objects.requireNonNull(role);
-		this.employeeNumber = Objects.requireNonNull(employeeNumber);
+		this.employeeId = Objects.requireNonNull(employeeId);
 		this.isDeleted = isDeleted;
 	}
 

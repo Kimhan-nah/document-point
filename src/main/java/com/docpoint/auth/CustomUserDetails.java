@@ -1,4 +1,4 @@
-package com.docpoint.infrastructure.auth;
+package com.docpoint.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +34,7 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return userEntity.getEmployeeNumber();
+		return userEntity.getEmployeeId();
 	}
 
 	@Override

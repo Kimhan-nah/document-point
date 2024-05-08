@@ -1,4 +1,4 @@
-package com.docpoint.infrastructure.auth;
+package com.docpoint.auth;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -46,7 +46,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 		GrantedAuthority auth = iterator.next();
 
 		String role = auth.getAuthority();
-		String token = jwtUtil.createJwt(employeeNumber, role, 60 * 60 * 10L);
+		String token = jwtUtil.createJwt(employeeNumber, role, 60 * 60 * 1000L);
 
 		response.addHeader("Authorization", "Bearer " + token);
 	}

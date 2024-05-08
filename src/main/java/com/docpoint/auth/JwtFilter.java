@@ -1,4 +1,4 @@
-package com.docpoint.infrastructure.auth;
+package com.docpoint.auth;
 
 import java.io.IOException;
 
@@ -23,13 +23,12 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 		throws ServletException, IOException {
-		String authorization = request.getHeader("Authorization");
-		if (authorization == null || !authorization.startsWith("Bearer ")) {
+		String token = jwtUtil.getToken(request);
+		if (token == null) {
 			System.out.println("token null");
 			filterChain.doFilter(request, response);
 			return;
 		}
-		String token = authorization.split(" ")[1];
 
 		// 토큰 시간 검증
 		if (jwtUtil.isExpired(token)) {
@@ -38,10 +37,10 @@ public class JwtFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		String employeeNumber = jwtUtil.getUsername(token);
+		String employeeId = jwtUtil.getEmployeeId(token);
 		String role = jwtUtil.getRole(token);
 		UserJpaEntity userEntity = UserJpaEntity.builder()
-			.employeeNumber(employeeNumber)
+			.employeeId(employeeId)
 			.password("tmp-password")
 			.role(RoleType.valueOf(role))
 			.name("tmp-name")

@@ -25,7 +25,7 @@ public class EmployeeDto {
 		return EmployeeDto.builder()
 			.id(employee.getId())
 			.name(employee.getName())
-			.employeeNumber(employee.getEmployeeNumber())
+			.employeeNumber(employee.getEmployeeId())
 			.roleType(employee.getRole())
 			.build();
 	}

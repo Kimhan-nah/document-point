@@ -42,6 +42,12 @@ public class UserAdapter implements LoadEmployeePort, LoadUserPort {
 	}
 
 	@Override
+	public Optional<User> loadByEmployeeId(String employeeId) {
+		return userRepository.findByEmployeeId(employeeId)
+			.map(UserMapper::mapToDomainEntity);
+	}
+
+	@Override
 	public Optional<User> loadTeamLeaderByTeam(Team team) {
 		return userRepository.findFirstByTeam_IdAndRole(team.getId(), RoleType.TEAM_LEADER)
 			.map(UserMapper::mapToDomainEntity);

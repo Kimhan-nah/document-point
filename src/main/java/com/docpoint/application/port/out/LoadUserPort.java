@@ -6,4 +6,6 @@ import com.docpoint.domain.entity.User;
 
 public interface LoadUserPort {
 	Optional<User> loadById(long userId);
+
+	Optional<User> loadByEmployeeId(String employeeId);
 }

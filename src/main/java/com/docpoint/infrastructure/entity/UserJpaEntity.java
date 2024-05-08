@@ -34,8 +34,8 @@ public class UserJpaEntity extends BaseTimeEntity {
 	private TeamJpaEntity team;
 
 	@NotNull
-	@Column(name = "employee_number")
-	private String employeeNumber;
+	@Column(name = "employee_id")
+	private String employeeId;
 
 	@NotNull
 	@Size(max = 255)
@@ -62,10 +62,10 @@ public class UserJpaEntity extends BaseTimeEntity {
 	private Boolean isDeleted;
 
 	@Builder
-	public UserJpaEntity(TeamJpaEntity team, String employeeNumber, String name, String email, String password,
+	public UserJpaEntity(TeamJpaEntity team, String employeeId, String name, String email, String password,
 		RoleType role, Boolean isDeleted) {
 		this.team = team;
-		this.employeeNumber = employeeNumber;
+		this.employeeId = employeeId;
 		this.name = name;
 		this.email = email;
 		this.password = password;

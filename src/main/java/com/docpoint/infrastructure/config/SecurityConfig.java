@@ -18,9 +18,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import com.docpoint.infrastructure.auth.JwtFilter;
-import com.docpoint.infrastructure.auth.JwtUtil;
-import com.docpoint.infrastructure.auth.LoginFilter;
+import com.docpoint.auth.JwtFilter;
+import com.docpoint.auth.JwtUtil;
+import com.docpoint.auth.LoginFilter;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

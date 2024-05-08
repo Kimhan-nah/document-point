@@ -10,7 +10,7 @@ public class UserMapper {
 			.name(user.getName())
 			.email(user.getEmail())
 			.role(user.getRole())
-			.employeeNumber(user.getEmployeeNumber())
+			.employeeId(user.getEmployeeId())
 			.isDeleted(user.getIsDeleted())
 			.team(user.isTeamEmpty() ? null : TeamMapper.mapToDomainEntity(user.getTeam()))
 			.build();
@@ -21,7 +21,7 @@ public class UserMapper {
 			.name(user.getName())
 			.email(user.getEmail())
 			.role(user.getRole())
-			.employeeNumber(user.getEmployeeNumber())
+			.employeeId(user.getEmployeeId())
 			.isDeleted(user.isDeleted())
 			.team(user.isTeamEmpty() ? null :
 				TeamMapper.mapToJpaEntity(user.getTeam()))

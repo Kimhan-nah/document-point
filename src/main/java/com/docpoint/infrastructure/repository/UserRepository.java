@@ -17,5 +17,5 @@ public interface UserRepository extends JpaRepository<UserJpaEntity, Long> {
 
 	Optional<UserJpaEntity> findFirstByTeam_IdAndRole(Long teamId, RoleType role);
 
-	Optional<UserJpaEntity> findByEmployeeNumber(String employeeNumber);
+	Optional<UserJpaEntity> findByEmployeeId(String employeeId);
 }
