@@ -7,10 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.docpoint.application.port.in.GetReceivedRequestsUserCase;
 import com.docpoint.application.port.out.LoadReceivedRequestPort;
 import com.docpoint.application.port.out.dto.WorkingDocumentWithReviewDto;
+import com.docpoint.common.annotation.UseCase;
 import com.docpoint.domain.entity.User;
 
 import lombok.RequiredArgsConstructor;
 
+@UseCase
 @RequiredArgsConstructor
 class GetReceivedRequestsService implements GetReceivedRequestsUserCase {
 	private final LoadReceivedRequestPort loadRequestedWorkingDocumentsPort;

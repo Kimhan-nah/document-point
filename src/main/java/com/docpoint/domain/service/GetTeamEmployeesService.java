@@ -6,12 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetTeamEmployeesUseCase;
 import com.docpoint.application.port.out.LoadEmployeePort;
+import com.docpoint.common.annotation.UseCase;
 import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.type.RoleType;
 
 import lombok.RequiredArgsConstructor;
 
+@UseCase
 @RequiredArgsConstructor
 class GetTeamEmployeesService implements GetTeamEmployeesUseCase {
 	private final LoadEmployeePort loadEmployeePort;

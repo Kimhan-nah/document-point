@@ -4,11 +4,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.UpdateWorkingDocumentUseCase;
 import com.docpoint.application.port.out.SaveWorkingDocumentPort;
+import com.docpoint.common.annotation.UseCase;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
 
 import lombok.RequiredArgsConstructor;
 
+@UseCase
 @RequiredArgsConstructor
 class UpdateWorkingDocumentService implements UpdateWorkingDocumentUseCase {
 	private final SaveWorkingDocumentPort saveWorkingDocumentPort;

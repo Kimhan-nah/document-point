@@ -6,6 +6,7 @@ import java.util.List;
 import com.docpoint.application.port.in.RegisterWorkingDocumentUseCase;
 import com.docpoint.application.port.out.LoadEmployeePort;
 import com.docpoint.application.port.out.SaveDocumentReviewerPort;
+import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.BadRequestException;
 import com.docpoint.common.exception.custom.ForbiddenException;
@@ -21,6 +22,7 @@ import com.docpoint.domain.type.RoleType;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
+@UseCase
 @RequiredArgsConstructor
 @Transactional
 class RegisterWorkingDocumentService implements RegisterWorkingDocumentUseCase {

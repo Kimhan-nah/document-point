@@ -7,6 +7,7 @@ import com.docpoint.application.port.in.UpdateWorkingDocumentUseCase;
 import com.docpoint.application.port.out.LoadCpEvaluationPort;
 import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.SaveCpEvaluationPort;
+import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
@@ -19,6 +20,7 @@ import com.docpoint.domain.type.RoleType;
 
 import lombok.RequiredArgsConstructor;
 
+@UseCase
 @RequiredArgsConstructor
 class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 	private final LoadDocumentReviewerPort loadDocumentReviewerPort;

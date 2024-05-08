@@ -6,11 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetWorkingsUseCase;
 import com.docpoint.application.port.out.LoadUserWorkingPort;
+import com.docpoint.common.annotation.UseCase;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.Working;
 
 import lombok.RequiredArgsConstructor;
 
+@UseCase
 @RequiredArgsConstructor
 class GetWorkingsService implements GetWorkingsUseCase {
 	private final LoadUserWorkingPort loadUserWorkingPort;

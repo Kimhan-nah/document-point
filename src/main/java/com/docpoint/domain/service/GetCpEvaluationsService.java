@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetCpEvaluationsUseCase;
 import com.docpoint.application.port.out.LoadCpEvaluationPort;
+import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.CpEvaluation;
@@ -14,6 +15,7 @@ import com.docpoint.domain.entity.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
 
+@UseCase
 @RequiredArgsConstructor
 class GetCpEvaluationsService implements GetCpEvaluationsUseCase {
 	private final LoadCpEvaluationPort loadCpEvaluationPort;

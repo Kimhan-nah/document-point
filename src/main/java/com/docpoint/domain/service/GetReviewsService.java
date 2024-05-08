@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetReviewsUseCase;
 import com.docpoint.application.port.out.LoadReviewPort;
+import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.Review;
@@ -13,6 +14,7 @@ import com.docpoint.domain.entity.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
 
+@UseCase
 @RequiredArgsConstructor
 class GetReviewsService implements GetReviewsUseCase {
 	private final LoadReviewPort loadReviewPort;

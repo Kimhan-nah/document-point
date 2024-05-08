@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.docpoint.application.port.in.RegisterReviewUseCase;
 import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.SaveReviewPort;
+import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.DocumentReviewer;
@@ -16,6 +17,7 @@ import com.docpoint.domain.entity.WorkingDocument;
 
 import lombok.RequiredArgsConstructor;
 
+@UseCase
 @RequiredArgsConstructor
 public class RegisterReviewService implements RegisterReviewUseCase {
 	private final LoadDocumentReviewerPort loadDocumentReviewerPort;

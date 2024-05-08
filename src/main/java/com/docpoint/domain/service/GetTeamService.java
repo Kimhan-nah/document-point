@@ -4,12 +4,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.GetTeamUseCase;
 import com.docpoint.application.port.out.LoadTeamPort;
+import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.Team;
 
 import lombok.RequiredArgsConstructor;
 
+@UseCase
 @RequiredArgsConstructor
 class GetTeamService implements GetTeamUseCase {
 	private final LoadTeamPort loadTeamPort;
