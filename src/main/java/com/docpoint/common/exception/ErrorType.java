@@ -17,6 +17,7 @@ public enum ErrorType {
 	FORBIDDEN(403, E403000, E403000.getMessage()),
 	NOT_FOUND(404, E404000, E404000.getMessage()),
 	CONFLICT(409, E409000, E409000.getMessage()),
+	METHOD_NOT_ALLOWED(405, E405000, E405000.getMessage()),
 
 	// 400 Bad Request Error
 	BAD_WORKING_STATUS(400, E400001, E400001.getMessage()),

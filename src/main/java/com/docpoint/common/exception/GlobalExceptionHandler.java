@@ -3,8 +3,11 @@ package com.docpoint.common.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.docpoint.common.exception.custom.BadRequestException;
 import com.docpoint.common.exception.custom.ConflictException;
@@ -69,5 +72,34 @@ public class GlobalExceptionHandler {
 		ErrorType errorType = ErrorType.INTERNAL_SERVER_ERR;
 		ErrorResponse response = ErrorResponse.toErrorResponse(errorType);
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+	}
+
+	@ExceptionHandler(MissingServletRequestParameterException.class)
+	public ResponseEntity<ErrorResponse> missingServletRequestParameterException(
+		MissingServletRequestParameterException ex) {
+		log.error("missing servlet request parameter exception", ex);
+		ErrorType errorType = ErrorType.BAD_REQUEST;
+		errorType.setMessage(ex.getMessage());
+		ErrorResponse response = ErrorResponse.toErrorResponse(errorType);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+	}
+
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public ResponseEntity<ErrorResponse> httpRequestMethodNotSupportedException(
+		HttpRequestMethodNotSupportedException ex) {
+		log.error("http request method not supported exception", ex);
+		ErrorType errorType = ErrorType.METHOD_NOT_ALLOWED;
+		errorType.setMessage(ex.getMessage());
+		ErrorResponse response = ErrorResponse.toErrorResponse(errorType);
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(response);
+	}
+
+	@ExceptionHandler(NoResourceFoundException.class)
+	public ResponseEntity<ErrorResponse> noResourceFoundException(NoResourceFoundException ex) {
+		log.error("no resource found exception", ex);
+		ErrorType errorType = ErrorType.NOT_FOUND;
+		errorType.setMessage(ex.getMessage());
+		ErrorResponse response = ErrorResponse.toErrorResponse(errorType);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 	}
 }

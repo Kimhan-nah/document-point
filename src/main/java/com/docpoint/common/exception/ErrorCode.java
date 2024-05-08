@@ -36,6 +36,9 @@ public enum ErrorCode {
 	E404009("NOT FOUND WORKING"),
 	E404010("NOT FOUND USER"),
 
+	// 405 Method Not Allowed Error
+	E405000("METHOD NOT ALLOWED"),
+
 	// 409 Conflict Error
 	E409000("CONFLICT"),
 	E409001("CONFLICT DOCUMENT STATUS"),
