@@ -7,4 +7,6 @@ import com.docpoint.domain.entity.Working;
 
 public interface GetWorkingsUseCase {
 	List<Working> getWorkingsByTitle(User user, String search);
+
+	Working getWorkingById(Long workingId);
 }

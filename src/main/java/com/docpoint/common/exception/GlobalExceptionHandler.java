@@ -2,6 +2,7 @@ package com.docpoint.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -101,5 +102,14 @@ public class GlobalExceptionHandler {
 		errorType.setMessage(ex.getMessage());
 		ErrorResponse response = ErrorResponse.toErrorResponse(errorType);
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+	}
+
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<ErrorResponse> httpMessageNotReadableException(HttpMessageNotReadableException ex) {
+		log.error("http message not readable exception", ex);
+		ErrorType errorType = ErrorType.BAD_REQUEST;
+		errorType.setMessage(ex.getMessage());
+		ErrorResponse response = ErrorResponse.toErrorResponse(errorType);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	}
 }

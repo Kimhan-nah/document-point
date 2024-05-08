@@ -1,6 +1,7 @@
 package com.docpoint.adapter.out;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.docpoint.adapter.out.mapper.WorkingMapper;
 import com.docpoint.application.port.out.LoadUserWorkingPort;
@@ -21,5 +22,11 @@ public class LoadUserWorkingAdapter implements LoadUserWorkingPort {
 			.stream()
 			.map(WorkingMapper::mapToDomainEntity)
 			.toList();
+	}
+
+	@Override
+	public Optional<Working> load(long workingId) {
+		return workingRepository.findById(workingId)
+			.map(WorkingMapper::mapToDomainEntity);
 	}
 }
