@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.docpoint.domain.entity.User;
 
+import lombok.Getter;
+
+@Getter
 public class EmployeesResponseDto {
 	private final List<EmployeeDto> employees = new ArrayList<>();
 

@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.docpoint.adapter.in.dto.EmployeesResponseDto;
 import com.docpoint.application.port.in.GetTeamEmployeesUseCase;
 import com.docpoint.application.port.in.GetTeamUseCase;
+import com.docpoint.common.annotation.WebAdapter;
 import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.type.RoleType;
 
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
-// @RestController
+@WebAdapter
 @RequiredArgsConstructor
 @Validated
 @RequestMapping("/teams")
@@ -27,7 +29,7 @@ public class TeamController {
 	private final GetTeamUseCase getTeamUseCase;
 
 	@GetMapping("/{teamId}/employees")
-	ResponseEntity<EmployeesResponseDto> getEmployeesByTeamId(@PathVariable Long teamId,
+	ResponseEntity<EmployeesResponseDto> getEmployeesByTeamId(@PathVariable @Positive Long teamId,
 		@RequestParam(required = false) RoleType role) {
 		Team team = getTeamUseCase.getTeam(teamId);
 		List<User> employeesByTeam = getTeamEmployeesUseCase.getEmployeesByTeam(team, role);

@@ -4,7 +4,9 @@ import com.docpoint.domain.entity.User;
 import com.docpoint.domain.type.RoleType;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class EmployeeDto {
 	private final long id;
 	private final String name;
