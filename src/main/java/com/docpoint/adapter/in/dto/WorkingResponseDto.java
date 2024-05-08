@@ -3,8 +3,6 @@ package com.docpoint.adapter.in.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.docpoint.domain.entity.Working;
-
 import lombok.Getter;
 
 @Getter
@@ -15,12 +13,7 @@ public class WorkingResponseDto {
 		this.workings.addAll(workings);
 	}
 
-	public static WorkingResponseDto from(List<Working> workingList) {
-		List<WorkingDto> workings = new ArrayList<>();
-		for (Working working : workingList) {
-			WorkingDto workingDto = WorkingDto.from(working);
-			workings.add(workingDto);
-		}
+	public static WorkingResponseDto from(List<WorkingDto> workings) {
 		return new WorkingResponseDto(workings);
 	}
 }

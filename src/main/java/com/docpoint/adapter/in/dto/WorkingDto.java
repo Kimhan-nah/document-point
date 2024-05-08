@@ -21,7 +21,7 @@ public class WorkingDto {
 		this.status = status;
 	}
 
-	public static WorkingDto from(Working working) {
+	public static WorkingDto toDto(Working working) {
 		return WorkingDto.builder()
 			.workingId(working.getId())
 			.title(working.getTitle())

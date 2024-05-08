@@ -3,8 +3,6 @@ package com.docpoint.adapter.in.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.docpoint.domain.entity.User;
-
 import lombok.Getter;
 
 @Getter
@@ -15,12 +13,7 @@ public class EmployeesResponseDto {
 		this.employees.addAll(employees);
 	}
 
-	public static EmployeesResponseDto from(List<User> users) {
-		List<EmployeeDto> employees = new ArrayList<>();
-		for (User user : users) {
-			EmployeeDto employeeDto = EmployeeDto.from(user);
-			employees.add(employeeDto);
-		}
+	public static EmployeesResponseDto from(List<EmployeeDto> employees) {
 		return new EmployeesResponseDto(employees);
 	}
 }

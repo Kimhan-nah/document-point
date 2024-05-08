@@ -23,7 +23,7 @@ public class EmployeeDto {
 		this.roleType = roleType;
 	}
 
-	public static EmployeeDto from(User employee) {
+	public static EmployeeDto toDto(User employee) {
 		return EmployeeDto.builder()
 			.id(employee.getId())
 			.name(employee.getName())
@@ -31,4 +31,5 @@ public class EmployeeDto {
 			.roleType(employee.getRole())
 			.build();
 	}
+
 }
