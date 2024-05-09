@@ -6,11 +6,11 @@ import lombok.Getter;
 
 @Getter
 public class WorkingDocumentsResponseDto {
-	private final List<WorkingDocumentDto> workingDocuments;
+	private final List<WorkingDocumentDto> workingDocs;
 	private final int totalPage;
 
-	public WorkingDocumentsResponseDto(List<WorkingDocumentDto> workingDocuments, int totalPage) {
-		this.workingDocuments = workingDocuments;
+	public WorkingDocumentsResponseDto(List<WorkingDocumentDto> workingDocs, int totalPage) {
+		this.workingDocs = workingDocs;
 		this.totalPage = totalPage;
 	}
 

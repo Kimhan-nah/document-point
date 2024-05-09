@@ -102,6 +102,43 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 	}
 
 	@Override
+	public Page<WorkingDocumentWithReviewDto> findByUserIdWithExcludeStatus(long userId, Pageable pageable,
+		DocStatusType status) {
+		QWorkingDocumentJpaEntity workingDocument = workingDocumentJpaEntity;
+		QReviewJpaEntity review = reviewJpaEntity;
+		QDocumentReviewerJpaEntity documentReviewer = documentReviewerJpaEntity;
+
+		List<WorkingDocumentWithReviewDto> content = jpaQueryFactory
+			.select(new QWorkingDocumentWithReviewDto(
+				workingDocument.id,
+				workingDocument.title,
+				workingDocument.content,
+				workingDocument.status,
+				workingDocument.type,
+				workingDocument.link,
+				workingDocument.isDeleted,
+				review.id))
+			.from(review)
+			.rightJoin(review.documentReviewer, documentReviewer)
+			.on(documentReviewer.reviewer.id.eq(userId))
+			.join(documentReviewer.workingDocument, workingDocument)
+			.where(workingDocument.status.ne(status))
+			.orderBy(workingDocument.createdAt.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		JPAQuery<Long> countQuery = jpaQueryFactory.select(documentReviewer.count())
+			.from(review)
+			.rightJoin(review.documentReviewer, documentReviewer)
+			.on(documentReviewer.reviewer.id.eq(userId))
+			.join(documentReviewer.workingDocument, workingDocument)
+			.where(workingDocument.status.ne(status));
+
+		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+	}
+
+	@Override
 	public Page<WorkingDocumentJpaEntity> findByTeamId(long teamId, Pageable pageable) {
 		QWorkingDocumentJpaEntity workingDocument = workingDocumentJpaEntity;
 		QWorkingAssigneeJpaEntity workingAssignee = workingAssigneeJpaEntity;

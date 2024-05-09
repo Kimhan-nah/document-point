@@ -19,12 +19,15 @@ import com.docpoint.adapter.in.dto.WorkingDocumentDetailResponseDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentRequestDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentsResponseDto;
+import com.docpoint.adapter.in.dto.WorkingDocumentsWithReviewResponseDto;
 import com.docpoint.adapter.in.dto.WorkingDto;
+import com.docpoint.application.port.in.GetReceivedRequestsUserCase;
 import com.docpoint.application.port.in.GetUserUseCase;
 import com.docpoint.application.port.in.GetUserWorkingDocumentsUseCase;
 import com.docpoint.application.port.in.GetWorkingDocumentUseCase;
 import com.docpoint.application.port.in.GetWorkingsUseCase;
 import com.docpoint.application.port.in.RegisterWorkingDocumentUseCase;
+import com.docpoint.application.port.out.dto.WorkingDocumentWithReviewDto;
 import com.docpoint.common.annotation.LoginUser;
 import com.docpoint.common.annotation.WebAdapter;
 import com.docpoint.domain.entity.User;
@@ -46,6 +49,7 @@ public class WorkingDocumentController {
 	private final GetWorkingsUseCase getWorkingsUseCase;
 	private final GetUserUseCase getUserUseCase;
 	private final GetWorkingDocumentUseCase getWorkingDocumentUseCase;
+	private final GetReceivedRequestsUserCase getReceivedRequestsUserCase;
 
 	@GetMapping
 	public ResponseEntity<WorkingDocumentsResponseDto> getWorkingDocs(
@@ -74,6 +78,18 @@ public class WorkingDocumentController {
 
 		WorkingDocumentDetailResponseDto response = WorkingDocumentDetailResponseDto
 			.of(workingDocument, workingDto, reviewers);
+
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("received-requests")
+	public ResponseEntity<WorkingDocumentsWithReviewResponseDto> getReceivedRequests(
+		@PageableDefault Pageable pageable,
+		@LoginUser User user) {
+		Page<WorkingDocumentWithReviewDto> receivedRequests = getReceivedRequestsUserCase.getReceivedRequests(user,
+			pageable);
+		WorkingDocumentsWithReviewResponseDto response = WorkingDocumentsWithReviewResponseDto
+			.of(receivedRequests.getContent(), receivedRequests.getTotalPages());
 
 		return ResponseEntity.ok(response);
 	}

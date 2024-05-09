@@ -9,6 +9,8 @@ import com.docpoint.application.port.out.LoadReceivedRequestPort;
 import com.docpoint.application.port.out.dto.WorkingDocumentWithReviewDto;
 import com.docpoint.common.annotation.UseCase;
 import com.docpoint.domain.entity.User;
+import com.docpoint.domain.type.DocStatusType;
+import com.docpoint.domain.type.RoleType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +28,9 @@ class GetReceivedRequestsService implements GetReceivedRequestsUserCase {
 	@Override
 	@Transactional(readOnly = true)
 	public Page<WorkingDocumentWithReviewDto> getReceivedRequests(User user, Pageable pageable) {
-		return loadRequestedWorkingDocumentsPort.loadByUser(user, pageable);
+		if (user.getRole() != RoleType.TEAM_LEADER) {
+			return loadRequestedWorkingDocumentsPort.loadByUser(user, pageable);
+		}
+		return loadRequestedWorkingDocumentsPort.loadByUserWithExcludeStatus(user, pageable, DocStatusType.REVIEW);
 	}
 }
