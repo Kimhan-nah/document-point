@@ -7,27 +7,27 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class EmployeeDto {
+public class UserDto {
 	private final long id;
 	private final String name;
 
-	private final String employeeNumber;
+	private final String employeeId;
 
 	private final RoleType roleType;
 
 	@Builder
-	public EmployeeDto(long id, String name, String employeeNumber, RoleType roleType) {
+	public UserDto(long id, String name, String employeeId, RoleType roleType) {
 		this.id = id;
 		this.name = name;
-		this.employeeNumber = employeeNumber;
+		this.employeeId = employeeId;
 		this.roleType = roleType;
 	}
 
-	public static EmployeeDto toDto(User employee) {
-		return EmployeeDto.builder()
+	public static UserDto toDto(User employee) {
+		return UserDto.builder()
 			.id(employee.getId())
 			.name(employee.getName())
-			.employeeNumber(employee.getEmployeeId())
+			.employeeId(employee.getEmployeeId())
 			.roleType(employee.getRole())
 			.build();
 	}

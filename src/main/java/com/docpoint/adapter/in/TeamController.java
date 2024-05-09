@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.docpoint.adapter.in.dto.EmployeeDto;
 import com.docpoint.adapter.in.dto.EmployeesResponseDto;
+import com.docpoint.adapter.in.dto.UserDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentsResponseDto;
 import com.docpoint.application.port.in.GetAllWorkingDocumentsUseCase;
@@ -44,7 +44,7 @@ public class TeamController {
 		List<User> employeesByTeam = getTeamEmployeesUseCase.getEmployeesByTeam(team, role);
 
 		return ResponseEntity.ok(EmployeesResponseDto.from(
-				employeesByTeam.stream().map(EmployeeDto::toDto).toList()
+				employeesByTeam.stream().map(UserDto::toDto).toList()
 			)
 		);
 	}

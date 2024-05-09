@@ -8,14 +8,14 @@ import lombok.Getter;
 
 @Getter
 public class WorkingDto {
-	private Long workingId;
+	private Long id;
 	private String title;
 	private String requesterName;
 	private WorkingStatusType status;
 
 	@Builder
-	public WorkingDto(Long workingId, String title, String requesterName, WorkingStatusType status) {
-		this.workingId = workingId;
+	public WorkingDto(Long id, String title, String requesterName, WorkingStatusType status) {
+		this.id = id;
 		this.title = title;
 		this.requesterName = requesterName;
 		this.status = status;
@@ -23,7 +23,7 @@ public class WorkingDto {
 
 	public static WorkingDto toDto(Working working) {
 		return WorkingDto.builder()
-			.workingId(working.getId())
+			.id(working.getId())
 			.title(working.getTitle())
 			.requesterName(working.getWriter().getName())
 			.status(working.getStatus())

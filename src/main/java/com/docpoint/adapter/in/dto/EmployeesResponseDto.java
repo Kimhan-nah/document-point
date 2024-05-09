@@ -7,13 +7,13 @@ import lombok.Getter;
 
 @Getter
 public class EmployeesResponseDto {
-	private final List<EmployeeDto> employees = new ArrayList<>();
+	private final List<UserDto> employees = new ArrayList<>();
 
-	public EmployeesResponseDto(List<EmployeeDto> employees) {
+	public EmployeesResponseDto(List<UserDto> employees) {
 		this.employees.addAll(employees);
 	}
 
-	public static EmployeesResponseDto from(List<EmployeeDto> employees) {
+	public static EmployeesResponseDto from(List<UserDto> employees) {
 		return new EmployeesResponseDto(employees);
 	}
 }

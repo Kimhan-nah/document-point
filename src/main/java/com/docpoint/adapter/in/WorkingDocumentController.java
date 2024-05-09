@@ -8,16 +8,21 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.docpoint.adapter.in.dto.UserDto;
+import com.docpoint.adapter.in.dto.WorkingDocumentDetailResponseDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentRequestDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentsResponseDto;
+import com.docpoint.adapter.in.dto.WorkingDto;
 import com.docpoint.application.port.in.GetUserUseCase;
 import com.docpoint.application.port.in.GetUserWorkingDocumentsUseCase;
+import com.docpoint.application.port.in.GetWorkingDocumentUseCase;
 import com.docpoint.application.port.in.GetWorkingsUseCase;
 import com.docpoint.application.port.in.RegisterWorkingDocumentUseCase;
 import com.docpoint.common.annotation.LoginUser;
@@ -28,6 +33,7 @@ import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
 @WebAdapter
@@ -39,6 +45,7 @@ public class WorkingDocumentController {
 	private final RegisterWorkingDocumentUseCase registerWorkingDocumentUseCase;
 	private final GetWorkingsUseCase getWorkingsUseCase;
 	private final GetUserUseCase getUserUseCase;
+	private final GetWorkingDocumentUseCase getWorkingDocumentUseCase;
 
 	@GetMapping
 	public ResponseEntity<WorkingDocumentsResponseDto> getWorkingDocs(
@@ -54,6 +61,21 @@ public class WorkingDocumentController {
 				userWorkingDocuments.getTotalPages()
 			)
 		);
+	}
+
+	@GetMapping("{workingDocId}")
+	public ResponseEntity<WorkingDocumentDetailResponseDto> getWorkingDoc(
+		@PathVariable @Valid @Positive Long workingDocId) {
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingDocId);
+		WorkingDto workingDto = WorkingDto.toDto(workingDocument.getWorking());
+		List<UserDto> reviewers = getWorkingDocumentUseCase.getDocumentReviewers(workingDocument).stream()
+			.map(UserDto::toDto)
+			.toList();
+
+		WorkingDocumentDetailResponseDto response = WorkingDocumentDetailResponseDto
+			.of(workingDocument, workingDto, reviewers);
+
+		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping

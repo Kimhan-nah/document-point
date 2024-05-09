@@ -15,6 +15,7 @@ import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.common.exception.custom.NotFoundException;
 
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -107,6 +108,15 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public ResponseEntity<ErrorResponse> httpMessageNotReadableException(HttpMessageNotReadableException ex) {
 		log.error("http message not readable exception", ex);
+		ErrorType errorType = ErrorType.BAD_REQUEST;
+		errorType.setMessage(ex.getMessage());
+		ErrorResponse response = ErrorResponse.toErrorResponse(errorType);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+	}
+
+	@ExceptionHandler(ValidationException.class)
+	public ResponseEntity<ErrorResponse> validationException(ValidationException ex) {
+		log.error("validation exception", ex);
 		ErrorType errorType = ErrorType.BAD_REQUEST;
 		errorType.setMessage(ex.getMessage());
 		ErrorResponse response = ErrorResponse.toErrorResponse(errorType);
