@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.util.WorkingDocumentTestData;
 
@@ -33,10 +34,11 @@ class GetReviewsServiceTest {
 	void getReviewsOfWorkingDocument() {
 		// given
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
+		User assignee = workingDocument.getWorking().getAssignee();
 		given(loadReviewPort.loadByWorkingDocument(workingDocument)).willReturn(List.of());
 
 		// when
-		List<Review> reviews = getReviewsService.getAllReviews(workingDocument);
+		List<Review> reviews = getReviewsService.getAllReviews(workingDocument, assignee);
 
 		// then
 		assertThat(reviews).isEmpty();

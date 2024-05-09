@@ -8,9 +8,12 @@ import com.docpoint.application.port.in.GetReviewsUseCase;
 import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
+import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.RoleType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +28,10 @@ class GetReviewsService implements GetReviewsUseCase {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<Review> getAllReviews(WorkingDocument workingDocument) {
+	public List<Review> getAllReviews(WorkingDocument workingDocument, User user) {
+		if (user.getRole() == RoleType.TEAM_MEMBER && !workingDocument.getWorking().getAssignee().equals(user)) {
+			throw new ForbiddenException(ErrorType.FORBIDDEN_ASSIGNEE);
+		}
 		return loadReviewPort.loadByWorkingDocument(workingDocument);
 	}
 
