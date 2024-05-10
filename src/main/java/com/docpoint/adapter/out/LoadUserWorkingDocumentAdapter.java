@@ -20,7 +20,7 @@ public class LoadUserWorkingDocumentAdapter implements LoadUserWorkingDocumentPo
 
 	@Override
 	public Page<WorkingDocument> loadByUser(User user, Pageable pageable, DocStatusType status) {
-		return workingDocumentRepository.findByUserId(user.getId(), pageable, status)
+		return workingDocumentRepository.findByAssigneeId(user.getId(), pageable, status)
 			.map(WorkingDocumentMapper::mapToDomainEntity);
 	}
 }

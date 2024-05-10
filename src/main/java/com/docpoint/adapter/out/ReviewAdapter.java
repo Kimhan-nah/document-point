@@ -8,6 +8,7 @@ import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.application.port.out.SaveReviewPort;
 import com.docpoint.common.annotation.PersistenceAdapter;
 import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.infrastructure.entity.ReviewJpaEntity;
 import com.docpoint.infrastructure.repository.ReviewRepository;
@@ -31,6 +32,11 @@ public class ReviewAdapter implements LoadReviewPort, SaveReviewPort {
 			.stream()
 			.map(ReviewMapper::mapToDomainEntity)
 			.toList();
+	}
+
+	@Override
+	public boolean existsReview(WorkingDocument workingDocument, User reviewer) {
+		return reviewRepository.existsByWorkingDocumentAndReviewer(workingDocument.getId(), reviewer.getId());
 	}
 
 	@Override

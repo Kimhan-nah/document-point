@@ -2,8 +2,6 @@ package com.docpoint.adapter.in.dto;
 
 import java.util.List;
 
-import com.docpoint.application.port.out.dto.WorkingDocumentWithReviewDto;
-
 import lombok.Getter;
 
 @Getter

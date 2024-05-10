@@ -6,4 +6,6 @@ import com.docpoint.infrastructure.entity.ReviewJpaEntity;
 
 public interface ReviewRepositoryCustom {
 	List<ReviewJpaEntity> findAllByWorkingDocument(long workingDocumentId);
+
+	boolean existsByWorkingDocumentAndReviewer(long workingDocumentId, long reviewerId);
 }

@@ -41,9 +41,9 @@ class GetReceivedRequestsServiceTest {
 		// given(loadReceivedRequestPort.loadByUser(user, pageable)).willReturn(receivedRequests);
 
 		// when
-		getReceivedRequestsService.getReceivedRequests(user, pageable);
+		getReceivedRequestsService.getReceivedRequests(user, pageable, null);
 
 		// then
-		verify(loadReceivedRequestPort, times(1)).loadByUser(user, pageable);
+		verify(loadReceivedRequestPort, times(1)).loadByUser(user, pageable, null);
 	}
 }

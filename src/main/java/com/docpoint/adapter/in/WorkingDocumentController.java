@@ -18,6 +18,7 @@ import com.docpoint.adapter.in.dto.UserDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentDetailResponseDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentRequestDto;
+import com.docpoint.adapter.in.dto.WorkingDocumentWithReviewDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentsResponseDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentsWithReviewResponseDto;
 import com.docpoint.adapter.in.dto.WorkingDto;
@@ -27,7 +28,6 @@ import com.docpoint.application.port.in.GetUserWorkingDocumentsUseCase;
 import com.docpoint.application.port.in.GetWorkingDocumentUseCase;
 import com.docpoint.application.port.in.GetWorkingsUseCase;
 import com.docpoint.application.port.in.RegisterWorkingDocumentUseCase;
-import com.docpoint.application.port.out.dto.WorkingDocumentWithReviewDto;
 import com.docpoint.common.annotation.LoginUser;
 import com.docpoint.common.annotation.WebAdapter;
 import com.docpoint.domain.entity.User;
@@ -84,10 +84,11 @@ public class WorkingDocumentController {
 
 	@GetMapping("received-requests")
 	public ResponseEntity<WorkingDocumentsWithReviewResponseDto> getReceivedRequests(
+		@RequestParam(required = false) DocStatusType status,
 		@PageableDefault Pageable pageable,
 		@LoginUser User user) {
 		Page<WorkingDocumentWithReviewDto> receivedRequests = getReceivedRequestsUserCase.getReceivedRequests(user,
-			pageable);
+			pageable, status);
 		WorkingDocumentsWithReviewResponseDto response = WorkingDocumentsWithReviewResponseDto
 			.of(receivedRequests.getContent(), receivedRequests.getTotalPages());
 

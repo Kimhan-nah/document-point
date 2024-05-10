@@ -1,7 +1,6 @@
 package com.docpoint.infrastructure.repository;
 
 import static com.docpoint.infrastructure.entity.QDocumentReviewerJpaEntity.*;
-import static com.docpoint.infrastructure.entity.QReviewJpaEntity.*;
 import static com.docpoint.infrastructure.entity.QTeamJpaEntity.*;
 import static com.docpoint.infrastructure.entity.QUserJpaEntity.*;
 import static com.docpoint.infrastructure.entity.QWorkingAssigneeJpaEntity.*;
@@ -14,11 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
-import com.docpoint.application.port.out.dto.QWorkingDocumentWithReviewDto;
-import com.docpoint.application.port.out.dto.WorkingDocumentWithReviewDto;
 import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.infrastructure.entity.QDocumentReviewerJpaEntity;
-import com.docpoint.infrastructure.entity.QReviewJpaEntity;
 import com.docpoint.infrastructure.entity.QTeamJpaEntity;
 import com.docpoint.infrastructure.entity.QUserJpaEntity;
 import com.docpoint.infrastructure.entity.QWorkingAssigneeJpaEntity;
@@ -35,8 +31,15 @@ import lombok.RequiredArgsConstructor;
 public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepositoryCustom {
 	private final JPAQueryFactory jpaQueryFactory;
 
+	/**
+	 * 내 문서 목록 조회 (working_assignee.assignee_id = userId)
+	 * @param userId
+	 * @param pageable
+	 * @param status
+	 * @return
+	 */
 	@Override
-	public Page<WorkingDocumentJpaEntity> findByUserId(long userId, Pageable pageable, DocStatusType status) {
+	public Page<WorkingDocumentJpaEntity> findByAssigneeId(long userId, Pageable pageable, DocStatusType status) {
 		QWorkingDocumentJpaEntity workingDocument = workingDocumentJpaEntity;
 		QWorkingAssigneeJpaEntity workingAssignee = workingAssigneeJpaEntity;
 		QWorkingJpaEntity working = workingJpaEntity;
@@ -44,9 +47,9 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 		List<WorkingDocumentJpaEntity> content = jpaQueryFactory
 			.select(workingDocument)
 			.from(working)
-			.join(workingAssignee)
+			.innerJoin(workingAssignee)
 			.on(working.id.eq(workingAssignee.working.id).and(workingAssignee.assignee.id.eq(userId)))
-			.join(workingDocument)
+			.innerJoin(workingDocument)
 			.on(workingAssignee.working.id.eq(workingDocument.working.id))
 			.where(eqStatus(status))
 			.orderBy(workingDocument.id.desc())
@@ -57,85 +60,74 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 		JPAQuery<Long> countQuery = jpaQueryFactory
 			.select(workingDocument.count())
 			.from(working)
-			.join(workingAssignee)
+			.innerJoin(workingAssignee)
 			.on(working.id.eq(workingAssignee.working.id).and(workingAssignee.assignee.id.eq(userId)))
-			.join(workingDocument)
+			.innerJoin(workingDocument)
 			.on(workingAssignee.working.id.eq(workingDocument.working.id))
 			.where(eqStatus(status));
 
 		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
 	}
 
+	/**
+	 * 요청 받은 문서 목록 조회 (document_reviewer.reivewer_id = reviewerId)
+	 * @param reviewerId
+	 * @param pageable
+	 * @return
+	 */
 	@Override
-	public Page<WorkingDocumentWithReviewDto> findWithReviewByUserId(long userId, Pageable pageable) {
+	public Page<WorkingDocumentJpaEntity> findByReviewerId(long reviewerId, Pageable pageable, DocStatusType status) {
 		QWorkingDocumentJpaEntity workingDocument = workingDocumentJpaEntity;
-		QReviewJpaEntity review = reviewJpaEntity;
 		QDocumentReviewerJpaEntity documentReviewer = documentReviewerJpaEntity;
 
-		List<WorkingDocumentWithReviewDto> content = jpaQueryFactory
-			.select(new QWorkingDocumentWithReviewDto(
-				workingDocument.id,
-				workingDocument.title,
-				workingDocument.content,
-				workingDocument.status,
-				workingDocument.type,
-				workingDocument.link,
-				workingDocument.isDeleted,
-				review.id))
-			.from(review)
-			.rightJoin(review.documentReviewer, documentReviewer)
-			.on(documentReviewer.reviewer.id.eq(userId))
-			.join(documentReviewer.workingDocument, workingDocument)
+		List<WorkingDocumentJpaEntity> content = jpaQueryFactory
+			.select(workingDocument)
+			.from(documentReviewer)
+			.innerJoin(documentReviewer.workingDocument, workingDocument)
+			.where(documentReviewer.reviewer.id.eq(reviewerId),
+				eqStatus(status))
 			.orderBy(workingDocument.createdAt.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
 
 		JPAQuery<Long> countQuery = jpaQueryFactory.select(documentReviewer.count())
-			.from(review)
-			.rightJoin(review.documentReviewer, documentReviewer)
-			.on(documentReviewer.reviewer.id.eq(userId))
-			.join(documentReviewer.workingDocument, workingDocument);
+			.from(documentReviewer)
+			.innerJoin(documentReviewer.workingDocument, workingDocument)
+			.where(documentReviewer.reviewer.id.eq(reviewerId),
+				eqStatus(status));
 
 		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
 
 	}
 
 	@Override
-	public Page<WorkingDocumentWithReviewDto> findByUserIdWithExcludeStatus(long userId, Pageable pageable,
-		DocStatusType status) {
+	public Page<WorkingDocumentJpaEntity> findByUserIdExcludeStatus(long userId, Pageable pageable,
+		DocStatusType excludeStatus, DocStatusType status) {
 		QWorkingDocumentJpaEntity workingDocument = workingDocumentJpaEntity;
-		QReviewJpaEntity review = reviewJpaEntity;
 		QDocumentReviewerJpaEntity documentReviewer = documentReviewerJpaEntity;
 
-		List<WorkingDocumentWithReviewDto> content = jpaQueryFactory
-			.select(new QWorkingDocumentWithReviewDto(
-				workingDocument.id,
-				workingDocument.title,
-				workingDocument.content,
-				workingDocument.status,
-				workingDocument.type,
-				workingDocument.link,
-				workingDocument.isDeleted,
-				review.id))
-			.from(review)
-			.rightJoin(review.documentReviewer, documentReviewer)
-			.on(documentReviewer.reviewer.id.eq(userId))
-			.join(documentReviewer.workingDocument, workingDocument)
-			.where(workingDocument.status.ne(status))
+		List<WorkingDocumentJpaEntity> fetch = jpaQueryFactory
+			.select(workingDocument)
+			.from(documentReviewer)
+			.innerJoin(workingDocument).on(documentReviewer.workingDocument.id.eq(workingDocument.id))
+			.where(documentReviewer.reviewer.id.eq(userId),
+				workingDocument.status.ne(excludeStatus),
+				workingDocument.status.eq(status))
 			.orderBy(workingDocument.createdAt.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
 
-		JPAQuery<Long> countQuery = jpaQueryFactory.select(documentReviewer.count())
-			.from(review)
-			.rightJoin(review.documentReviewer, documentReviewer)
-			.on(documentReviewer.reviewer.id.eq(userId))
-			.join(documentReviewer.workingDocument, workingDocument)
-			.where(workingDocument.status.ne(status));
+		JPAQuery<Long> countQuery = jpaQueryFactory
+			.select(workingDocument.count())
+			.from(documentReviewer)
+			.innerJoin(workingDocument).on(documentReviewer.workingDocument.id.eq(workingDocument.id))
+			.where(documentReviewer.reviewer.id.eq(userId),
+				workingDocument.status.ne(excludeStatus),
+				workingDocument.status.eq(status));
 
-		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+		return PageableExecutionUtils.getPage(fetch, pageable, countQuery::fetchOne);
 	}
 
 	@Override
