@@ -13,14 +13,14 @@ public class UserDto {
 
 	private final String employeeId;
 
-	private final RoleType roleType;
+	private final RoleType role;
 
 	@Builder
-	public UserDto(long id, String name, String employeeId, RoleType roleType) {
+	public UserDto(long id, String name, String employeeId, RoleType role) {
 		this.id = id;
 		this.name = name;
 		this.employeeId = employeeId;
-		this.roleType = roleType;
+		this.role = role;
 	}
 
 	public static UserDto toDto(User employee) {
@@ -28,7 +28,7 @@ public class UserDto {
 			.id(employee.getId())
 			.name(employee.getName())
 			.employeeId(employee.getEmployeeId())
-			.roleType(employee.getRole())
+			.role(employee.getRole())
 			.build();
 	}
 
