@@ -13,8 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.LoadReviewPort;
-import com.docpoint.common.exception.custom.NotFoundException;
+import com.docpoint.common.exception.custom.ForbiddenException;
+import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.Review;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
@@ -28,6 +30,9 @@ class GetReviewsServiceTest {
 
 	@Mock
 	private LoadReviewPort loadReviewPort;
+
+	@Mock
+	private LoadDocumentReviewerPort loadDocumentReviewerPort;
 
 	@Test
 	@DisplayName("WorkingDocument의 리뷰 전체 조회 성공")
@@ -48,27 +53,30 @@ class GetReviewsServiceTest {
 	@DisplayName("리뷰 조회 성공")
 	void getReviewOfWorkingDocument() {
 		// given
-		long reviewId = 1L;
-		given(loadReviewPort.load(reviewId)).willReturn(Optional.of(mock(Review.class)));
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
+		User reviewer = mock(User.class);
+		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
+			.willReturn(Optional.of(mock(DocumentReviewer.class)));
+		given(loadReviewPort.loadUserReviewOfDocument(any())).willReturn(List.of());
 
 		// when
-		Review review = getReviewsService.getReview(reviewId);
+		List<Review> review = getReviewsService.getReview(workingDocument, reviewer);
 
 		// then
 		assertThat(review).isNotNull();
 	}
 
 	@Test
-	@DisplayName("리뷰가 없는 경우, Not Found Exception 발생")
-	void getReviewOfWorkingDocumentNotFound() {
+	@DisplayName("리뷰어가 아닌 경우, ForbiddenException 발생")
+	void getReviewOfWorkingDocumentWithForbiddenException() {
 		// given
-		long reviewId = 1L;
-		given(loadReviewPort.load(reviewId)).willReturn(Optional.empty());
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
+		User user = mock(User.class);
+		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, user)).willReturn(
+			Optional.empty());
 
-		// when, then
-		assertThatThrownBy(() -> getReviewsService.getReview(reviewId))
-			.isInstanceOf(NotFoundException.class);
+		// when
+		assertThatThrownBy(() -> getReviewsService.getReview(workingDocument, user))
+			.isInstanceOf(ForbiddenException.class);
 	}
 }

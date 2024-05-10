@@ -9,5 +9,5 @@ import com.docpoint.domain.entity.WorkingDocument;
 public interface GetReviewsUseCase {
 	List<Review> getAllReviews(WorkingDocument workingDocument, User user);
 
-	Review getReview(long reviewId);
+	List<Review> getReview(WorkingDocument workingDocument, User user);
 }
