@@ -1,5 +1,6 @@
 package com.docpoint.adapter.out.mapper;
 
+import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.Working;
 import com.docpoint.infrastructure.entity.WorkingAssigneeJpaEntity;
 import com.docpoint.infrastructure.entity.WorkingJpaEntity;
@@ -8,6 +9,8 @@ public class WorkingMapper {
 	public static Working mapToDomainEntityWithAssignee(
 		WorkingJpaEntity working,
 		WorkingAssigneeJpaEntity workingAssignee) {
+		User assignee = UserMapper.mapToDomainEntity(workingAssignee.getAssignee());
+
 		return Working.builder()
 			.id(working.getId())
 			.writer(working.isUserEmpty() ? null : UserMapper.mapToDomainEntity(working.getWriter()))
@@ -21,23 +24,24 @@ public class WorkingMapper {
 			.recruitDate(working.getRecruitDate())
 			.cp(working.getCp())
 			.isDeleted(working.getIsDeleted())
+			.assignee(assignee)
 			.build();
 	}
 
-	public static Working mapToDomainEntity(WorkingJpaEntity working) {
-		return Working.builder()
-			.id(working.getId())
-			.writer(working.isUserEmpty() ? null : UserMapper.mapToDomainEntity(working.getWriter()))
-			.title(working.getTitle())
-			.content(working.getContent())
-			.status(working.getStatus())
-			.category(working.getCategory())
-			.dueDate(working.getDueDate())
-			.recruitDate(working.getRecruitDate())
-			.cp(working.getCp())
-			.isDeleted(working.getIsDeleted())
-			.build();
-	}
+	// public static Working mapToDomainEntity(WorkingJpaEntity working) {
+	//
+	// 	return Working.builder()
+	// 		.id(working.getId())
+	// 		.writer(working.isUserEmpty() ? null : UserMapper.mapToDomainEntity(working.getWriter()))
+	// 		.title(working.getTitle())
+	// 		.content(working.getContent())
+	// 		.status(working.getStatus())
+	// 		.category(working.getCategory())
+	// 		.dueDate(working.getDueDate())
+	// 		.recruitDate(working.getRecruitDate()).cp(working.getCp())
+	// 		.isDeleted(working.getIsDeleted())
+	// 		.build();
+	// }
 
 	public static WorkingJpaEntity mapToJpaEntity(Working working) {
 		return WorkingJpaEntity.builder()

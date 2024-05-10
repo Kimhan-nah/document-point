@@ -72,6 +72,9 @@ public class WorkingJpaEntity extends BaseTimeEntity {
 	@Column(name = "is_deleted")
 	private Boolean isDeleted;
 
+	@OneToOne(mappedBy = "working", fetch = FetchType.LAZY)
+	private WorkingAssigneeJpaEntity assignee;
+
 	@Builder
 	public WorkingJpaEntity(UserJpaEntity writer, Integer cp, String title, String content, WorkingStatusType status,
 		WorkingCategoryType category, LocalDateTime dueDate, LocalDateTime recruitDate, Boolean isDeleted) {
