@@ -34,9 +34,9 @@ public class ReviewAdapter implements LoadReviewPort, SaveReviewPort {
 	}
 
 	@Override
-	public Review save(Review review) {
+	public void save(Review review) {
 		ReviewJpaEntity reviewJpaEntity = ReviewMapper.mapToJpaEntity(review);
-		return ReviewMapper.mapToDomainEntity(reviewRepository.save(reviewJpaEntity));
+		reviewRepository.save(reviewJpaEntity);
 	}
 
 	@Override
