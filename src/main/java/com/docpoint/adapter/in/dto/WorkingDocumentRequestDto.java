@@ -8,9 +8,12 @@ import com.docpoint.domain.type.DocType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WorkingDocumentRequestDto {
 	@NotBlank(message = "제목을 입력해주세요.")
 	@Size(max = 255, message = "제목은 255자 이내로 입력해주세요.")
@@ -39,15 +42,6 @@ public class WorkingDocumentRequestDto {
 			.docType(workingDocumentRequestDto.getDocType())
 			.link(workingDocumentRequestDto.getLink())
 			.content(workingDocumentRequestDto.getContent())
-			.build();
-	}
-
-	public WorkingDocument toWorkingDocumentEntity() {
-		return WorkingDocument.builder()
-			.title(title)
-			.docType(docType)
-			.link(link)
-			.content(content)
 			.build();
 	}
 }
