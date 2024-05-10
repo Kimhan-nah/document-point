@@ -1,6 +1,7 @@
 package com.docpoint.adapter.in;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.docpoint.adapter.in.dto.AllReviewsResponseDto;
 import com.docpoint.adapter.in.dto.ReviewResponseDto;
 import com.docpoint.adapter.in.dto.UserDto;
 import com.docpoint.application.port.in.GetReviewsUseCase;
@@ -36,5 +38,19 @@ public class ReviewController {
 		List<Evaluation> review = getReviewsUseCase.getReview(workingDocument, user);
 
 		return ResponseEntity.ok(ReviewResponseDto.of(reviewer, review));
+	}
+
+	@GetMapping("/reviews")
+	public ResponseEntity<AllReviewsResponseDto> getReviews(@PathVariable @Positive Long workingId,
+		@LoginUser User user) {
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
+		Map<User, List<Evaluation>> allReviews = getReviewsUseCase.getAllReviews(workingDocument, user);
+
+		List<ReviewResponseDto> reviews = allReviews.entrySet().stream()
+			.map(entry -> ReviewResponseDto.of(UserDto.toDto(entry.getKey()), entry.getValue()))
+			.toList();
+		AllReviewsResponseDto response = AllReviewsResponseDto.of(reviews);
+
+		return ResponseEntity.ok(response);
 	}
 }
