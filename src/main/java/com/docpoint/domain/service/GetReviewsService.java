@@ -12,8 +12,10 @@ import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ForbiddenException;
+import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.Evaluation;
+import com.docpoint.domain.entity.Review;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.RoleType;
@@ -42,8 +44,13 @@ class GetReviewsService implements GetReviewsUseCase {
 		List<DocumentReviewer> documentReviewers = loadDocumentReviewerPort.loadByWorkingDocumentId(
 			workingDocument.getId());
 		for (DocumentReviewer documentReviewer : documentReviewers) {
-			List<Evaluation> review = getReview(workingDocument, documentReviewer.getReviewer());
-			allReviews.put(documentReviewer.getReviewer(), review);
+			List<Evaluation> review = loadReviewPort.loadUserReviewOfDocument(documentReviewer)
+				.stream()
+				.map(Review -> Evaluation.of(Review.getQuestion(), Review.getAnswer()))
+				.toList();
+			if (!review.isEmpty()) {
+				allReviews.put(documentReviewer.getReviewer(), review);
+			}
 		}
 
 		return allReviews;
@@ -54,13 +61,19 @@ class GetReviewsService implements GetReviewsUseCase {
 	 * @param user
 	 * @return
 	 * @throws ForbiddenException 리뷰어가 아닌 경우
+	 * @throws NotFoundException   리뷰가 없는 경우
 	 */
 	@Override
 	@Transactional(readOnly = true)
 	public List<Evaluation> getReview(WorkingDocument workingDocument, User user) {
 		DocumentReviewer documentReviewer = loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, user)
 			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));
-		return loadReviewPort.loadUserReviewOfDocument(documentReviewer)
+
+		List<Review> reviews = loadReviewPort.loadUserReviewOfDocument(documentReviewer);
+		if (reviews.isEmpty()) {
+			throw new NotFoundException(ErrorType.NOT_FOUND_REVIEW);
+		}
+		return reviews
 			.stream()
 			.map(Review -> Evaluation.of(Review.getQuestion(), Review.getAnswer()))
 			.toList();
