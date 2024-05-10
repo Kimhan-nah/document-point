@@ -31,7 +31,8 @@ public class WorkingAssigneeJpaEntity extends BaseTimeEntity {
 	private UserJpaEntity assignee;
 
 	@Builder
-	public WorkingAssigneeJpaEntity(WorkingJpaEntity working, UserJpaEntity assignee) {
+	public WorkingAssigneeJpaEntity(Long id, WorkingJpaEntity working, UserJpaEntity assignee) {
+		this.id = id;
 		this.working = working;
 		this.assignee = assignee;
 	}

@@ -1,5 +1,6 @@
 package com.docpoint.adapter.out.mapper;
 
+import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.Review;
 import com.docpoint.infrastructure.entity.ReviewJpaEntity;
 
@@ -16,10 +17,12 @@ public class ReviewMapper {
 	}
 
 	public static ReviewJpaEntity mapToJpaEntity(Review review) {
+		DocumentReviewer documentReviewer = review.getDocumentReviewer();
 		return ReviewJpaEntity.builder()
+			.id(review.getId())
 			.documentReviewer(
 				review.isDocumentReviewerEmpty() ? null :
-					DocumentReviewerMapper.mapToJpaEntity(review.getDocumentReviewer()))
+					DocumentReviewerMapper.mapToJpaEntity(documentReviewer))
 			.question(review.getQuestion())
 			.answer(review.getAnswer())
 			.isDeleted(review.isDeleted())

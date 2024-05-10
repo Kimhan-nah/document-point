@@ -3,6 +3,7 @@ package com.docpoint.domain.entity;
 import com.docpoint.domain.type.ReviewAnswerType;
 import com.docpoint.domain.type.ReviewQuestionType;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -11,6 +12,7 @@ public class Evaluation {
 
 	private final ReviewAnswerType answer;
 
+	@Builder
 	public Evaluation(ReviewQuestionType question, ReviewAnswerType answer) {
 		this.question = question;
 		this.answer = answer;

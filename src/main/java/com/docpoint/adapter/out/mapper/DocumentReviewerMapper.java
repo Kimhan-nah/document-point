@@ -16,6 +16,7 @@ public class DocumentReviewerMapper {
 
 	public static DocumentReviewerJpaEntity mapToJpaEntity(DocumentReviewer documentReviewer) {
 		return DocumentReviewerJpaEntity.builder()
+			.id(documentReviewer.getId())
 			.workingDocument(
 				documentReviewer.isWorkingDocumentEmpty() ? null :
 					WorkingDocumentMapper.mapToJpaEntity(documentReviewer.getWorkingDocument()))

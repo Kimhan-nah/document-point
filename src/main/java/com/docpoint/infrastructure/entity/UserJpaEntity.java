@@ -62,8 +62,9 @@ public class UserJpaEntity extends BaseTimeEntity {
 	private Boolean isDeleted;
 
 	@Builder
-	public UserJpaEntity(TeamJpaEntity team, String employeeId, String name, String email, String password,
+	public UserJpaEntity(Long id, TeamJpaEntity team, String employeeId, String name, String email, String password,
 		RoleType role, Boolean isDeleted) {
+		this.id = id;
 		this.team = team;
 		this.employeeId = employeeId;
 		this.name = name;

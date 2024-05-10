@@ -67,8 +67,9 @@ public class WorkingDocumentJpaEntity extends BaseTimeEntity {
 	private Boolean isDeleted;
 
 	@Builder
-	public WorkingDocumentJpaEntity(WorkingJpaEntity working, Integer cp, String title, String content,
+	public WorkingDocumentJpaEntity(Long id, WorkingJpaEntity working, Integer cp, String title, String content,
 		DocStatusType status, DocType type, String link, Boolean isDeleted) {
+		this.id = id;
 		this.working = working;
 		this.cp = cp;
 		this.title = title;

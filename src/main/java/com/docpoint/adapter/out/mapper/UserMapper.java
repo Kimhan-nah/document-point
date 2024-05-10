@@ -18,6 +18,7 @@ public class UserMapper {
 
 	public static UserJpaEntity mapToJpaEntity(User user) {
 		return UserJpaEntity.builder()
+			.id(user.getId())
 			.name(user.getName())
 			.email(user.getEmail())
 			.role(user.getRole())

@@ -48,8 +48,9 @@ public class ReviewJpaEntity extends BaseTimeEntity {
 	private Boolean isDeleted;
 
 	@Builder
-	public ReviewJpaEntity(DocumentReviewerJpaEntity documentReviewer, ReviewQuestionType question,
+	public ReviewJpaEntity(Long id, DocumentReviewerJpaEntity documentReviewer, ReviewQuestionType question,
 		ReviewAnswerType answer, Boolean isDeleted) {
+		this.id = id;
 		this.documentReviewer = documentReviewer;
 		this.question = question;
 		this.answer = answer;

@@ -45,6 +45,7 @@ public class WorkingMapper {
 
 	public static WorkingJpaEntity mapToJpaEntity(Working working) {
 		return WorkingJpaEntity.builder()
+			.id(working.getId())
 			.writer(working.isWriterEmpty() ? null :
 				UserMapper.mapToJpaEntity(working.getWriter()))
 			.title(working.getTitle())

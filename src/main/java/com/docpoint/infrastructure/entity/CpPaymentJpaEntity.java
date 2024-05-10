@@ -33,7 +33,8 @@ public class CpPaymentJpaEntity extends BaseTimeEntity {
 	private Integer cp;
 
 	@Builder
-	public CpPaymentJpaEntity(UserJpaEntity user, Integer cp) {
+	public CpPaymentJpaEntity(Long id, UserJpaEntity user, Integer cp) {
+		this.id = id;
 		this.user = user;
 		this.cp = cp;
 	}

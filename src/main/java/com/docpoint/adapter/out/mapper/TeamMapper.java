@@ -14,6 +14,7 @@ public class TeamMapper {
 
 	public static TeamJpaEntity mapToJpaEntity(Team team) {
 		return TeamJpaEntity.builder()
+			.id(team.getId())
 			.name(team.getName())
 			.isDeleted(team.isDeleted())
 			.build();

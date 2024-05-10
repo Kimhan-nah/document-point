@@ -44,8 +44,9 @@ public class CpEvaluationJpaEntity extends BaseTimeEntity {
 	private Boolean isDeleted;
 
 	@Builder
-	public CpEvaluationJpaEntity(DocumentReviewerJpaEntity documentReviewer, Integer cp, String comment,
+	public CpEvaluationJpaEntity(Long id, DocumentReviewerJpaEntity documentReviewer, Integer cp, String comment,
 		Boolean isDeleted) {
+		this.id = id;
 		this.documentReviewer = documentReviewer;
 		this.cp = cp;
 		this.comment = comment;

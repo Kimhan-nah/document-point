@@ -17,6 +17,7 @@ public class CpEvaluationMapper {
 
 	public static CpEvaluationJpaEntity mapToJpaEntity(CpEvaluation cpEvaluation) {
 		return CpEvaluationJpaEntity.builder()
+			.id(cpEvaluation.getId())
 			.documentReviewer(
 				cpEvaluation.isDocumentReviewerEmpty() ? null :
 					DocumentReviewerMapper.mapToJpaEntity(cpEvaluation.getDocumentReviewer()))

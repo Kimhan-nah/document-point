@@ -32,7 +32,8 @@ public class TeamJpaEntity extends BaseTimeEntity {
 	private Boolean isDeleted;
 
 	@Builder
-	public TeamJpaEntity(String name, Boolean isDeleted) {
+	public TeamJpaEntity(Long id, String name, Boolean isDeleted) {
+		this.id = id;
 		this.name = name;
 		this.isDeleted = isDeleted;
 	}

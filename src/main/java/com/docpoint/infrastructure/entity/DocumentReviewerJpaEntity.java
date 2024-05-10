@@ -32,7 +32,8 @@ public class DocumentReviewerJpaEntity extends BaseTimeEntity {
 	private UserJpaEntity reviewer;
 
 	@Builder
-	public DocumentReviewerJpaEntity(WorkingDocumentJpaEntity workingDocument, UserJpaEntity reviewer) {
+	public DocumentReviewerJpaEntity(Long id, WorkingDocumentJpaEntity workingDocument, UserJpaEntity reviewer) {
+		this.id = id;
 		this.workingDocument = workingDocument;
 		this.reviewer = reviewer;
 	}

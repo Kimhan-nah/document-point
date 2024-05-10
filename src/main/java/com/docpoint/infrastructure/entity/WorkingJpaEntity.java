@@ -76,8 +76,10 @@ public class WorkingJpaEntity extends BaseTimeEntity {
 	private WorkingAssigneeJpaEntity assignee;
 
 	@Builder
-	public WorkingJpaEntity(UserJpaEntity writer, Integer cp, String title, String content, WorkingStatusType status,
+	public WorkingJpaEntity(Long id, UserJpaEntity writer, Integer cp, String title, String content,
+		WorkingStatusType status,
 		WorkingCategoryType category, LocalDateTime dueDate, LocalDateTime recruitDate, Boolean isDeleted) {
+		this.id = id;
 		this.writer = writer;
 		this.cp = cp;
 		this.title = title;

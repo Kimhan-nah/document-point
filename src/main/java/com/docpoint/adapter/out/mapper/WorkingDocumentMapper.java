@@ -23,6 +23,7 @@ public class WorkingDocumentMapper {
 
 	public static WorkingDocumentJpaEntity mapToJpaEntity(WorkingDocument workingDocument) {
 		return WorkingDocumentJpaEntity.builder()
+			.id(workingDocument.getId())
 			.working(
 				workingDocument.isWorkingEmpty() ? null : WorkingMapper.mapToJpaEntity(workingDocument.getWorking()))
 			.title(workingDocument.getTitle())
