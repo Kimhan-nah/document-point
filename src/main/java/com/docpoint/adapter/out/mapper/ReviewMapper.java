@@ -9,6 +9,8 @@ public class ReviewMapper {
 			.id(review.getId())
 			.documentReviewer(review.isDocumentReviewerEmpty() ? null :
 				DocumentReviewerMapper.mapToDomainEntity(review.getDocumentReviewer()))
+			.question(review.getQuestion())
+			.answer(review.getAnswer())
 			.isDeleted(review.getIsDeleted())
 			.build();
 	}
