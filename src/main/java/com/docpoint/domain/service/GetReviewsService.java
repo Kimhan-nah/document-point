@@ -1,6 +1,8 @@
 package com.docpoint.domain.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +13,7 @@ import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.DocumentReviewer;
-import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.Evaluation;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.RoleType;
@@ -30,11 +32,21 @@ class GetReviewsService implements GetReviewsUseCase {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<Review> getAllReviews(WorkingDocument workingDocument, User user) {
+	public Map<User, List<Evaluation>> getAllReviews(WorkingDocument workingDocument, User user) {
+		Map<User, List<Evaluation>> allReviews = new HashMap<>();
+
 		if (user.getRole() == RoleType.TEAM_MEMBER && !workingDocument.getWorking().getAssignee().equals(user)) {
 			throw new ForbiddenException(ErrorType.FORBIDDEN_ASSIGNEE);
 		}
-		return loadReviewPort.loadByWorkingDocument(workingDocument);
+
+		List<DocumentReviewer> documentReviewers = loadDocumentReviewerPort.loadByWorkingDocumentId(
+			workingDocument.getId());
+		for (DocumentReviewer documentReviewer : documentReviewers) {
+			List<Evaluation> review = getReview(workingDocument, documentReviewer.getReviewer());
+			allReviews.put(documentReviewer.getReviewer(), review);
+		}
+
+		return allReviews;
 	}
 
 	/**
@@ -45,9 +57,12 @@ class GetReviewsService implements GetReviewsUseCase {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<Review> getReview(WorkingDocument workingDocument, User user) {
+	public List<Evaluation> getReview(WorkingDocument workingDocument, User user) {
 		DocumentReviewer documentReviewer = loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, user)
 			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));
-		return loadReviewPort.loadUserReviewOfDocument(documentReviewer);
+		return loadReviewPort.loadUserReviewOfDocument(documentReviewer)
+			.stream()
+			.map(Review -> Evaluation.of(Review.getQuestion(), Review.getAnswer()))
+			.toList();
 	}
 }

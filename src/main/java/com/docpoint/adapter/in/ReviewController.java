@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.docpoint.adapter.in.dto.EvaluationDto;
 import com.docpoint.adapter.in.dto.ReviewResponseDto;
 import com.docpoint.adapter.in.dto.UserDto;
 import com.docpoint.application.port.in.GetReviewsUseCase;
 import com.docpoint.application.port.in.GetWorkingDocumentUseCase;
 import com.docpoint.common.annotation.LoginUser;
 import com.docpoint.common.annotation.WebAdapter;
+import com.docpoint.domain.entity.Evaluation;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 
@@ -33,9 +33,8 @@ public class ReviewController {
 	public ResponseEntity<ReviewResponseDto> getReview(@PathVariable @Positive Long workingId, @LoginUser User user) {
 		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
 		UserDto reviewer = UserDto.toDto(user);
-		List<EvaluationDto> evaluations = getReviewsUseCase.getReview(workingDocument, user)
-			.stream().map(EvaluationDto::toDto).toList();
+		List<Evaluation> review = getReviewsUseCase.getReview(workingDocument, user);
 
-		return ResponseEntity.ok(new ReviewResponseDto(reviewer, evaluations));
+		return ResponseEntity.ok(ReviewResponseDto.of(reviewer, review));
 	}
 }

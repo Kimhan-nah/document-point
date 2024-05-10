@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,7 @@ import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.DocumentReviewer;
-import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.Evaluation;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.util.WorkingDocumentTestData;
@@ -43,14 +44,14 @@ class GetReviewsServiceTest {
 		given(loadReviewPort.loadByWorkingDocument(workingDocument)).willReturn(List.of());
 
 		// when
-		List<Review> reviews = getReviewsService.getAllReviews(workingDocument, assignee);
+		Map<User, List<Evaluation>> allReviews = getReviewsService.getAllReviews(workingDocument, assignee);
 
 		// then
-		assertThat(reviews).isEmpty();
+		assertThat(allReviews).isEmpty();
 	}
 
 	@Test
-	@DisplayName("리뷰 조회 성공")
+	@DisplayName("리뷰 조회 성공 - 리뷰가 없을 경우, 빈 Evaluation 반환")
 	void getReviewOfWorkingDocument() {
 		// given
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
@@ -60,10 +61,11 @@ class GetReviewsServiceTest {
 		given(loadReviewPort.loadUserReviewOfDocument(any())).willReturn(List.of());
 
 		// when
-		List<Review> review = getReviewsService.getReview(workingDocument, reviewer);
+		List<Evaluation> review = getReviewsService.getReview(workingDocument, reviewer);
 
 		// then
 		assertThat(review).isNotNull();
+		assertThat(review).isEmpty();
 	}
 
 	@Test
