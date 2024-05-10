@@ -3,23 +3,29 @@ package com.docpoint.adapter.in;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.docpoint.adapter.in.dto.AllReviewsResponseDto;
+import com.docpoint.adapter.in.dto.ReviewRequestDto;
 import com.docpoint.adapter.in.dto.ReviewResponseDto;
 import com.docpoint.adapter.in.dto.UserDto;
 import com.docpoint.application.port.in.GetReviewsUseCase;
 import com.docpoint.application.port.in.GetWorkingDocumentUseCase;
+import com.docpoint.application.port.in.RegisterReviewUseCase;
 import com.docpoint.common.annotation.LoginUser;
 import com.docpoint.common.annotation.WebAdapter;
 import com.docpoint.domain.entity.Evaluation;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 public class ReviewController {
 	private final GetReviewsUseCase getReviewsUseCase;
 	private final GetWorkingDocumentUseCase getWorkingDocumentUseCase;
+	private final RegisterReviewUseCase registerReviewUseCase;
 
 	@GetMapping("/review")
 	public ResponseEntity<ReviewResponseDto> getReview(@PathVariable @Positive Long workingId, @LoginUser User user) {
@@ -52,5 +59,17 @@ public class ReviewController {
 		AllReviewsResponseDto response = AllReviewsResponseDto.of(reviews);
 
 		return ResponseEntity.ok(response);
+	}
+
+	@PostMapping("/reviews")
+	public ResponseEntity<Void> registerReview(
+		@PathVariable @Positive Long workingId,
+		@RequestBody @Valid ReviewRequestDto reviewRequestDto,
+		@LoginUser User user) {
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
+		List<Evaluation> review = reviewRequestDto.getReview();
+		registerReviewUseCase.registerReview(review, user, workingDocument);
+
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 }

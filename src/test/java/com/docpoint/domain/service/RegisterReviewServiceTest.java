@@ -15,9 +15,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.docpoint.application.port.out.LoadDocumentReviewerPort;
+import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.application.port.out.SaveReviewPort;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.DocumentReviewer;
+import com.docpoint.domain.entity.Evaluation;
 import com.docpoint.domain.entity.Review;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
@@ -35,6 +37,9 @@ class RegisterReviewServiceTest {
 	@Mock
 	private SaveReviewPort saveReviewPort;
 
+	@Mock
+	private LoadReviewPort loadReviewPort;
+
 	@Test
 	@DisplayName("review 등록 성공")
 	void registerReview() {
@@ -42,9 +47,10 @@ class RegisterReviewServiceTest {
 		WorkingDocument workingDocument = mock(WorkingDocument.class);
 		DocumentReviewer documentReviewer = mock(DocumentReviewer.class);
 		User reviewer = mock(User.class);
-		List<Review> reviews = ReviewTestData.createReviewsWithoutReviewer();
+		List<Evaluation> reviews = ReviewTestData.createReviewsWithoutReviewer();
 		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 			.willReturn(Optional.of(documentReviewer));
+		given(loadReviewPort.existsReview(workingDocument, reviewer)).willReturn(false);
 
 		// when
 		registerReviewService.registerReview(reviews, reviewer, workingDocument);
@@ -63,7 +69,7 @@ class RegisterReviewServiceTest {
 			WorkingDocument workingDocument = mock(WorkingDocument.class);
 			DocumentReviewer documentReviewer = mock(DocumentReviewer.class);
 			User reviewer = mock(User.class);
-			List<Review> reviews = List.of(mock(Review.class));
+			List<Evaluation> reviews = List.of(mock(Evaluation.class));
 			given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 				.willReturn(Optional.empty());
 

@@ -40,6 +40,7 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom {
 		// 메인 쿼리 작성
 		return jpaQueryFactory
 			.selectOne()
+			.from(review)
 			.where(review.documentReviewer.id.eq(documentReviewerId))
 			.limit(1)
 			.fetchFirst() != null;

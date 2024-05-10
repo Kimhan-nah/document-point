@@ -22,6 +22,7 @@ public enum ErrorCode {
 	E403000("FORBIDDEN"),
 	E403001("You are not REVIEWER of this WORKING DOCUMENT"),
 	E403002("You are not ASSIGNEE of this WORKING"),
+	E403003("You can't register REVIEW for this WORKING DOCUMENT"),
 
 	// 404 Not Found Error
 	E404000("NOT FOUND"),
@@ -43,8 +44,7 @@ public enum ErrorCode {
 	E409000("CONFLICT"),
 	E409001("CONFLICT DOCUMENT STATUS"),
 	E409002("CONFLICT CP EVALUATION"),
-
-	;
+	E409003("Already exist REVIEW");;
 	private final String message;
 
 	ErrorCode(String message) {

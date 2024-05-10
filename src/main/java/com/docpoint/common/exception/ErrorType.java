@@ -27,6 +27,7 @@ public enum ErrorType {
 	// 403 Forbidden Error
 	FORBIDDEN_REVIEWER(403, E403001, E403001.getMessage()),
 	FORBIDDEN_ASSIGNEE(403, E403002, E403002.getMessage()),
+	FORBIDDEN_REGISTER_REVIEW(403, E403003, E403003.getMessage()),
 
 	// 404 Not Found Error
 	NOT_FOUND_CP(404, E404001, E404001.getMessage()),
@@ -43,6 +44,7 @@ public enum ErrorType {
 	// 409 Conflict Error
 	CONFLICT_DOCUMENT_STATUS(409, E409001, E409001.getMessage()),
 	CONFLICT_CP_EVALUATION(409, E409002, E409002.getMessage()),
+	CONFLICT_REVIEW(409, E409003, E409003.getMessage()),
 
 	;
 
