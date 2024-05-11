@@ -15,8 +15,8 @@ public class SaveDocumentReviewerAdapter implements SaveDocumentReviewerPort {
 	private final DocumentReviewerRepository documentReviewerRepository;
 
 	@Override
-	public DocumentReviewer save(DocumentReviewer documentReviewer) {
+	public void save(DocumentReviewer documentReviewer) {
 		DocumentReviewerJpaEntity documentReviewerJpaEntity = DocumentReviewerMapper.mapToJpaEntity(documentReviewer);
-		return DocumentReviewerMapper.mapToDomainEntity(documentReviewerRepository.save(documentReviewerJpaEntity));
+		documentReviewerRepository.save(documentReviewerJpaEntity);
 	}
 }
