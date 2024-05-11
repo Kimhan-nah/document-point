@@ -1,6 +1,8 @@
 package com.docpoint.domain.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +14,7 @@ import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.CpEvaluation;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.RoleType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,10 +32,13 @@ class GetCpEvaluationsService implements GetCpEvaluationsUseCase {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<CpEvaluation> getCpEvaluations(User user, WorkingDocument workingDocument) {
+	public Map<RoleType, CpEvaluation> getCpEvaluations(User user, WorkingDocument workingDocument) {
 		if (!workingDocument.getWorking().getAssignee().equals(user)) {
 			throw new ForbiddenException(ErrorType.FORBIDDEN_ASSIGNEE);
 		}
-		return loadCpEvaluationPort.loadByWorkingDocument(workingDocument);
+		List<CpEvaluation> cpEvaluations = loadCpEvaluationPort.loadByWorkingDocument(workingDocument);
+		return cpEvaluations.stream().collect(Collectors.toMap(
+			cpEvaluation -> cpEvaluation.getDocumentReviewer().getReviewer().getRole(),
+			cpEvaluation -> cpEvaluation));
 	}
 }

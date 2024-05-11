@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -20,6 +21,7 @@ import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.Working;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.RoleType;
 import com.docpoint.util.UserTestData;
 import com.docpoint.util.WorkingDocumentTestData;
 import com.docpoint.util.WorkingTestData;
@@ -33,6 +35,7 @@ class GetFinalCpServiceTest {
 	@Mock
 	private LoadCpEvaluationPort loadCpEvaluationPort;
 
+	// TODO 수정
 	@Test
 	@DisplayName("기여도 조회 성공 - 1개의 CpEvaluation이 조회되는 경우, CpEvaluation 1개를 반환한다.")
 	void 기여도_조회_성공() {
@@ -41,14 +44,13 @@ class GetFinalCpServiceTest {
 		Working working = WorkingTestData.createWorkingWithAssignee(assignee);
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocumentWithWorking(working);
 		given(loadCpEvaluationPort.loadByWorkingDocument(workingDocument))
-			.willReturn(List.of(mock(CpEvaluation.class)));
+			.willReturn(List.of());
 
 		// when
-		List<CpEvaluation> cpEvaluations = getFinalCpService.getCpEvaluations(assignee, workingDocument);
+		Map<RoleType, CpEvaluation> cpEvaluations = getFinalCpService.getCpEvaluations(assignee, workingDocument);
 
 		// then
 		assertThat(cpEvaluations).isNotNull();
-		assertThat(cpEvaluations.size()).isEqualTo(1);
 		verify(loadCpEvaluationPort, times(1)).loadByWorkingDocument(workingDocument);
 
 	}

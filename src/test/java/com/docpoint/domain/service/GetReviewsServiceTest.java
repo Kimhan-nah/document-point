@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.common.exception.custom.ForbiddenException;
+import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.Evaluation;
 import com.docpoint.domain.entity.User;
@@ -41,7 +42,8 @@ class GetReviewsServiceTest {
 		// given
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 		User assignee = workingDocument.getWorking().getAssignee();
-		given(loadReviewPort.loadByWorkingDocument(workingDocument)).willReturn(List.of());
+		given(loadDocumentReviewerPort.loadByWorkingDocumentId(workingDocument.getId()))
+			.willReturn(List.of(mock(DocumentReviewer.class)));
 
 		// when
 		Map<User, List<Evaluation>> allReviews = getReviewsService.getAllReviews(workingDocument, assignee);
@@ -51,7 +53,7 @@ class GetReviewsServiceTest {
 	}
 
 	@Test
-	@DisplayName("리뷰 조회 성공 - 리뷰가 없을 경우, 빈 Evaluation 반환")
+	@DisplayName("리뷰 조회 성공 - 리뷰가 없을 경우, NotFoundException 발생")
 	void getReviewOfWorkingDocument() {
 		// given
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
@@ -60,12 +62,9 @@ class GetReviewsServiceTest {
 			.willReturn(Optional.of(mock(DocumentReviewer.class)));
 		given(loadReviewPort.loadUserReviewOfDocument(any())).willReturn(List.of());
 
-		// when
-		List<Evaluation> review = getReviewsService.getReview(workingDocument, reviewer);
-
-		// then
-		assertThat(review).isNotNull();
-		assertThat(review).isEmpty();
+		// when, then
+		assertThatThrownBy(() -> getReviewsService.getReview(workingDocument, reviewer))
+			.isInstanceOf(NotFoundException.class);
 	}
 
 	@Test
