@@ -60,7 +60,7 @@ class RegisterCpEvaluationServiceTest {
 			.willReturn(Optional.of(mock(DocumentReviewer.class)));
 		given(loadCpEvaluationPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
 			.willReturn(Optional.empty());
-		given(loadReviewPort.existsReview(workingDocument, partLeader)).willReturn(true);
+		given(loadReviewPort.existsReviewByReviewer(workingDocument, partLeader)).willReturn(true);
 
 		// when
 		registerCpEvaluationService.registerCpEvaluation(cpEvaluation, workingDocument, partLeader);

@@ -42,7 +42,7 @@ public class RegisterReviewService implements RegisterReviewUseCase {
 		DocumentReviewer documentReviewer = loadDocumentReviewerPort.loadByWorkingDocumentAndUser(
 				workingDocument, reviewer)
 			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));
-		if (loadReviewPort.existsReview(workingDocument, reviewer)) {
+		if (loadReviewPort.existsReviewByReviewer(workingDocument, reviewer)) {
 			throw new ConflictException(ErrorType.CONFLICT_REVIEW);
 		}
 		for (Evaluation evaluation : review) {

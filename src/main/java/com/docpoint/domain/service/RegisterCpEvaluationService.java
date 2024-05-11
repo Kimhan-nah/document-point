@@ -73,7 +73,7 @@ class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 	 */
 	private void checkCpEvaluation(WorkingDocument workingDocument, User reviewer) {
 		if (reviewer.getRole() == RoleType.PART_LEADER) {
-			if (!loadReviewPort.existsReview(workingDocument, reviewer)) {
+			if (!loadReviewPort.existsReviewByReviewer(workingDocument, reviewer)) {
 				throw new NotFoundException(ErrorType.NOT_FOUND_REVIEW);
 			}
 		}

@@ -50,7 +50,7 @@ class RegisterReviewServiceTest {
 		List<Evaluation> reviews = ReviewTestData.createReviewsWithoutReviewer();
 		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 			.willReturn(Optional.of(documentReviewer));
-		given(loadReviewPort.existsReview(workingDocument, reviewer)).willReturn(false);
+		given(loadReviewPort.existsReviewByReviewer(workingDocument, reviewer)).willReturn(false);
 
 		// when
 		registerReviewService.registerReview(reviews, reviewer, workingDocument);

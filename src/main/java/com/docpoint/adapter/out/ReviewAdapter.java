@@ -29,7 +29,7 @@ public class ReviewAdapter implements LoadReviewPort, SaveReviewPort {
 	}
 
 	@Override
-	public boolean existsReview(WorkingDocument workingDocument, User reviewer) {
+	public boolean existsReviewByReviewer(WorkingDocument workingDocument, User reviewer) {
 		return reviewRepository.existsByWorkingDocumentAndReviewer(workingDocument.getId(), reviewer.getId());
 	}
 

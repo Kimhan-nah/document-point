@@ -54,7 +54,7 @@ class GetReceivedRequestsService implements GetReceivedRequestsUserCase {
 		List<WorkingDocumentWithReviewDto> dtoList = new ArrayList<>();
 		for (WorkingDocument workingDocument : content) {
 			dtoList.add(WorkingDocumentWithReviewDto.toDto(workingDocument,
-				loadReviewPort.existsReview(workingDocument, user)));
+				loadReviewPort.existsReviewByReviewer(workingDocument, user)));
 		}
 		return new PageImpl<>(dtoList, pageable, workingDocuments.getTotalElements());
 	}
