@@ -50,7 +50,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 			.innerJoin(workingAssignee)
 			.on(working.id.eq(workingAssignee.working.id).and(workingAssignee.assignee.id.eq(userId)))
 			.innerJoin(workingDocument)
-			.on(workingAssignee.working.id.eq(workingDocument.working.id))
+			.on(workingAssignee.working.id.eq(workingDocument.working.id).and(workingDocument.isDeleted.isFalse()))
 			.where(eqStatus(status))
 			.orderBy(workingDocument.id.desc())
 			.offset(pageable.getOffset())
@@ -63,7 +63,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 			.innerJoin(workingAssignee)
 			.on(working.id.eq(workingAssignee.working.id).and(workingAssignee.assignee.id.eq(userId)))
 			.innerJoin(workingDocument)
-			.on(workingAssignee.working.id.eq(workingDocument.working.id))
+			.on(workingAssignee.working.id.eq(workingDocument.working.id).and(workingDocument.isDeleted.isFalse()))
 			.where(eqStatus(status));
 
 		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
@@ -84,6 +84,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 			.select(workingDocument)
 			.from(documentReviewer)
 			.innerJoin(documentReviewer.workingDocument, workingDocument)
+			.on(workingDocument.isDeleted.isFalse())
 			.where(documentReviewer.reviewer.id.eq(reviewerId),
 				eqStatus(status))
 			.orderBy(workingDocument.createdAt.desc())
@@ -94,6 +95,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 		JPAQuery<Long> countQuery = jpaQueryFactory.select(documentReviewer.count())
 			.from(documentReviewer)
 			.innerJoin(documentReviewer.workingDocument, workingDocument)
+			.on(workingDocument.isDeleted.isFalse())
 			.where(documentReviewer.reviewer.id.eq(reviewerId),
 				eqStatus(status));
 
@@ -110,7 +112,9 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 		List<WorkingDocumentJpaEntity> fetch = jpaQueryFactory
 			.select(workingDocument)
 			.from(documentReviewer)
-			.innerJoin(workingDocument).on(documentReviewer.workingDocument.id.eq(workingDocument.id))
+			.innerJoin(workingDocument)
+			.on(documentReviewer.workingDocument.id.eq(workingDocument.id)
+				.and(workingDocument.isDeleted.isFalse()))
 			.where(documentReviewer.reviewer.id.eq(userId),
 				workingDocument.status.ne(excludeStatus),
 				workingDocument.status.eq(status))
@@ -122,7 +126,9 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 		JPAQuery<Long> countQuery = jpaQueryFactory
 			.select(workingDocument.count())
 			.from(documentReviewer)
-			.innerJoin(workingDocument).on(documentReviewer.workingDocument.id.eq(workingDocument.id))
+			.innerJoin(workingDocument)
+			.on(documentReviewer.workingDocument.id.eq(workingDocument.id)
+				.and(workingDocument.isDeleted.isFalse()))
 			.where(documentReviewer.reviewer.id.eq(userId),
 				workingDocument.status.ne(excludeStatus),
 				workingDocument.status.eq(status));
@@ -144,7 +150,8 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 			.innerJoin(user).on(user.team.id.eq(teamId))
 			.innerJoin(workingAssignee).on(user.id.eq(workingAssignee.assignee.id))
 			.innerJoin(working).on(workingAssignee.working.id.eq(working.id))
-			.innerJoin(workingDocument).on(working.id.eq(workingDocument.working.id))
+			.innerJoin(workingDocument).on(working.id.eq(workingDocument.working.id)
+				.and(workingDocument.isDeleted.isFalse()))
 			.orderBy(workingDocument.createdAt.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
@@ -155,7 +162,8 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 			.innerJoin(user).on(user.team.id.eq(teamId))
 			.innerJoin(workingAssignee).on(user.id.eq(workingAssignee.assignee.id))
 			.innerJoin(working).on(workingAssignee.working.id.eq(working.id))
-			.innerJoin(workingDocument).on(working.id.eq(workingDocument.working.id));
+			.innerJoin(workingDocument).on(working.id.eq(workingDocument.working.id)
+				.and(workingDocument.isDeleted.isFalse()));
 
 		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
 	}

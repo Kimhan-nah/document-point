@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.docpoint.infrastructure.entity.QDocumentReviewerJpaEntity;
 import com.docpoint.infrastructure.entity.QReviewJpaEntity;
+import com.docpoint.infrastructure.entity.QWorkingDocumentJpaEntity;
 import com.docpoint.infrastructure.entity.ReviewJpaEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -20,7 +21,8 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom {
 	public List<ReviewJpaEntity> findAllByWorkingDocument(long workingDocumentId) {
 		return jpaQueryFactory
 			.selectFrom(reviewJpaEntity)
-			.where(reviewJpaEntity.documentReviewer.workingDocument.id.eq(workingDocumentId))
+			.where(reviewJpaEntity.documentReviewer.workingDocument.id.eq(workingDocumentId),
+				reviewJpaEntity.documentReviewer.workingDocument.isDeleted.isFalse())
 			.fetch();
 	}
 
@@ -33,8 +35,9 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom {
 		Long documentReviewerId = jpaQueryFactory.
 			select(documentReviewer.id)
 			.from(documentReviewer)
-			.where(documentReviewer.workingDocument.id.eq(workingDocumentId)
-				.and(documentReviewer.reviewer.id.eq(reviewerId)))
+			.where(documentReviewer.workingDocument.id.eq(workingDocumentId),
+				documentReviewer.workingDocument.isDeleted.isFalse(),
+				documentReviewer.reviewer.id.eq(reviewerId))
 			.fetchOne();
 
 		// 메인 쿼리 작성
@@ -42,6 +45,21 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom {
 			.selectOne()
 			.from(review)
 			.where(review.documentReviewer.id.eq(documentReviewerId))
+			.limit(1)
+			.fetchFirst() != null;
+	}
+
+	@Override
+	public boolean existsByWorkingDocument(long workingDocumentId) {
+		QWorkingDocumentJpaEntity workingDocument = QWorkingDocumentJpaEntity.workingDocumentJpaEntity;
+		QDocumentReviewerJpaEntity documentReviewer = documentReviewerJpaEntity;
+		QReviewJpaEntity review = reviewJpaEntity;
+
+		return jpaQueryFactory
+			.selectOne()
+			.from(workingDocument)
+			.where(workingDocument.id.eq(workingDocumentId),
+				workingDocument.isDeleted.isFalse())
 			.limit(1)
 			.fetchFirst() != null;
 	}
