@@ -3,11 +3,11 @@ package com.docpoint.domain.service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.application.port.in.RegisterCpEvaluationUseCase;
-import com.docpoint.application.port.in.UpdateWorkingDocumentUseCase;
 import com.docpoint.application.port.out.LoadCpEvaluationPort;
 import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.application.port.out.SaveCpEvaluationPort;
+import com.docpoint.application.port.out.SaveWorkingDocumentPort;
 import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ConflictException;
@@ -28,8 +28,8 @@ class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 	private final LoadDocumentReviewerPort loadDocumentReviewerPort;
 	private final SaveCpEvaluationPort saveCpEvaluationPort;
 	private final LoadCpEvaluationPort loadCpEvaluationPort;
-	private final UpdateWorkingDocumentUseCase updateWorkingDocumentUseCase;
 	private final LoadReviewPort loadReviewPort;
+	private final SaveWorkingDocumentPort saveWorkingDocumentPort;
 
 	/**
 	 * CP 평가 등록
@@ -85,9 +85,10 @@ class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 
 	private void updateWorkingDocumentStatus(WorkingDocument workingDocument, User user) {
 		if (user.getRole() == RoleType.TEAM_LEADER) {
-			updateWorkingDocumentUseCase.updateStatus(workingDocument, DocStatusType.APPROVED);
+			workingDocument.updateStatus(DocStatusType.APPROVED);
 		} else if (user.getRole() == RoleType.PART_LEADER) {
-			updateWorkingDocumentUseCase.updateStatus(workingDocument, DocStatusType.APPROVAL_REQUEST);
+			workingDocument.updateStatus(DocStatusType.APPROVAL_REQUEST);
 		}
+		saveWorkingDocumentPort.update(workingDocument);
 	}
 }
