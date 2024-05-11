@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.docpoint.application.port.in.RegisterWorkingDocumentUseCase;
 import com.docpoint.application.port.out.LoadEmployeePort;
+import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.application.port.out.SaveDocumentReviewerPort;
+import com.docpoint.application.port.out.SaveWorkingDocumentPort;
 import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.BadRequestException;
@@ -24,10 +26,11 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-@Transactional
 class RegisterWorkingDocumentService implements RegisterWorkingDocumentUseCase {
 	private final SaveDocumentReviewerPort saveDocumentReviewerPort;
+	private final SaveWorkingDocumentPort saveWorkingDocumentPort;
 	private final LoadEmployeePort loadEmployeePort;
+	private final LoadReviewPort loadReviewPort;
 
 	/**
 	 * 작업문서(WorkingDocument) 등록
@@ -35,10 +38,9 @@ class RegisterWorkingDocumentService implements RegisterWorkingDocumentUseCase {
 	 * @param working 수행 작업
 	 * @param user 작업문서를 등록할 사용자 (working의 assignee)
 	 * @param reviewers 작업문서의 리뷰어 목록
-	 * @throws ForbiddenException working의 assignee가 아닌 경우
-	 * @throws BadRequestException 작업문서의 상태가 REVIEW가 아닌 경우
 	 */
 	@Override
+	@Transactional
 	public void registerWorkingDocument(WorkingDocument workingDocument, Working working, User user,
 		List<User> reviewers) {
 
@@ -46,11 +48,9 @@ class RegisterWorkingDocumentService implements RegisterWorkingDocumentUseCase {
 		checkWorkingDocumentStatus(workingDocument.getStatus());
 		checkReviewers(user, reviewers);
 
-		workingDocument = workingDocument.updateWorking(working);
+		workingDocument.updateWorking(working);
 		List<DocumentReviewer> documentReviewers = createDocumentReviewers(workingDocument, reviewers, user.getTeam());
-		for (DocumentReviewer documentReviewer : documentReviewers) {
-			saveDocumentReviewerPort.save(documentReviewer);
-		}
+		saveWorkingDocumentPort.save(workingDocument, documentReviewers);
 	}
 
 	private void checkAssignee(Working working, User user) {

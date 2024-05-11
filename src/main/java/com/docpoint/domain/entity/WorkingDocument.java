@@ -1,8 +1,6 @@
 package com.docpoint.domain.entity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import com.docpoint.domain.type.DocStatusType;
@@ -15,7 +13,6 @@ import lombok.Getter;
 public class WorkingDocument {
 	private final Long id;
 	private final LocalDate registerDate;
-	private final List<DocumentReviewer> reviewers = new ArrayList<>();
 	private Working working;
 	private String title;
 	private String content;
@@ -44,5 +41,9 @@ public class WorkingDocument {
 
 	public void updateWorking(Working working) {
 		this.working = working;
+	}
+
+	public void updateStatus(DocStatusType status) {
+		this.status = status;
 	}
 }
