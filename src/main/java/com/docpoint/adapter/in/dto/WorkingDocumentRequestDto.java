@@ -1,10 +1,12 @@
 package com.docpoint.adapter.in.dto;
 
-import java.util.List;
+import java.util.Set;
 
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.domain.type.DocType;
 
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -27,7 +29,7 @@ public class WorkingDocumentRequestDto {
 	private String link;
 
 	@NotNull(message = "리뷰어를 선택해주세요.")
-	private List<Long> reviewerIds;
+	private Set<Long> reviewerIds;
 
 	@NotBlank(message = "내용을 입력해주세요.")
 	@Size(max = 1000, message = "내용은 1000자 이내로 입력해주세요.")
@@ -42,6 +44,12 @@ public class WorkingDocumentRequestDto {
 			.docType(workingDocumentRequestDto.getDocType())
 			.link(workingDocumentRequestDto.getLink())
 			.content(workingDocumentRequestDto.getContent())
+			.status(DocStatusType.REVIEW)
 			.build();
+	}
+
+	@AssertTrue(message = "리뷰어를 선택해주세요.")
+	public boolean isReviewerIdsNotEmpty() {
+		return reviewerIds != null && !reviewerIds.isEmpty();
 	}
 }
