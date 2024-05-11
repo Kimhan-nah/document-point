@@ -8,5 +8,5 @@ import com.docpoint.domain.type.DocStatusType;
  * 		(domain.service를 application.port.in.service로 변경)
  */
 public interface UpdateWorkingDocumentUseCase {
-	WorkingDocument updateStatus(WorkingDocument workingDocument, DocStatusType docStatusType);
+	void updateStatus(WorkingDocument workingDocument, DocStatusType docStatusType);
 }

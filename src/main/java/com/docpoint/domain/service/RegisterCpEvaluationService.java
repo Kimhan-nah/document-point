@@ -37,40 +37,52 @@ class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 	 */
 	@Override
 	@Transactional
-	public CpEvaluation registerCpEvaluation(CpEvaluation cpEvaluation, WorkingDocument workingDocument,
+	public void registerCpEvaluation(CpEvaluation cpEvaluation, WorkingDocument workingDocument,
 		User reviewer) {
 		DocumentReviewer documentReviewer = getDocumentReviewer(workingDocument, reviewer);
-		checkDocumentStatus(workingDocument);
+		checkDocumentStatus(workingDocument, reviewer);
 		checkCpEvaluation(workingDocument, reviewer);
 		updateWorkingDocumentStatus(workingDocument, reviewer);
 		cpEvaluation = cpEvaluation.updateDocumentReviewer(documentReviewer);
-		return saveCpEvaluationPort.save(cpEvaluation);
+		saveCpEvaluationPort.save(cpEvaluation);
 	}
 
+	/**
+	 * @throws ForbiddenException CP 평가자가 아닌 경우
+	 */
 	private DocumentReviewer getDocumentReviewer(WorkingDocument workingDocument, User reviewer) {
 		return loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer)
 			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));
 	}
 
-	private void checkDocumentStatus(WorkingDocument workingDocument) {
-		if (workingDocument.getStatus() == DocStatusType.APPROVED) {
-			throw new ConflictException(ErrorType.CONFLICT_DOCUMENT_STATUS);
+	/**
+	 * @throws ForbiddenException CP 평가가 불가능한 문서 상태일 경우
+	 */
+	private void checkDocumentStatus(WorkingDocument workingDocument, User reviewer) {
+		if (reviewer.getRole() == RoleType.PART_LEADER && workingDocument.getStatus() != DocStatusType.REVIEW) {
+			throw new ForbiddenException(ErrorType.CONFLICT_DOCUMENT_STATUS);
 		}
 	}
 
+	/**
+	 * @throws ForbiddenException 문서 리뷰 하지 않은 파트리더인 경우
+	 * @throws ConflictException 이미 CP 평가한 경우
+	 */
 	private void checkCpEvaluation(WorkingDocument workingDocument, User reviewer) {
+		if (reviewer.getRole() == RoleType.PART_LEADER) {
+			// TODO 리뷰가 존재해야 CP 평가 가능
+		}
 		loadCpEvaluationPort.loadByWorkingDocumentAndUser(workingDocument, reviewer)
 			.ifPresent(cpEvaluation -> {
 				throw new ConflictException(ErrorType.CONFLICT_CP_EVALUATION);
 			});
 	}
 
-	private WorkingDocument updateWorkingDocumentStatus(WorkingDocument workingDocument, User user) {
+	private void updateWorkingDocumentStatus(WorkingDocument workingDocument, User user) {
 		if (user.getRole() == RoleType.TEAM_LEADER) {
-			return updateWorkingDocumentUseCase.updateStatus(workingDocument, DocStatusType.APPROVED);
+			updateWorkingDocumentUseCase.updateStatus(workingDocument, DocStatusType.APPROVED);
 		} else if (user.getRole() == RoleType.PART_LEADER) {
-			return updateWorkingDocumentUseCase.updateStatus(workingDocument, DocStatusType.APPROVAL_REQUEST);
+			updateWorkingDocumentUseCase.updateStatus(workingDocument, DocStatusType.APPROVAL_REQUEST);
 		}
-		return null;
 	}
 }

@@ -15,8 +15,8 @@ public class SaveWorkingDocumentAdapter implements SaveWorkingDocumentPort {
 	private final WorkingDocumentRepository workingDocumentRepository;
 
 	@Override
-	public WorkingDocument save(WorkingDocument workingDocument) {
+	public void save(WorkingDocument workingDocument) {
 		WorkingDocumentJpaEntity workingDocumentJpaEntity = WorkingDocumentMapper.mapToJpaEntity(workingDocument);
-		return WorkingDocumentMapper.mapToDomainEntity(workingDocumentRepository.save(workingDocumentJpaEntity));
+		WorkingDocumentJpaEntity save = workingDocumentRepository.save(workingDocumentJpaEntity);
 	}
 }

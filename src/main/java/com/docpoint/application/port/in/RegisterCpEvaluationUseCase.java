@@ -8,5 +8,5 @@ import com.docpoint.domain.entity.WorkingDocument;
  * 기여도를 입력한다. (cp 평가)
  */
 public interface RegisterCpEvaluationUseCase {
-	CpEvaluation registerCpEvaluation(CpEvaluation cpEvaluation, WorkingDocument workingDocument, User reviewer);
+	void registerCpEvaluation(CpEvaluation cpEvaluation, WorkingDocument workingDocument, User reviewer);
 }

@@ -15,8 +15,8 @@ public class SaveCpEvaluationAdapter implements SaveCpEvaluationPort {
 	private final CpEvaluationRepository cpEvaluationRepository;
 
 	@Override
-	public CpEvaluation save(CpEvaluation cpEvaluation) {
+	public void save(CpEvaluation cpEvaluation) {
 		CpEvaluationJpaEntity cpEvaluationJpaEntity = CpEvaluationMapper.mapToJpaEntity(cpEvaluation);
-		return CpEvaluationMapper.mapToDomainEntity(cpEvaluationRepository.save(cpEvaluationJpaEntity));
+		cpEvaluationRepository.save(cpEvaluationJpaEntity);
 	}
 }

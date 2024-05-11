@@ -17,7 +17,7 @@ class UpdateWorkingDocumentService implements UpdateWorkingDocumentUseCase {
 
 	@Override
 	@Transactional
-	public WorkingDocument updateStatus(WorkingDocument workingDocument, DocStatusType docStatusType) {
+	public void updateStatus(WorkingDocument workingDocument, DocStatusType docStatusType) {
 		WorkingDocument updatedWorkingDocument = WorkingDocument.builder()
 			.id(workingDocument.getId())
 			.working(workingDocument.getWorking())
@@ -27,7 +27,8 @@ class UpdateWorkingDocumentService implements UpdateWorkingDocumentUseCase {
 			.docType(workingDocument.getDocType())
 			.link(workingDocument.getLink())
 			.isDeleted(workingDocument.isDeleted())
+			.registerDate(workingDocument.getRegisterDate())
 			.build();
-		return saveWorkingDocumentPort.save(updatedWorkingDocument);
+		saveWorkingDocumentPort.save(updatedWorkingDocument);
 	}
 }
