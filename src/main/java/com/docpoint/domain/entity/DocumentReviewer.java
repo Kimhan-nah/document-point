@@ -6,9 +6,7 @@ import lombok.Getter;
 @Getter
 public class DocumentReviewer {
 	private final Long id;
-
 	private final WorkingDocument workingDocument;
-
 	private final User reviewer;
 
 	@Builder

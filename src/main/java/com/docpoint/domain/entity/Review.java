@@ -9,14 +9,10 @@ import lombok.Getter;
 @Getter
 public class Review {
 	private final Long id;
-
-	private final DocumentReviewer documentReviewer;
-
 	private final ReviewQuestionType question;
-
 	private final ReviewAnswerType answer;
-
 	private final boolean isDeleted;
+	private DocumentReviewer documentReviewer;
 
 	@Builder
 	public Review(Long id, DocumentReviewer documentReviewer, ReviewQuestionType question, ReviewAnswerType answer,
@@ -28,8 +24,8 @@ public class Review {
 		this.isDeleted = isDeleted;
 	}
 
-	public Review updateDocumentReviewer(DocumentReviewer documentReviewer) {
-		return new Review(this.id, documentReviewer, this.question, this.answer, this.isDeleted);
+	public void updateDocumentReviewer(DocumentReviewer documentReviewer) {
+		this.documentReviewer = documentReviewer;
 	}
 
 	public boolean isDocumentReviewerEmpty() {

@@ -13,4 +13,6 @@ public interface LoadReviewPort {
 	boolean existsReviewByReviewer(WorkingDocument workingDocument, User reviewer);
 
 	List<Review> loadUserReviewOfDocument(DocumentReviewer documentReviewer);
+
+	boolean existsReview(WorkingDocument workingDocument);
 }

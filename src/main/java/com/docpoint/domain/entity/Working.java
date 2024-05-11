@@ -12,26 +12,16 @@ import lombok.Getter;
 @Getter
 public class Working {
 	private final Long id;
-
 	private final User writer;
-
-	private final User assignee;
-
 	private final String title;
-
 	private final String content;
-
-	private final WorkingStatusType status;
-
 	private final WorkingCategoryType category;
-
 	private final LocalDateTime dueDate;
-
 	private final LocalDateTime recruitDate;
-
 	private final int cp;
-
-	private final boolean isDeleted;
+	private WorkingStatusType status;
+	private User assignee;
+	private boolean isDeleted;
 
 	@Builder
 	public Working(Long id, User writer, User assignee, String title, String content, WorkingStatusType status,
@@ -49,36 +39,12 @@ public class Working {
 		this.isDeleted = isDeleted;
 	}
 
-	public Working updateStatus(WorkingStatusType status) {
-		return Working.builder()
-			.id(this.id)
-			.writer(this.writer)
-			.assignee(this.assignee)
-			.title(this.title)
-			.content(this.content)
-			.status(status)
-			.category(this.category)
-			.dueDate(this.dueDate)
-			.recruitDate(this.recruitDate)
-			.cp(this.cp)
-			.isDeleted(this.isDeleted)
-			.build();
+	public void updateStatus(WorkingStatusType status) {
+		this.status = status;
 	}
 
-	public Working updateAssignee(User assignee) {
-		return Working.builder()
-			.id(this.id)
-			.writer(this.writer)
-			.assignee(assignee)
-			.title(this.title)
-			.content(this.content)
-			.status(this.status)
-			.category(this.category)
-			.dueDate(this.dueDate)
-			.recruitDate(this.recruitDate)
-			.cp(this.cp)
-			.isDeleted(this.isDeleted)
-			.build();
+	public void updateAssignee(User assignee) {
+		this.assignee = assignee;
 	}
 
 	public boolean isWriterEmpty() {

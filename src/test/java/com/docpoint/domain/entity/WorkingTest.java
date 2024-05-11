@@ -80,7 +80,7 @@ public class WorkingTest {
 			.build();
 
 		// when
-		working = working.updateStatus(WorkingStatusType.DONE);
+		working.updateStatus(WorkingStatusType.DONE);
 
 		// then
 		assertThat(working.getStatus()).isEqualTo(WorkingStatusType.DONE);

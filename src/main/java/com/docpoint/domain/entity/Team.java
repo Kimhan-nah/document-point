@@ -13,12 +13,16 @@ public class Team {
 
 	private final String name;
 
-	private final boolean isDeleted;
+	private boolean isDeleted;
 
 	@Builder
 	public Team(Long id, String name, boolean isDeleted) {
 		this.id = id;
 		this.name = Objects.requireNonNull(name);
 		this.isDeleted = isDeleted;
+	}
+
+	public void delete() {
+		this.isDeleted = true;
 	}
 }

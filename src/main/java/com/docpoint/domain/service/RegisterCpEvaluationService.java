@@ -46,7 +46,7 @@ class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 		checkDocumentStatus(workingDocument, reviewer);
 		checkCpEvaluation(workingDocument, reviewer);
 		updateWorkingDocumentStatus(workingDocument, reviewer);
-		cpEvaluation = cpEvaluation.updateDocumentReviewer(documentReviewer);
+		cpEvaluation.updateDocumentReviewer(documentReviewer);
 		saveCpEvaluationPort.save(cpEvaluation);
 	}
 

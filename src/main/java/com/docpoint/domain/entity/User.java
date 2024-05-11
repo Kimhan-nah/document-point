@@ -23,7 +23,7 @@ public class User {
 
 	private final String employeeId;
 
-	private final boolean isDeleted;
+	private boolean isDeleted;
 
 	@Builder
 	public User(Long id, Team team, String name, String email, RoleType role, String employeeId,
@@ -39,5 +39,9 @@ public class User {
 
 	public boolean isTeamEmpty() {
 		return this.team == null;
+	}
+
+	public void delete() {
+		this.isDeleted = true;
 	}
 }

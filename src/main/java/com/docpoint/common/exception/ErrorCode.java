@@ -20,8 +20,8 @@ public enum ErrorCode {
 
 	// 403 Forbidden Error
 	E403000("FORBIDDEN"),
-	E403001("You are not REVIEWER of this WORKING DOCUMENT"),
-	E403002("You are not ASSIGNEE of this WORKING"),
+	E403001("Invalid REVIEWER of this WORKING DOCUMENT"),
+	E403002("Invalid ASSIGNEE of this WORKING"),
 	E403003("You can't register REVIEW for this WORKING DOCUMENT"),
 
 	// 404 Not Found Error

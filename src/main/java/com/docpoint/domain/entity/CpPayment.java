@@ -7,7 +7,6 @@ import lombok.Getter;
 public class CpPayment {
 	private final Long id;
 	private final User user;
-
 	private final int cp;
 
 	@Builder

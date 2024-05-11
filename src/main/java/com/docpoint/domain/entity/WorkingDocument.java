@@ -1,6 +1,8 @@
 package com.docpoint.domain.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.docpoint.domain.type.DocStatusType;
@@ -12,21 +14,15 @@ import lombok.Getter;
 @Getter
 public class WorkingDocument {
 	private final Long id;
-
-	private final Working working;
-
-	private final String title;
-
-	private final String content;
-
-	private final DocStatusType status;
-
-	private final DocType docType;
-
-	private final String link;
-
-	private final boolean isDeleted;
 	private final LocalDate registerDate;
+	private final List<DocumentReviewer> reviewers = new ArrayList<>();
+	private Working working;
+	private String title;
+	private String content;
+	private DocType docType;
+	private String link;
+	private DocStatusType status;
+	private boolean isDeleted;
 
 	@Builder
 	public WorkingDocument(Long id, Working working, String title, String content, DocStatusType status,
@@ -46,16 +42,7 @@ public class WorkingDocument {
 		return this.working == null;
 	}
 
-	public WorkingDocument updateWorking(Working working) {
-		return WorkingDocument.builder()
-			.id(this.id)
-			.working(working)
-			.title(this.title)
-			.content(this.content)
-			.status(this.status)
-			.docType(this.docType)
-			.link(this.link)
-			.isDeleted(this.isDeleted)
-			.build();
+	public void updateWorking(Working working) {
+		this.working = working;
 	}
 }

@@ -38,7 +38,7 @@ public class WorkingDocumentTestData {
 
 	public static WorkingDocument createWorkingDocumentWithStatus(DocStatusType status) {
 		Working working = WorkingTestData.createWorking();
-		working = working.updateStatus(WorkingStatusType.DONE);
+		working.updateStatus(WorkingStatusType.DONE);
 		return new WorkingDocument(workingId++, working, "title", "content", status, DocType.GITLAB, "gitlab.com",
 			false, registerDate);
 	}

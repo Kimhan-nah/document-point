@@ -8,10 +8,10 @@ import lombok.Getter;
 @Getter
 public class CpEvaluation {
 	private final Long id;
-	private final DocumentReviewer documentReviewer;
 	private final String comment;
 	private final int cp;
-	private final boolean isDeleted;
+	private DocumentReviewer documentReviewer;
+	private boolean isDeleted;
 
 	@Builder
 	public CpEvaluation(Long id, DocumentReviewer documentReviewer, String comment, int cp, boolean isDeleted) {
@@ -22,14 +22,12 @@ public class CpEvaluation {
 		this.isDeleted = isDeleted;
 	}
 
-	public CpEvaluation updateDocumentReviewer(DocumentReviewer documentReviewer) {
-		return CpEvaluation.builder()
-			.id(this.id)
-			.documentReviewer(documentReviewer)
-			.comment(this.comment)
-			.cp(this.cp)
-			.isDeleted(this.isDeleted)
-			.build();
+	public void updateDocumentReviewer(DocumentReviewer documentReviewer) {
+		this.documentReviewer = documentReviewer;
+	}
+
+	public void delete() {
+		this.isDeleted = true;
 	}
 
 	public boolean isDocumentReviewerEmpty() {
