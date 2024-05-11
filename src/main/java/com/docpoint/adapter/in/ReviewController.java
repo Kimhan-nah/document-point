@@ -61,7 +61,7 @@ public class ReviewController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping("/reviews")
+	@PostMapping("/review")
 	public ResponseEntity<Void> registerReview(
 		@PathVariable @Positive Long workingId,
 		@RequestBody @Valid ReviewRequestDto reviewRequestDto,
