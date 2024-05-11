@@ -46,4 +46,9 @@ public class ReviewAdapter implements LoadReviewPort, SaveReviewPort {
 			.map(ReviewMapper::mapToDomainEntity)
 			.toList();
 	}
+
+	@Override
+	public boolean existsReview(WorkingDocument workingDocument) {
+		return reviewRepository.existsByWorkingDocument(workingDocument.getId());
+	}
 }

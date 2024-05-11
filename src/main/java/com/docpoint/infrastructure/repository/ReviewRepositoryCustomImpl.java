@@ -22,7 +22,8 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom {
 		return jpaQueryFactory
 			.selectFrom(reviewJpaEntity)
 			.where(reviewJpaEntity.documentReviewer.workingDocument.id.eq(workingDocumentId),
-				reviewJpaEntity.documentReviewer.workingDocument.isDeleted.isFalse())
+				reviewJpaEntity.documentReviewer.workingDocument.isDeleted.isFalse(),
+				reviewJpaEntity.isDeleted.isFalse())
 			.fetch();
 	}
 
@@ -44,7 +45,8 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom {
 		return jpaQueryFactory
 			.selectOne()
 			.from(review)
-			.where(review.documentReviewer.id.eq(documentReviewerId))
+			.where(review.documentReviewer.id.eq(documentReviewerId)
+				.and(review.isDeleted.isFalse()))
 			.limit(1)
 			.fetchFirst() != null;
 	}
@@ -58,9 +60,16 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom {
 		return jpaQueryFactory
 			.selectOne()
 			.from(workingDocument)
-			.where(workingDocument.id.eq(workingDocumentId),
+			.innerJoin(documentReviewer)
+			.on(workingDocument.id.eq(documentReviewer.workingDocument.id)
+				.and(workingDocument.isDeleted.isFalse()))
+			.innerJoin(review)
+			.on(documentReviewer.id.eq(review.documentReviewer.id)
+				.and(review.isDeleted.isFalse()))
+			.where(workingDocument.id.eq(1L),
 				workingDocument.isDeleted.isFalse())
 			.limit(1)
 			.fetchFirst() != null;
+
 	}
 }
