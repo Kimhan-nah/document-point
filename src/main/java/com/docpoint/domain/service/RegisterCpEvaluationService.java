@@ -6,11 +6,13 @@ import com.docpoint.application.port.in.RegisterCpEvaluationUseCase;
 import com.docpoint.application.port.in.UpdateWorkingDocumentUseCase;
 import com.docpoint.application.port.out.LoadCpEvaluationPort;
 import com.docpoint.application.port.out.LoadDocumentReviewerPort;
+import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.application.port.out.SaveCpEvaluationPort;
 import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
+import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.CpEvaluation;
 import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.User;
@@ -27,6 +29,7 @@ class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 	private final SaveCpEvaluationPort saveCpEvaluationPort;
 	private final LoadCpEvaluationPort loadCpEvaluationPort;
 	private final UpdateWorkingDocumentUseCase updateWorkingDocumentUseCase;
+	private final LoadReviewPort loadReviewPort;
 
 	/**
 	 * CP 평가 등록
@@ -56,21 +59,23 @@ class RegisterCpEvaluationService implements RegisterCpEvaluationUseCase {
 	}
 
 	/**
-	 * @throws ForbiddenException CP 평가가 불가능한 문서 상태일 경우
+	 * @throws ConflictException CP 평가가 불가능한 문서 상태일 경우
 	 */
 	private void checkDocumentStatus(WorkingDocument workingDocument, User reviewer) {
 		if (reviewer.getRole() == RoleType.PART_LEADER && workingDocument.getStatus() != DocStatusType.REVIEW) {
-			throw new ForbiddenException(ErrorType.CONFLICT_DOCUMENT_STATUS);
+			throw new ConflictException(ErrorType.CONFLICT_DOCUMENT_STATUS);
 		}
 	}
 
 	/**
-	 * @throws ForbiddenException 문서 리뷰 하지 않은 파트리더인 경우
+	 * @throws NotFoundException 문서 리뷰 하지 않은 파트리더인 경우
 	 * @throws ConflictException 이미 CP 평가한 경우
 	 */
 	private void checkCpEvaluation(WorkingDocument workingDocument, User reviewer) {
 		if (reviewer.getRole() == RoleType.PART_LEADER) {
-			// TODO 리뷰가 존재해야 CP 평가 가능
+			if (!loadReviewPort.existsReview(workingDocument, reviewer)) {
+				throw new NotFoundException(ErrorType.NOT_FOUND_REVIEW);
+			}
 		}
 		loadCpEvaluationPort.loadByWorkingDocumentAndUser(workingDocument, reviewer)
 			.ifPresent(cpEvaluation -> {

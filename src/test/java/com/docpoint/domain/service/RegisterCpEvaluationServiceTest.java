@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.docpoint.application.port.in.UpdateWorkingDocumentUseCase;
 import com.docpoint.application.port.out.LoadCpEvaluationPort;
 import com.docpoint.application.port.out.LoadDocumentReviewerPort;
+import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.application.port.out.SaveCpEvaluationPort;
 import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
@@ -46,6 +47,9 @@ class RegisterCpEvaluationServiceTest {
 	@Mock
 	private UpdateWorkingDocumentUseCase updateWorkingDocumentUseCase;
 
+	@Mock
+	private LoadReviewPort loadReviewPort;
+
 	@Test
 	@DisplayName("파트 리더인 경우, 승인 요청(APPROVAL_REQUEST) 상태로 변경하는 메서드를 호출한다.")
 	void 기여도_입력_성공() {
@@ -56,6 +60,7 @@ class RegisterCpEvaluationServiceTest {
 			.willReturn(Optional.of(mock(DocumentReviewer.class)));
 		given(loadCpEvaluationPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
 			.willReturn(Optional.empty());
+		given(loadReviewPort.existsReview(workingDocument, partLeader)).willReturn(true);
 
 		// when
 		registerCpEvaluationService.registerCpEvaluation(cpEvaluation, workingDocument, partLeader);
@@ -103,11 +108,11 @@ class RegisterCpEvaluationServiceTest {
 		}
 
 		@Test
-		@DisplayName("workingDocument의 상태가 '승인 완료(APPROVED)'일 경우, ConflictException 발생")
+		@DisplayName("workingDocument의 상태가 REVIEW 상태가 아닌 '승인 완료(APPROVED)'일 경우, ConflictException 발생")
 		void 승인_완료된_문서일_경우() {
 			WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocumentWithStatus(
 				DocStatusType.APPROVED);
-			User reviewer = mock(User.class);
+			User reviewer = UserTestData.createPartLeader(new Team(null, "team", false));
 			given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
 				.willReturn(Optional.of(mock(DocumentReviewer.class)));
 
