@@ -71,7 +71,7 @@ public class WorkingDocumentJpaEntity extends BaseTimeEntity {
 	@Column(name = "is_deleted")
 	private Boolean isDeleted;
 
-	@OneToMany(mappedBy = "workingDocument", cascade = CascadeType.MERGE)
+	@OneToMany(mappedBy = "workingDocument", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	private List<DocumentReviewerJpaEntity> reviewers = new ArrayList<>();
 
 	@Builder

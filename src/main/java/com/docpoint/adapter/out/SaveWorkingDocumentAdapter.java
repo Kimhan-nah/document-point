@@ -50,7 +50,7 @@ public class SaveWorkingDocumentAdapter implements SaveWorkingDocumentPort {
 			documentReviewerRepository.deleteByWorkingDocument_IdAndReviewer_Id(workingDocument.getId(), reviewerId);
 		}
 
-		WorkingDocumentJpaEntity save = workingDocumentRepository.save(workingDocumentJpaEntity);
+		workingDocumentRepository.save(workingDocumentJpaEntity);
 	}
 
 	@Override
