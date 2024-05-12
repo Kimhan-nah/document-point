@@ -50,4 +50,23 @@ public class RegisterReviewService implements RegisterReviewUseCase {
 				new Review(null, documentReviewer, evaluation.getQuestion(), evaluation.getAnswer(), false));
 		}
 	}
+
+	/**
+	 * review 수정
+	 * @param review 수정할 review 내용
+	 * @param reviewer review를 수정할 사용자
+	 * @param workingDocument review를 수정할 workingDocument
+	 * @throws ForbiddenException 지정된 reivewer가 아닌 경우
+	 */
+	@Override
+	@Transactional
+	public void updateReview(List<Evaluation> review, User reviewer, WorkingDocument workingDocument) {
+		DocumentReviewer documentReviewer = loadDocumentReviewerPort.loadByWorkingDocumentAndUser(
+				workingDocument, reviewer)
+			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));
+		for (Evaluation evaluation : review) {
+			saveReviewPort.save(
+				new Review(null, documentReviewer, evaluation.getQuestion(), evaluation.getAnswer(), false));
+		}
+	}
 }

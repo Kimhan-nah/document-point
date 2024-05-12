@@ -60,4 +60,8 @@ public class ReviewJpaEntity extends BaseTimeEntity {
 	public boolean isDocumentReviewerEmpty() {
 		return this.documentReviewer == null;
 	}
+
+	public void updateAnswer(ReviewAnswerType answer) {
+		this.answer = answer;
+	}
 }

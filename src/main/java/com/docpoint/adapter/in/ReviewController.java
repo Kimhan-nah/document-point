@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -71,5 +72,17 @@ public class ReviewController {
 		registerReviewUseCase.registerReview(review, user, workingDocument);
 
 		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+
+	@PutMapping("/review")
+	public ResponseEntity<Void> updateReview(
+		@PathVariable @Positive Long workingId,
+		@RequestBody @Valid ReviewRequestDto reviewRequestDto,
+		@LoginUser User user) {
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
+		List<Evaluation> review = reviewRequestDto.getReview();
+		registerReviewUseCase.updateReview(review, user, workingDocument);
+
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

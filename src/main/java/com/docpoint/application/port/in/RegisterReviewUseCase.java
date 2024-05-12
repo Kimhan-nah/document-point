@@ -7,5 +7,7 @@ import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 
 public interface RegisterReviewUseCase {
-	void registerReview(List<Evaluation> reviews, User reviewer, WorkingDocument workingDocument);
+	void registerReview(List<Evaluation> review, User reviewer, WorkingDocument workingDocument);
+
+	void updateReview(List<Evaluation> review, User reviewer, WorkingDocument workingDocument);
 }

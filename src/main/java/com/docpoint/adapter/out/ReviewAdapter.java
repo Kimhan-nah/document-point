@@ -1,6 +1,7 @@
 package com.docpoint.adapter.out;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.docpoint.adapter.out.mapper.ReviewMapper;
 import com.docpoint.application.port.out.LoadReviewPort;
@@ -35,6 +36,17 @@ public class ReviewAdapter implements LoadReviewPort, SaveReviewPort {
 
 	@Override
 	public void save(Review review) {
+		Optional<ReviewJpaEntity> first = reviewRepository.findAllByDocumentReviewer_IdAndIsDeletedFalse(
+				review.getDocumentReviewer().getId()).stream()
+			.filter(reviewJpaEntity -> reviewJpaEntity.getQuestion() == review.getQuestion())
+			.findFirst();
+
+		if (first.isPresent()) {
+			ReviewJpaEntity reviewJpaEntity = first.get();
+			reviewJpaEntity.updateAnswer(review.getAnswer());
+			reviewRepository.save(reviewJpaEntity);
+			return;
+		}
 		ReviewJpaEntity reviewJpaEntity = ReviewMapper.mapToJpaEntity(review);
 		reviewRepository.save(reviewJpaEntity);
 	}
