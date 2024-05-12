@@ -8,4 +8,6 @@ import com.docpoint.domain.entity.WorkingDocument;
 
 public interface RegisterWorkingDocumentUseCase {
 	void registerWorkingDocument(WorkingDocument workingDocument, Working working, User user, List<User> reviewers);
+
+	void updateWorkingDocument(WorkingDocument from, WorkingDocument to, User user, List<User> reviewers);
 }

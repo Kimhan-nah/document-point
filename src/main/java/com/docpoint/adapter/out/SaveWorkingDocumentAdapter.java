@@ -1,6 +1,10 @@
 package com.docpoint.adapter.out;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import com.docpoint.adapter.out.mapper.UserMapper;
 import com.docpoint.adapter.out.mapper.WorkingDocumentMapper;
@@ -10,6 +14,7 @@ import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.infrastructure.entity.DocumentReviewerJpaEntity;
 import com.docpoint.infrastructure.entity.WorkingDocumentJpaEntity;
+import com.docpoint.infrastructure.repository.DocumentReviewerRepository;
 import com.docpoint.infrastructure.repository.WorkingDocumentRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,14 +23,30 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SaveWorkingDocumentAdapter implements SaveWorkingDocumentPort {
 	private final WorkingDocumentRepository workingDocumentRepository;
+	private final DocumentReviewerRepository documentReviewerRepository;
 
 	@Override
+	@Transactional
 	public void save(WorkingDocument workingDocument, List<DocumentReviewer> documentReviewers) {
 		WorkingDocumentJpaEntity workingDocumentJpaEntity = WorkingDocumentMapper.mapToJpaEntity(workingDocument);
-		List<DocumentReviewerJpaEntity> list2 = documentReviewers.stream()
-			.map(documentReviewer -> new DocumentReviewerJpaEntity(documentReviewer.getId(), workingDocumentJpaEntity,
-				UserMapper.mapToJpaEntity(documentReviewer.getReviewer())))
-			.toList();
+
+		Set<Long> reviewerIds = documentReviewerRepository.findAllByWorkingDocument_Id(workingDocument.getId())
+			.stream().map(documentReviewer -> documentReviewer.getReviewer().getId()).collect(Collectors.toSet());
+
+		for (DocumentReviewer documentReviewer : documentReviewers) {
+			if (reviewerIds.contains(documentReviewer.getReviewer().getId())) {
+				reviewerIds.remove(documentReviewer.getReviewer().getId());
+				continue;
+			}
+			new DocumentReviewerJpaEntity(
+				documentReviewer.getId(),
+				workingDocumentJpaEntity,
+				UserMapper.mapToJpaEntity(documentReviewer.getReviewer()));
+		}
+
+		for (Long reviewerId : reviewerIds) {
+			documentReviewerRepository.deleteByWorkingDocument_IdAndReviewer_Id(workingDocument.getId(), reviewerId);
+		}
 
 		WorkingDocumentJpaEntity save = workingDocumentRepository.save(workingDocumentJpaEntity);
 	}

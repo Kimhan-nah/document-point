@@ -11,10 +11,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.docpoint.adapter.in.dto.UpdateWorkingDocumentRequestDto;
 import com.docpoint.adapter.in.dto.UserDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentDetailResponseDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentDto;
@@ -102,10 +104,26 @@ public class WorkingDocumentController {
 		@LoginUser User user) {
 		WorkingDocument workingDocument = WorkingDocumentRequestDto.toWorkingDocumentEntity(workingDocumentRequestDto);
 		Working working = getWorkingsUseCase.getWorkingById(workingDocumentRequestDto.getWorkingId());
-		List<User> reviewers = getUserUseCase.getUsers(workingDocumentRequestDto.getReviewerIds());
+		List<User> reviewers = getUserUseCase.getUsers(workingDocumentRequestDto.getReviewerIds().stream().toList());
 
 		registerWorkingDocumentUseCase.registerWorkingDocument(workingDocument, working, user, reviewers);
 
 		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+
+	@PutMapping("{workingDocId}")
+	public ResponseEntity<Void> updateWorkingDoc(
+		@PathVariable @Valid @Positive Long workingDocId,
+		@RequestBody @Valid UpdateWorkingDocumentRequestDto updateWorkingDocumentRequestDto,
+		@LoginUser User user) {
+		WorkingDocument from = getWorkingDocumentUseCase.getWorkingDocument(workingDocId);
+		WorkingDocument to = UpdateWorkingDocumentRequestDto.
+			toWorkingDocumentEntity(workingDocId, updateWorkingDocumentRequestDto);
+		List<User> reviewers = getUserUseCase.getUsers(
+			updateWorkingDocumentRequestDto.getReviewerIds().stream().toList());
+
+		registerWorkingDocumentUseCase.updateWorkingDocument(from, to, user, reviewers);
+
+		return ResponseEntity.noContent().build();
 	}
 }

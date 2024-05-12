@@ -6,11 +6,11 @@ import java.util.List;
 import com.docpoint.application.port.in.RegisterWorkingDocumentUseCase;
 import com.docpoint.application.port.out.LoadEmployeePort;
 import com.docpoint.application.port.out.LoadReviewPort;
-import com.docpoint.application.port.out.SaveDocumentReviewerPort;
 import com.docpoint.application.port.out.SaveWorkingDocumentPort;
 import com.docpoint.common.annotation.UseCase;
 import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.BadRequestException;
+import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.DocumentReviewer;
@@ -27,7 +27,6 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 class RegisterWorkingDocumentService implements RegisterWorkingDocumentUseCase {
-	private final SaveDocumentReviewerPort saveDocumentReviewerPort;
 	private final SaveWorkingDocumentPort saveWorkingDocumentPort;
 	private final LoadEmployeePort loadEmployeePort;
 	private final LoadReviewPort loadReviewPort;
@@ -49,6 +48,30 @@ class RegisterWorkingDocumentService implements RegisterWorkingDocumentUseCase {
 		checkReviewers(user, reviewers);
 
 		workingDocument.updateWorking(working);
+		List<DocumentReviewer> documentReviewers = createDocumentReviewers(workingDocument, reviewers, user.getTeam());
+		saveWorkingDocumentPort.save(workingDocument, documentReviewers);
+	}
+
+	/**
+	 * 작업문서(WorkingDocument) 수정
+	 * @param from 수정 전
+	 * @param to 수정 후
+	 * @param user 작업문서를 수정할 사용자
+	 * @param reviewers 작업문서의 리뷰어 목록
+	 * @throws ConflictException 리뷰가 존재할 경우 수정 불가능
+	 */
+	@Override
+	@Transactional
+	public void updateWorkingDocument(WorkingDocument from, WorkingDocument to, User user, List<User> reviewers) {
+		checkAssignee(from.getWorking(), user);
+		if (loadReviewPort.existsReview(from)) {
+			throw new ConflictException(ErrorType.CONFLICT_REVIEW);
+		}
+		checkWorkingDocumentStatus(to.getStatus());
+		checkReviewers(user, reviewers);
+
+		WorkingDocument workingDocument = new WorkingDocument(from.getId(), from.getWorking(), to.getTitle(),
+			to.getContent(), to.getStatus(), to.getDocType(), to.getLink(), to.isDeleted(), to.getRegisterDate());
 		List<DocumentReviewer> documentReviewers = createDocumentReviewers(workingDocument, reviewers, user.getTeam());
 		saveWorkingDocumentPort.save(workingDocument, documentReviewers);
 	}

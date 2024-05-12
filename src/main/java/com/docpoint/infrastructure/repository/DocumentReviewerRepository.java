@@ -11,4 +11,6 @@ public interface DocumentReviewerRepository extends JpaRepository<DocumentReview
 	List<DocumentReviewerJpaEntity> findAllByWorkingDocument_Id(long workingDocumentId);
 
 	Optional<DocumentReviewerJpaEntity> findByWorkingDocument_IdAndReviewer_Id(long workingDocumentId, long reviewerId);
+
+	void deleteByWorkingDocument_IdAndReviewer_Id(long workingDocumentId, long reviewerId);
 }
