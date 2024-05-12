@@ -30,8 +30,10 @@ public class SaveWorkingDocumentAdapter implements SaveWorkingDocumentPort {
 	public void save(WorkingDocument workingDocument, List<DocumentReviewer> documentReviewers) {
 		WorkingDocumentJpaEntity workingDocumentJpaEntity = WorkingDocumentMapper.mapToJpaEntity(workingDocument);
 
-		Set<Long> reviewerIds = documentReviewerRepository.findAllByWorkingDocument_Id(workingDocument.getId())
-			.stream().map(documentReviewer -> documentReviewer.getReviewer().getId()).collect(Collectors.toSet());
+		Set<Long> reviewerIds = workingDocument.getId() != null ?
+			documentReviewerRepository.findAllByWorkingDocument_Id(workingDocument.getId())
+				.stream().map(documentReviewer -> documentReviewer.getReviewer().getId()).collect(Collectors.toSet())
+			: Set.of();
 
 		for (DocumentReviewer documentReviewer : documentReviewers) {
 			if (reviewerIds.contains(documentReviewer.getReviewer().getId())) {
