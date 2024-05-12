@@ -66,10 +66,8 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom {
 			.innerJoin(review)
 			.on(documentReviewer.id.eq(review.documentReviewer.id)
 				.and(review.isDeleted.isFalse()))
-			.where(workingDocument.id.eq(1L),
+			.where(workingDocument.id.eq(workingDocumentId),
 				workingDocument.isDeleted.isFalse())
-			.limit(1)
 			.fetchFirst() != null;
-
 	}
 }
