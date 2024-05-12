@@ -117,7 +117,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 				.and(workingDocument.isDeleted.isFalse()))
 			.where(documentReviewer.reviewer.id.eq(userId),
 				workingDocument.status.ne(excludeStatus),
-				workingDocument.status.eq(status))
+				eqStatus(status))
 			.orderBy(workingDocument.createdAt.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
@@ -131,7 +131,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 				.and(workingDocument.isDeleted.isFalse()))
 			.where(documentReviewer.reviewer.id.eq(userId),
 				workingDocument.status.ne(excludeStatus),
-				workingDocument.status.eq(status));
+				eqStatus(status));
 
 		return PageableExecutionUtils.getPage(fetch, pageable, countQuery::fetchOne);
 	}
@@ -159,6 +159,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 
 		JPAQuery<Long> countQuery = jpaQueryFactory
 			.select(workingDocument.count())
+			.from(team)
 			.innerJoin(user).on(user.team.id.eq(teamId))
 			.innerJoin(workingAssignee).on(user.id.eq(workingAssignee.assignee.id))
 			.innerJoin(working).on(workingAssignee.working.id.eq(working.id))
