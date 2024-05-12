@@ -64,4 +64,8 @@ public class ReviewJpaEntity extends BaseTimeEntity {
 	public void updateAnswer(ReviewAnswerType answer) {
 		this.answer = answer;
 	}
+
+	public void delete() {
+		this.isDeleted = true;
+	}
 }

@@ -52,6 +52,17 @@ public class ReviewAdapter implements LoadReviewPort, SaveReviewPort {
 	}
 
 	@Override
+	public void delete(DocumentReviewer documentReviewer) {
+		Long id = documentReviewer.getId();
+		List<ReviewJpaEntity> reviews = reviewRepository.findAllByDocumentReviewer_IdAndIsDeletedFalse(
+			documentReviewer.getId());
+		for (ReviewJpaEntity review : reviews) {
+			review.delete();
+		}
+		reviewRepository.saveAll(reviews);
+	}
+
+	@Override
 	public List<Review> loadUserReviewOfDocument(DocumentReviewer documentReviewer) {
 		return reviewRepository.findAllByDocumentReviewer_IdAndIsDeletedFalse(documentReviewer.getId())
 			.stream()
