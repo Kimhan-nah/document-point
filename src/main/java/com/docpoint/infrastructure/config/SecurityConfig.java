@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,8 +48,10 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
 			.requestMatchers("/", "/login", "/join").permitAll()
-			.requestMatchers("/admin").hasAuthority("TEAM_LEADER")
-			.requestMatchers("my/**").hasAnyAuthority("TEAM_LEADER", "PART_LEADER")
+			.requestMatchers("/teams/{team_id}/workingdocs").hasAuthority("PART_LEADER")
+			.requestMatchers(HttpMethod.POST, "/workingdocs/{workingdoc_id}/cp").hasAuthority("PART_LEADER")
+			.requestMatchers(HttpMethod.PUT, "/workingdocs/{workingdoc_id}/cp").hasAuthority("PART_LEADER")
+			.requestMatchers(HttpMethod.DELETE, "/workingdocs/{workingdoc_id}/cp").hasAuthority("PART_LEADER")
 			.anyRequest().authenticated()
 		);
 
@@ -97,13 +100,6 @@ public class SecurityConfig {
 				(exceptionHandling) -> exceptionHandling.authenticationEntryPoint(
 					new DelegatedAuthenticationEntryPoint()));
 
-		// http
-		// 	.exceptionHandling(
-		// 		(exceptionHandling) -> exceptionHandling.accessDeniedHandler(
-		// 			(request, response, accessDeniedException) -> {
-		// 				response.sendRedirect("/access-denied");
-		// 			}));
-
 		return http.build();
 	}
 
@@ -113,19 +109,4 @@ public class SecurityConfig {
 		roleHierarchy.setHierarchy("TEAM_LEADER > PART_LEADER > TEAM_MEMBER");
 		return roleHierarchy;
 	}
-	//
-	// @Bean
-	// public AuthenticationFailureHandler authenticationFailureHandler() {
-	// 	return new CustomAuthenticationFailureHandler();
-	// }
-	//
-	// @Bean
-	// public AuthenticationSuccessHandler authenticationSuccessHandler() {
-	// 	return new CustomAuthenticationSuccessHandler();
-	// }
-	//
-	// @Bean
-	// public AccessDeniedHandler accessDeniedHandler() {
-	// 	return new CustomAccessDeniedHandler();
-	// }
 }
