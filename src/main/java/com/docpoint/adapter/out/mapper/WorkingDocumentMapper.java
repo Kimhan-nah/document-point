@@ -17,7 +17,7 @@ public class WorkingDocumentMapper {
 			.docType(workingDocument.getType())
 			.link(workingDocument.getLink())
 			.isDeleted(workingDocument.getIsDeleted())
-			.registerDate(workingDocument.getCreatedAt().toLocalDate())
+			.registerDate(workingDocument.getCreatedAt())
 			.build();
 	}
 

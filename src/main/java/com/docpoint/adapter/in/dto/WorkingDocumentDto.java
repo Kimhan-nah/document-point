@@ -1,6 +1,6 @@
 package com.docpoint.adapter.in.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
@@ -13,11 +13,11 @@ public class WorkingDocumentDto {
 	private final Long id;
 	private final String title;
 	private final String assigneeName;
-	private final LocalDate registerDate;
+	private final LocalDateTime registerDate;
 	private final DocStatusType status;
 
 	@Builder
-	public WorkingDocumentDto(Long id, String title, String assigneeName, LocalDate registerDate,
+	public WorkingDocumentDto(Long id, String title, String assigneeName, LocalDateTime registerDate,
 		DocStatusType status) {
 		this.id = id;
 		this.title = title;

@@ -4,7 +4,7 @@ import static com.docpoint.domain.type.DocStatusType.*;
 import static com.docpoint.domain.type.DocType.*;
 import static org.assertj.core.api.Assertions.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,12 +27,12 @@ public class WorkingDocumentTest {
 	@DisplayName("생성 실패하는 경우")
 	class InitWorkingDocFail {
 		private static Working working;
-		private static LocalDate registerDate;
+		private static LocalDateTime registerDate;
 
 		@BeforeEach
 		void setUp() {
 			working = WorkingTestData.createWorking();
-			registerDate = LocalDate.of(2024, 5, 1);
+			registerDate = LocalDateTime.of(2024, 5, 1, 0, 0);
 		}
 
 		@Test

@@ -1,8 +1,9 @@
 package com.docpoint.adapter.in.dto;
 
+import java.time.LocalDateTime;
+
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
-import com.docpoint.domain.type.DocType;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,25 +15,23 @@ public class WorkingDocumentWithReviewDto {
 	// working document
 	private Long id;
 	private String title;
-	private String content;
+	private String assigneeName;
+	private LocalDateTime registerDate;
 	private DocStatusType status;
-	private DocType docType;
 	private String link;
-	private boolean isDeleted;
 
 	// review
 	private boolean isReviewed;
 
 	@Builder
-	public WorkingDocumentWithReviewDto(Long id, String title, String content, DocStatusType status, DocType docType,
-		String link, boolean isDeleted, boolean isReviewed) {
+	public WorkingDocumentWithReviewDto(Long id, String title, String assigneeName, LocalDateTime registerDate,
+		DocStatusType status, String link, boolean isReviewed) {
 		this.id = id;
 		this.title = title;
-		this.content = content;
+		this.assigneeName = assigneeName;
+		this.registerDate = registerDate;
 		this.status = status;
-		this.docType = docType;
 		this.link = link;
-		this.isDeleted = isDeleted;
 		this.isReviewed = isReviewed;
 	}
 
@@ -40,11 +39,10 @@ public class WorkingDocumentWithReviewDto {
 		return WorkingDocumentWithReviewDto.builder()
 			.id(workingDocument.getId())
 			.title(workingDocument.getTitle())
-			.content(workingDocument.getContent())
+			.assigneeName(workingDocument.getWorking().getAssignee().getName())
+			.registerDate(workingDocument.getRegisterDate())
 			.status(workingDocument.getStatus())
-			.docType(workingDocument.getDocType())
 			.link(workingDocument.getLink())
-			.isDeleted(workingDocument.isDeleted())
 			.isReviewed(isReviewed)
 			.build();
 	}
@@ -53,11 +51,10 @@ public class WorkingDocumentWithReviewDto {
 		return WorkingDocumentWithReviewDto.builder()
 			.id(workingDocument.getId())
 			.title(workingDocument.getTitle())
-			.content(workingDocument.getContent())
+			.assigneeName(workingDocument.getWorking().getAssignee().getName())
+			.registerDate(workingDocument.getRegisterDate())
 			.status(workingDocument.getStatus())
-			.docType(workingDocument.getDocType())
 			.link(workingDocument.getLink())
-			.isDeleted(workingDocument.isDeleted())
 			.isReviewed(false)
 			.build();
 	}

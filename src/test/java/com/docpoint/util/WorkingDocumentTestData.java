@@ -1,6 +1,6 @@
 package com.docpoint.util;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +12,7 @@ import com.docpoint.domain.type.WorkingStatusType;
 
 public class WorkingDocumentTestData {
 	private static Long workingId = 1L;
-	private static LocalDate registerDate = LocalDate.of(2024, 5, 1);
+	private static LocalDateTime registerDate = LocalDateTime.of(2024, 5, 1, 0, 0);
 
 	/**
 	 * WorkingDocument 생성

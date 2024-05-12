@@ -1,6 +1,6 @@
 package com.docpoint.domain.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.docpoint.domain.type.DocStatusType;
@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 public class WorkingDocument {
 	private final Long id;
-	private final LocalDate registerDate;
+	private final LocalDateTime registerDate;
 	private Working working;
 	private String title;
 	private String content;
@@ -23,7 +23,7 @@ public class WorkingDocument {
 
 	@Builder
 	public WorkingDocument(Long id, Working working, String title, String content, DocStatusType status,
-		DocType docType, String link, boolean isDeleted, LocalDate registerDate) {
+		DocType docType, String link, boolean isDeleted, LocalDateTime registerDate) {
 		this.id = id;
 		this.working = working;
 		this.title = Objects.requireNonNull(title);
