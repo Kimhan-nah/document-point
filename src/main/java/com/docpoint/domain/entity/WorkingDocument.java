@@ -46,4 +46,8 @@ public class WorkingDocument {
 	public void updateStatus(DocStatusType status) {
 		this.status = status;
 	}
+
+	public void delete() {
+		this.isDeleted = true;
+	}
 }

@@ -8,6 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import com.docpoint.adapter.in.dto.WorkingDocumentWithReviewDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentsResponseDto;
 import com.docpoint.adapter.in.dto.WorkingDocumentsWithReviewResponseDto;
 import com.docpoint.adapter.in.dto.WorkingDto;
+import com.docpoint.application.port.in.DeleteWorkingDocumentUseCase;
 import com.docpoint.application.port.in.GetReceivedRequestsUserCase;
 import com.docpoint.application.port.in.GetUserUseCase;
 import com.docpoint.application.port.in.GetUserWorkingDocumentsUseCase;
@@ -53,6 +55,7 @@ public class WorkingDocumentController {
 	private final GetUserUseCase getUserUseCase;
 	private final GetWorkingDocumentUseCase getWorkingDocumentUseCase;
 	private final GetReceivedRequestsUserCase getReceivedRequestsUserCase;
+	private final DeleteWorkingDocumentUseCase deleteWorkingDocumentUseCase;
 
 	@GetMapping
 	public ResponseEntity<WorkingDocumentsResponseDto> getWorkingDocs(
@@ -123,6 +126,16 @@ public class WorkingDocumentController {
 			updateWorkingDocumentRequestDto.getReviewerIds().stream().toList());
 
 		registerWorkingDocumentUseCase.updateWorkingDocument(from, to, user, reviewers);
+
+		return ResponseEntity.noContent().build();
+	}
+
+	@DeleteMapping("{workingDocId}")
+	public ResponseEntity<Void> deleteWorkingDoc(
+		@PathVariable @Valid @Positive Long workingDocId,
+		@LoginUser User user) {
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingDocId);
+		deleteWorkingDocumentUseCase.deleteWorkingDocument(workingDocument, user);
 
 		return ResponseEntity.noContent().build();
 	}
