@@ -24,6 +24,7 @@ import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.RoleType;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
@@ -53,7 +54,8 @@ public class CpController {
 	}
 
 	@PostMapping
-	ResponseEntity<Void> registerCp(@PathVariable @Positive Long workingId, @RequestBody CpRequestDto cpRequestDto,
+	ResponseEntity<Void> registerCp(@PathVariable @Positive Long workingId,
+		@RequestBody @Valid CpRequestDto cpRequestDto,
 		@LoginUser User user) {
 		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
 		CpEvaluation cpEvaluation = CpEvaluation.builder()

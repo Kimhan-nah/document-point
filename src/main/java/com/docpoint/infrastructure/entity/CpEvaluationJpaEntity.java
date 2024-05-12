@@ -34,7 +34,6 @@ public class CpEvaluationJpaEntity extends BaseTimeEntity {
 	@Column(name = "cp")
 	private Integer cp;
 
-	@NotNull
 	@Size(max = 255)
 	@Column(name = "comment")
 	private String comment;
