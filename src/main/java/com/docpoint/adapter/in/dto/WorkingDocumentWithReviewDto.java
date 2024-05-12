@@ -21,7 +21,7 @@ public class WorkingDocumentWithReviewDto {
 	private String link;
 
 	// review
-	private boolean isReviewed;
+	private Boolean isReviewed;
 
 	@Builder
 	public WorkingDocumentWithReviewDto(Long id, String title, String assigneeName, LocalDateTime registerDate,
