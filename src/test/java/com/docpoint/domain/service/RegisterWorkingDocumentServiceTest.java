@@ -19,10 +19,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.docpoint.application.port.out.LoadEmployeePort;
-import com.docpoint.application.port.out.SaveDocumentReviewerPort;
+import com.docpoint.application.port.out.SaveWorkingDocumentPort;
 import com.docpoint.common.exception.custom.BadRequestException;
 import com.docpoint.common.exception.custom.ForbiddenException;
-import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.Working;
@@ -41,7 +40,7 @@ class RegisterWorkingDocumentServiceTest {
 	private RegisterWorkingDocumentService registerWorkingDocumentService;
 
 	@Mock
-	private SaveDocumentReviewerPort saveDocumentReviewerPort;
+	private SaveWorkingDocumentPort saveWorkingDocumentPort;
 
 	@Mock
 	private LoadEmployeePort loadEmployeePort;
@@ -73,8 +72,7 @@ class RegisterWorkingDocumentServiceTest {
 			workingDocument, working, working.getAssignee(), teamMembers);
 
 		// then
-		int count = teamMembers.size() + partLeaders.size() + 1;
-		verify(saveDocumentReviewerPort, times(count)).save(any(DocumentReviewer.class));
+		verify(saveWorkingDocumentPort, times(1)).save(any(WorkingDocument.class), anyList());
 	}
 
 	@Nested

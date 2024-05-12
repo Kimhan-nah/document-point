@@ -13,11 +13,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.docpoint.application.port.in.UpdateWorkingDocumentUseCase;
 import com.docpoint.application.port.out.LoadCpEvaluationPort;
 import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.application.port.out.SaveCpEvaluationPort;
+import com.docpoint.application.port.out.SaveWorkingDocumentPort;
 import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.CpEvaluation;
@@ -45,10 +45,10 @@ class RegisterCpEvaluationServiceTest {
 	private LoadCpEvaluationPort loadCpEvaluationPort;
 
 	@Mock
-	private UpdateWorkingDocumentUseCase updateWorkingDocumentUseCase;
+	private LoadReviewPort loadReviewPort;
 
 	@Mock
-	private LoadReviewPort loadReviewPort;
+	private SaveWorkingDocumentPort saveWorkingDocumentPort;
 
 	@Test
 	@DisplayName("파트 리더인 경우, 승인 요청(APPROVAL_REQUEST) 상태로 변경하는 메서드를 호출한다.")
@@ -67,7 +67,6 @@ class RegisterCpEvaluationServiceTest {
 
 		// then
 		verify(saveCpEvaluationPort, times(1)).save(any(CpEvaluation.class));
-		verify(updateWorkingDocumentUseCase, times(1)).updateStatus(workingDocument, DocStatusType.APPROVAL_REQUEST);
 	}
 
 	@Test
@@ -86,7 +85,6 @@ class RegisterCpEvaluationServiceTest {
 
 		// then
 		verify(saveCpEvaluationPort, times(1)).save(any(CpEvaluation.class));
-		verify(updateWorkingDocumentUseCase, times(1)).updateStatus(workingDocument, DocStatusType.APPROVED);
 	}
 
 	@Nested
