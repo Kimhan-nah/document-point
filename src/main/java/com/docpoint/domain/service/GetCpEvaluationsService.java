@@ -33,7 +33,7 @@ class GetCpEvaluationsService implements GetCpEvaluationsUseCase {
 	@Override
 	@Transactional(readOnly = true)
 	public Map<RoleType, CpEvaluation> getCpEvaluations(User user, WorkingDocument workingDocument) {
-		if (!workingDocument.getWorking().getAssignee().equals(user)) {
+		if (user.getRole() == RoleType.TEAM_MEMBER && !workingDocument.getWorking().getAssignee().equals(user)) {
 			throw new ForbiddenException(ErrorType.FORBIDDEN_ASSIGNEE);
 		}
 		List<CpEvaluation> cpEvaluations = loadCpEvaluationPort.loadByWorkingDocument(workingDocument);
