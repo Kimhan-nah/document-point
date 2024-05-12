@@ -40,13 +40,13 @@ class GetAllWorkingDocumentsServiceTest {
 		long teamId = 1L;
 		Pageable pageable = mock(Pageable.class);
 		given(loadTeamPort.load(teamId)).willReturn(Optional.of(team));
-		given(loadWorkingDocumentPort.loadByTeamId(teamId, pageable)).willReturn(Page.empty());
+		given(loadWorkingDocumentPort.loadByTeamId(teamId, pageable, null)).willReturn(Page.empty());
 
 		// when
-		getAllWorkingDocumentsService.getAllWorkingDocumentsByTeamId(teamId, pageable);
+		getAllWorkingDocumentsService.getAllWorkingDocumentsByTeamId(teamId, pageable, null);
 
 		// then
-		verify(loadWorkingDocumentPort, times(1)).loadByTeamId(teamId, pageable);
+		verify(loadWorkingDocumentPort, times(1)).loadByTeamId(teamId, pageable, null);
 	}
 
 	@Nested
@@ -62,7 +62,7 @@ class GetAllWorkingDocumentsServiceTest {
 			// when, then
 			assertThatThrownBy(
 				() -> getAllWorkingDocumentsService.getAllWorkingDocumentsByTeamId(notFoundTeamId,
-					mock(Pageable.class)))
+					mock(Pageable.class), null))
 				.isInstanceOf(CustomRuntimeException.class);
 		}
 
@@ -76,7 +76,8 @@ class GetAllWorkingDocumentsServiceTest {
 
 			// when, then
 			assertThatThrownBy(
-				() -> getAllWorkingDocumentsService.getAllWorkingDocumentsByTeamId(deletedTeamId, mock(Pageable.class)))
+				() -> getAllWorkingDocumentsService.getAllWorkingDocumentsByTeamId(deletedTeamId, mock(Pageable.class),
+					null))
 				.isInstanceOf(CustomRuntimeException.class);
 		}
 	}

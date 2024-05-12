@@ -137,7 +137,7 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 	}
 
 	@Override
-	public Page<WorkingDocumentJpaEntity> findByTeamId(long teamId, Pageable pageable) {
+	public Page<WorkingDocumentJpaEntity> findByTeamId(long teamId, Pageable pageable, DocStatusType status) {
 		QWorkingDocumentJpaEntity workingDocument = workingDocumentJpaEntity;
 		QWorkingAssigneeJpaEntity workingAssignee = workingAssigneeJpaEntity;
 		QWorkingJpaEntity working = workingJpaEntity;
@@ -151,7 +151,8 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 			.innerJoin(workingAssignee).on(user.id.eq(workingAssignee.assignee.id))
 			.innerJoin(working).on(workingAssignee.working.id.eq(working.id))
 			.innerJoin(workingDocument).on(working.id.eq(workingDocument.working.id)
-				.and(workingDocument.isDeleted.isFalse()))
+				.and(workingDocument.isDeleted.isFalse())
+				.and(eqStatus(status)))
 			.orderBy(workingDocument.createdAt.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
@@ -164,7 +165,8 @@ public class WorkingDocumentRepositoryCustomImpl implements WorkingDocumentRepos
 			.innerJoin(workingAssignee).on(user.id.eq(workingAssignee.assignee.id))
 			.innerJoin(working).on(workingAssignee.working.id.eq(working.id))
 			.innerJoin(workingDocument).on(working.id.eq(workingDocument.working.id)
-				.and(workingDocument.isDeleted.isFalse()));
+				.and(workingDocument.isDeleted.isFalse())
+				.and(eqStatus(status)));
 
 		return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
 	}

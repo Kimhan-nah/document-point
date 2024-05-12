@@ -12,6 +12,7 @@ import com.docpoint.application.port.out.LoadWorkingDocumentPort;
 import com.docpoint.common.annotation.PersistenceAdapter;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.infrastructure.entity.DocumentReviewerJpaEntity;
 import com.docpoint.infrastructure.repository.DocumentReviewerRepository;
 import com.docpoint.infrastructure.repository.WorkingDocumentRepository;
@@ -25,8 +26,8 @@ public class LoadWorkingDocumentAdapter implements LoadWorkingDocumentPort {
 	private final DocumentReviewerRepository documentReviewerRepository;
 
 	@Override
-	public Page<WorkingDocument> loadByTeamId(long teamId, Pageable pageable) {
-		return workingDocumentRepository.findByTeamId(teamId, pageable)
+	public Page<WorkingDocument> loadByTeamId(long teamId, Pageable pageable, DocStatusType status) {
+		return workingDocumentRepository.findByTeamId(teamId, pageable, status)
 			.map(WorkingDocumentMapper::mapToDomainEntity);
 	}
 

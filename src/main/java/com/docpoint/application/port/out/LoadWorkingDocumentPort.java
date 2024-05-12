@@ -8,9 +8,10 @@ import org.springframework.data.domain.Pageable;
 
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.DocStatusType;
 
 public interface LoadWorkingDocumentPort {
-	Page<WorkingDocument> loadByTeamId(long teamId, Pageable pageable);
+	Page<WorkingDocument> loadByTeamId(long teamId, Pageable pageable, DocStatusType status);
 
 	Optional<WorkingDocument> loadById(long workingDocumentId);
 

@@ -8,7 +8,7 @@ import com.docpoint.infrastructure.entity.WorkingDocumentJpaEntity;
 
 interface WorkingDocumentRepositoryCustom {
 	/**
-	 * 내 문서 목록 조회
+	 * 팀 멤버의 내 문서 목록 조회
 	 */
 	Page<WorkingDocumentJpaEntity> findByAssigneeId(long assigneeId, Pageable pageable, DocStatusType status);
 
@@ -23,5 +23,8 @@ interface WorkingDocumentRepositoryCustom {
 	 */
 	Page<WorkingDocumentJpaEntity> findByReviewerId(long reviewerId, Pageable pageable, DocStatusType status);
 
-	Page<WorkingDocumentJpaEntity> findByTeamId(long teamId, Pageable pageable);
+	/**
+	 * 팀 리더와 파트 리더의 '팀 전체 문서' 목록 조회
+	 */
+	Page<WorkingDocumentJpaEntity> findByTeamId(long teamId, Pageable pageable, DocStatusType status);
 }

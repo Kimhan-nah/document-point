@@ -13,6 +13,7 @@ import com.docpoint.common.exception.custom.BadRequestException;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.DocStatusType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,12 +34,12 @@ class GetAllWorkingDocumentsService implements GetAllWorkingDocumentsUseCase {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Page<WorkingDocument> getAllWorkingDocumentsByTeamId(long teamId, Pageable pageable) {
+	public Page<WorkingDocument> getAllWorkingDocumentsByTeamId(long teamId, Pageable pageable, DocStatusType status) {
 		Team team = loadTeamPort.load(teamId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_TEAM));
 		if (team.isDeleted()) {
 			throw new BadRequestException(ErrorType.DELETED_TEAM);
 		}
-		return loadWorkingDocumentPort.loadByTeamId(teamId, pageable);
+		return loadWorkingDocumentPort.loadByTeamId(teamId, pageable, status);
 	}
 }

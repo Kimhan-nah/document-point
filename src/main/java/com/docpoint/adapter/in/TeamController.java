@@ -23,6 +23,7 @@ import com.docpoint.common.annotation.WebAdapter;
 import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.domain.type.RoleType;
 
 import jakarta.validation.constraints.Positive;
@@ -51,9 +52,11 @@ public class TeamController {
 
 	@GetMapping("/{teamId}/workingdocs")
 	ResponseEntity<WorkingDocumentsResponseDto> getTeamWorkingDocs(
-		@PathVariable @Positive Long teamId, @PageableDefault Pageable pageable) {
+		@PathVariable @Positive Long teamId,
+		@PageableDefault Pageable pageable,
+		@RequestParam(required = false) DocStatusType status) {
 		Page<WorkingDocument> workingDocuments = getAllWorkingDocumentsUseCase.getAllWorkingDocumentsByTeamId(teamId,
-			pageable);
+			pageable, status);
 
 		return ResponseEntity.ok(WorkingDocumentsResponseDto.of(
 				workingDocuments.map(WorkingDocumentDto::toDto).toList(),
