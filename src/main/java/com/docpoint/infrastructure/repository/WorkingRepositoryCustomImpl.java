@@ -24,6 +24,7 @@ public class WorkingRepositoryCustomImpl implements WorkingRepositoryCustom {
 			.on(workingAssignee.assignee.id.eq(userId)
 				.and(workingAssignee.working.id.eq(working.id)))
 			.where(working.title.contains(search))
+			.where(working.isDeleted.isFalse())
 			.fetch();
 	}
 }
