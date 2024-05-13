@@ -31,15 +31,15 @@ import lombok.RequiredArgsConstructor;
 @WebAdapter
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/workingdocs/{workingId}/cp")
+@RequestMapping("/workingdocs/{workingdocId}/cp")
 public class CpController {
 	private final GetCpEvaluationsUseCase getCpEvaluationsUseCase;
 	private final GetWorkingDocumentUseCase getWorkingDocumentUseCase;
 	private final RegisterCpEvaluationUseCase registerCpEvaluationUseCase;
 
 	@GetMapping
-	ResponseEntity<CpResponseDto> getCp(@PathVariable @Positive Long workingId, @LoginUser User user) {
-		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
+	ResponseEntity<CpResponseDto> getCp(@PathVariable @Positive Long workingdocId, @LoginUser User user) {
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingdocId);
 		Map<RoleType, CpEvaluation> cpEvaluations = getCpEvaluationsUseCase.getCpEvaluations(user, workingDocument);
 
 		CpDto request;
@@ -54,10 +54,10 @@ public class CpController {
 	}
 
 	@PostMapping
-	ResponseEntity<Void> registerCp(@PathVariable @Positive Long workingId,
+	ResponseEntity<Void> registerCp(@PathVariable @Positive Long workingdocId,
 		@RequestBody @Valid CpRequestDto cpRequestDto,
 		@LoginUser User user) {
-		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingdocId);
 		CpEvaluation cpEvaluation = CpEvaluation.builder()
 			.cp(cpRequestDto.getCp())
 			.comment(cpRequestDto.getComment())
