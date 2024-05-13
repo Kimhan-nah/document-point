@@ -35,7 +35,7 @@ import lombok.RequiredArgsConstructor;
 @WebAdapter
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/workingdocs/{workingId}")
+@RequestMapping("/workingdocs/{workingdocId}")
 public class ReviewController {
 	private final GetReviewsUseCase getReviewsUseCase;
 	private final GetWorkingDocumentUseCase getWorkingDocumentUseCase;
@@ -43,8 +43,9 @@ public class ReviewController {
 	private final DeleteReviewUseCase deleteReviewUseCase;
 
 	@GetMapping("/review")
-	public ResponseEntity<ReviewResponseDto> getReview(@PathVariable @Positive Long workingId, @LoginUser User user) {
-		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
+	public ResponseEntity<ReviewResponseDto> getReview(@PathVariable @Positive Long workingdocId,
+		@LoginUser User user) {
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingdocId);
 		UserDto reviewer = UserDto.toDto(user);
 		List<Evaluation> review = getReviewsUseCase.getReview(workingDocument, user);
 
@@ -52,9 +53,9 @@ public class ReviewController {
 	}
 
 	@GetMapping("/reviews")
-	public ResponseEntity<AllReviewsResponseDto> getReviews(@PathVariable @Positive Long workingId,
+	public ResponseEntity<AllReviewsResponseDto> getReviews(@PathVariable @Positive Long workingdocId,
 		@LoginUser User user) {
-		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingdocId);
 		Map<User, List<Evaluation>> allReviews = getReviewsUseCase.getAllReviews(workingDocument, user);
 
 		List<ReviewResponseDto> reviews = allReviews.entrySet().stream()
@@ -67,10 +68,10 @@ public class ReviewController {
 
 	@PostMapping("/review")
 	public ResponseEntity<Void> registerReview(
-		@PathVariable @Positive Long workingId,
+		@PathVariable @Positive Long workingdocId,
 		@RequestBody @Valid ReviewRequestDto reviewRequestDto,
 		@LoginUser User user) {
-		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingdocId);
 		List<Evaluation> review = reviewRequestDto.getReview();
 		registerReviewUseCase.registerReview(review, user, workingDocument);
 
@@ -79,10 +80,10 @@ public class ReviewController {
 
 	@PutMapping("/review")
 	public ResponseEntity<Void> updateReview(
-		@PathVariable @Positive Long workingId,
+		@PathVariable @Positive Long workingdocId,
 		@RequestBody @Valid ReviewRequestDto reviewRequestDto,
 		@LoginUser User user) {
-		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingdocId);
 		List<Evaluation> review = reviewRequestDto.getReview();
 		registerReviewUseCase.updateReview(review, user, workingDocument);
 
@@ -90,8 +91,8 @@ public class ReviewController {
 	}
 
 	@DeleteMapping("/review")
-	public ResponseEntity<Void> deleteReview(@PathVariable @Positive Long workingId, @LoginUser User user) {
-		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingId);
+	public ResponseEntity<Void> deleteReview(@PathVariable @Positive Long workingdocId, @LoginUser User user) {
+		WorkingDocument workingDocument = getWorkingDocumentUseCase.getWorkingDocument(workingdocId);
 		deleteReviewUseCase.deleteReview(workingDocument, user);
 
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
