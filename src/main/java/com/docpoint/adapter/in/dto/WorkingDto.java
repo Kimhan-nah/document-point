@@ -25,7 +25,7 @@ public class WorkingDto {
 		return WorkingDto.builder()
 			.id(working.getId())
 			.title(working.getTitle())
-			.requesterName(working.getWriter().getName())
+			.requesterName(working.getAssignee().getName())
 			.status(working.getStatus())
 			.build();
 	}
