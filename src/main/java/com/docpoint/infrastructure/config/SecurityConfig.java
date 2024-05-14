@@ -49,6 +49,7 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
 			.requestMatchers("/", "/login", "/join").permitAll()
 			.requestMatchers("/teams/{team_id}/workingdocs").hasAuthority("PART_LEADER")
+			// .requestMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
 			.requestMatchers(HttpMethod.POST, "/workingdocs/{workingdoc_id}/cp").hasAuthority("PART_LEADER")
 			.requestMatchers(HttpMethod.PUT, "/workingdocs/{workingdoc_id}/cp").hasAuthority("PART_LEADER")
 			.requestMatchers(HttpMethod.DELETE, "/workingdocs/{workingdoc_id}/cp").hasAuthority("PART_LEADER")
@@ -62,18 +63,6 @@ public class SecurityConfig {
 			.httpBasic(AbstractHttpConfigurer::disable);
 
 		// filter
-		http
-			.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
-
-		http
-			.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),
-				UsernamePasswordAuthenticationFilter.class);
-
-		// session management
-		http
-			.sessionManagement((session) -> session
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
 		http
 			.cors((corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
 
@@ -93,6 +82,17 @@ public class SecurityConfig {
 					return configuration;
 				}
 			})));
+		http
+			.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
+
+		http
+			.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),
+				UsernamePasswordAuthenticationFilter.class);
+
+		// session management
+		http
+			.sessionManagement((session) -> session
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		// spring security
 		http
