@@ -28,7 +28,7 @@ public class WebConfig implements WebMvcConfigurer, WebServerFactoryCustomizer<T
 	public PageableHandlerMethodArgumentResolverCustomizer customize() {
 		return p -> {
 			p.setOneIndexedParameters(true);    // 1부터 시작
-			p.setMaxPageSize(10);                // size=10
+			p.setMaxPageSize(20);                // size=20
 		};
 	}
 
