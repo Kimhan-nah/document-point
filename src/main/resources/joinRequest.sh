@@ -136,3 +136,5 @@ curl --request POST -sL \
      --output './output'
 cat ./output | sed G
 
+rm ./output
+
