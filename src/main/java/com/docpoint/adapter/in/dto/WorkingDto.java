@@ -11,13 +11,15 @@ public class WorkingDto {
 	private Long id;
 	private String title;
 	private String requesterName;
+	private String assigneeName;
 	private WorkingStatusType status;
 
 	@Builder
-	public WorkingDto(Long id, String title, String requesterName, WorkingStatusType status) {
+	public WorkingDto(Long id, String title, String requesterName, String assigneeName, WorkingStatusType status) {
 		this.id = id;
 		this.title = title;
 		this.requesterName = requesterName;
+		this.assigneeName = assigneeName;
 		this.status = status;
 	}
 
@@ -25,7 +27,8 @@ public class WorkingDto {
 		return WorkingDto.builder()
 			.id(working.getId())
 			.title(working.getTitle())
-			.requesterName(working.getAssignee().getName())
+			.requesterName(working.getWriter().getName())
+			.assigneeName(working.getAssignee().getName())
 			.status(working.getStatus())
 			.build();
 	}
