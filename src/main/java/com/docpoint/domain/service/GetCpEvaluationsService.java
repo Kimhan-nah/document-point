@@ -24,7 +24,7 @@ class GetCpEvaluationsService implements GetCpEvaluationsUseCase {
 	private final LoadCpEvaluationPort loadCpEvaluationPort;
 
 	/**
-	 * 최종 기여도 조회
+	 * 기여도, 코멘트 평가 조회
 	 * @param user 조회 요청한 유저
 	 * @param workingDocument 조회할 WorkingDocument ID
 	 * @return 최종 기여도

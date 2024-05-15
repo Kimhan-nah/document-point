@@ -15,36 +15,44 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.docpoint.application.port.out.LoadCpEvaluationPort;
+import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.CpEvaluation;
+import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.Working;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.RoleType;
+import com.docpoint.util.CpEvaluationTestData;
 import com.docpoint.util.UserTestData;
 import com.docpoint.util.WorkingDocumentTestData;
 import com.docpoint.util.WorkingTestData;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("기여도(CpEvaluation) 조회 service 테스트")
-class GetFinalCpServiceTest {
+class GetCpEvaluationServiceTest {
 	@InjectMocks
 	private GetCpEvaluationsService getFinalCpService;
 
 	@Mock
 	private LoadCpEvaluationPort loadCpEvaluationPort;
 
-	// TODO 수정
 	@Test
-	@DisplayName("기여도 조회 성공 - 1개의 CpEvaluation이 조회되는 경우, CpEvaluation 1개를 반환한다.")
+	@DisplayName("담당자인 팀 멤버가 최종 기여도를 조회할 경우	")
 	void 기여도_조회_성공() {
 		// given
 		User assignee = UserTestData.createTeamMember(mock(Team.class));
+		User teamLeader = UserTestData.createTeamLeader(mock(Team.class));
 		Working working = WorkingTestData.createWorkingWithAssignee(assignee);
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocumentWithWorking(working);
+		DocumentReviewer documentReviewer = DocumentReviewer.builder()
+			.workingDocument(workingDocument)
+			.reviewer(teamLeader)
+			.build();
+		CpEvaluation cpEvaluation = CpEvaluationTestData.createCpEvaluation(documentReviewer);
 		given(loadCpEvaluationPort.loadByWorkingDocument(workingDocument))
-			.willReturn(List.of());
+			.willReturn(List.of(cpEvaluation));
 
 		// when
 		Map<RoleType, CpEvaluation> cpEvaluations = getFinalCpService.getCpEvaluations(assignee, workingDocument);
@@ -52,7 +60,7 @@ class GetFinalCpServiceTest {
 		// then
 		assertThat(cpEvaluations).isNotNull();
 		verify(loadCpEvaluationPort, times(1)).loadByWorkingDocument(workingDocument);
-
+		assertThat(cpEvaluations.get(RoleType.TEAM_LEADER)).isEqualTo(cpEvaluation);
 	}
 
 	@Nested
@@ -69,7 +77,8 @@ class GetFinalCpServiceTest {
 
 			// when, then
 			assertThatThrownBy(() -> getFinalCpService.getCpEvaluations(teamMember, workingDocument))
-				.isInstanceOf(ForbiddenException.class);
+				.isInstanceOf(ForbiddenException.class)
+				.hasMessage(ErrorType.FORBIDDEN_ASSIGNEE.getMessage());
 		}
 	}
 
