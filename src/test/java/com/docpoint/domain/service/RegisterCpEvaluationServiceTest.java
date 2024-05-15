@@ -18,8 +18,10 @@ import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.application.port.out.SaveCpEvaluationPort;
 import com.docpoint.application.port.out.SaveWorkingDocumentPort;
+import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
+import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.CpEvaluation;
 import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.Team;
@@ -67,6 +69,23 @@ class RegisterCpEvaluationServiceTest {
 
 		// then
 		verify(saveCpEvaluationPort, times(1)).save(any(CpEvaluation.class));
+	}
+
+	@Test
+	@DisplayName("파트리더가 리뷰를 하지 않고 승인 요청을 시도할 경우, NotFoundException 발생한다.")
+	void 리뷰_없이_승인_요청() {
+		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
+		User partLeader = UserTestData.createPartLeader(new Team(null, "team", false));
+		CpEvaluation cpEvaluation = CpEvaluation.builder().comment("comment").build();
+		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, partLeader))
+			.willReturn(Optional.of(mock(DocumentReviewer.class)));
+		given(loadReviewPort.existsReviewByReviewer(workingDocument, partLeader)).willReturn(false);
+
+		// when, then
+		assertThatThrownBy(
+			() -> registerCpEvaluationService.registerCpEvaluation(cpEvaluation, workingDocument, partLeader))
+			.isInstanceOf(NotFoundException.class)
+			.hasMessage(ErrorType.NOT_FOUND_REVIEW.getMessage());
 	}
 
 	@Test
