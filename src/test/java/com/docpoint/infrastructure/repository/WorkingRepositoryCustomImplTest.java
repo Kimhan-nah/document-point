@@ -33,12 +33,13 @@ class WorkingRepositoryCustomImplTest {
 	private WorkingJpaEntity working1;
 
 	private WorkingJpaEntity working2;
+	private UserJpaEntity user1;
 
 	@BeforeEach
 	void setUp() {
 		// 테스트 데이터 준비
 		TeamJpaEntity team = new TeamJpaEntity(null, "Test Team", false);
-		UserJpaEntity user1 = UserTestData.createUserJpaEntity(team);
+		user1 = UserTestData.createUserJpaEntity(team);
 		UserJpaEntity user2 = UserTestData.createUserJpaEntity(team);
 		working1 = WorkingTestData.createWorkingJpaEntity(user2, title);
 		working2 = WorkingTestData.createWorkingJpaEntity(user1, title);
@@ -61,9 +62,9 @@ class WorkingRepositoryCustomImplTest {
 	@DisplayName("동일한 제목의 Working 2개중 유저의 Working 1개를 조회한다.")
 	void searchUserWorking() {
 		// 테스트 실행
-		String search = title.substring(0, 3);
+		String search = title;
 
-		List<WorkingJpaEntity> results = workingRepositoryCustom.searchUserWorking(1L, search);
+		List<WorkingJpaEntity> results = workingRepositoryCustom.searchUserWorking(user1.getId(), search);
 
 		// 결과 검증
 		assertThat(results).hasSize(1);
