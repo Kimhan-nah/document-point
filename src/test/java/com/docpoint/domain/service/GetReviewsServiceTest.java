@@ -16,12 +16,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.docpoint.application.port.out.LoadDocumentReviewerPort;
 import com.docpoint.application.port.out.LoadReviewPort;
+import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.Evaluation;
+import com.docpoint.domain.entity.Review;
+import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.util.ReviewTestData;
+import com.docpoint.util.UserTestData;
 import com.docpoint.util.WorkingDocumentTestData;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,19 +42,36 @@ class GetReviewsServiceTest {
 	private LoadDocumentReviewerPort loadDocumentReviewerPort;
 
 	@Test
-	@DisplayName("WorkingDocument의 리뷰 전체 조회 성공")
+	@DisplayName("WorkingDocument의 리뷰 전체 조회 1개 성공")
 	void getReviewsOfWorkingDocument() {
 		// given
 		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 		User assignee = workingDocument.getWorking().getAssignee();
+		DocumentReviewer documentReviewer = mock(DocumentReviewer.class);
+		Review review = ReviewTestData.createReview();
 		given(loadDocumentReviewerPort.loadByWorkingDocumentId(workingDocument.getId()))
-			.willReturn(List.of(mock(DocumentReviewer.class)));
+			.willReturn(List.of(documentReviewer));
+		given(loadReviewPort.loadUserReviewOfDocument(documentReviewer))
+			.willReturn(List.of(review));
 
 		// when
 		Map<User, List<Evaluation>> allReviews = getReviewsService.getAllReviews(workingDocument, assignee);
 
 		// then
-		assertThat(allReviews).isEmpty();
+		assertThat(allReviews.size()).isEqualTo(1);
+	}
+
+	@Test
+	@DisplayName("Working의 담당자가 아닌 팀 멤버가 리뷰 전체 조회할 경우, ForbiddenException 발생")
+	void 담당자_아닌_팀멤버_리뷰_전체_조회() {
+		// given
+		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
+		User notAssigneeMember = UserTestData.createTeamMember(mock(Team.class));
+
+		// when, then
+		assertThatThrownBy(() -> getReviewsService.getAllReviews(workingDocument, notAssigneeMember))
+			.isInstanceOf(ForbiddenException.class)
+			.hasMessage(ErrorType.FORBIDDEN_ASSIGNEE.getMessage());
 	}
 
 	@Test
@@ -64,7 +86,8 @@ class GetReviewsServiceTest {
 
 		// when, then
 		assertThatThrownBy(() -> getReviewsService.getReview(workingDocument, reviewer))
-			.isInstanceOf(NotFoundException.class);
+			.isInstanceOf(NotFoundException.class)
+			.hasMessage(ErrorType.NOT_FOUND_REVIEW.getMessage());
 	}
 
 	@Test
@@ -78,6 +101,23 @@ class GetReviewsServiceTest {
 
 		// when
 		assertThatThrownBy(() -> getReviewsService.getReview(workingDocument, user))
-			.isInstanceOf(ForbiddenException.class);
+			.isInstanceOf(ForbiddenException.class)
+			.hasMessage(ErrorType.FORBIDDEN_REVIEWER.getMessage());
+	}
+
+	@Test
+	@DisplayName("리뷰 1개 조회 성공")
+	void 리뷰_조회_성공() {
+		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
+		User reviewer = mock(User.class);
+		DocumentReviewer documentReviewer = mock(DocumentReviewer.class);
+		Review review = mock(Review.class);
+		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, reviewer))
+			.willReturn(Optional.of(documentReviewer));
+		given(loadReviewPort.loadUserReviewOfDocument(documentReviewer)).willReturn(List.of(review));
+
+		List<Evaluation> evaluations = getReviewsService.getReview(workingDocument, reviewer);
+
+		assertThat(evaluations.size()).isEqualTo(1);
 	}
 }

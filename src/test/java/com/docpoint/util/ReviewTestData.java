@@ -3,6 +3,7 @@ package com.docpoint.util;
 import java.util.List;
 
 import com.docpoint.domain.entity.Evaluation;
+import com.docpoint.domain.entity.Review;
 import com.docpoint.domain.type.ReviewAnswerType;
 import com.docpoint.domain.type.ReviewQuestionType;
 
@@ -22,5 +23,12 @@ public class ReviewTestData {
 				.answer(ReviewAnswerType.NORMAL)
 				.build()
 		);
+	}
+
+	public static Review createReview() {
+		return Review.builder()
+			.question(ReviewQuestionType.CLARITY)
+			.answer(ReviewAnswerType.BAD)
+			.build();
 	}
 }

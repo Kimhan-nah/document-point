@@ -57,6 +57,7 @@ class GetReviewsService implements GetReviewsUseCase {
 	}
 
 	/**
+	 * 리뷰어가 리뷰한 WorkingDocument의 리뷰 조회
 	 * @param workingDocument
 	 * @param user
 	 * @return
