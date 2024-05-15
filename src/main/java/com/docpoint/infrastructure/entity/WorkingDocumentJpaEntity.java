@@ -99,4 +99,8 @@ public class WorkingDocumentJpaEntity extends BaseTimeEntity {
 	protected void addDocumentReviewer(DocumentReviewerJpaEntity documentReviewer) {
 		this.reviewers.add(documentReviewer);
 	}
+
+	public void updateStatus(DocStatusType status) {
+		this.status = status;
+	}
 }

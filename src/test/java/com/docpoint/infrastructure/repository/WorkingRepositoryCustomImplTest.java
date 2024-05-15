@@ -23,11 +23,15 @@ import jakarta.persistence.EntityManager;
 @DisplayName("WorkingRepositoryCustomImpl 테스트")
 class WorkingRepositoryCustomImplTest {
 	private final String title = "working title";
+
 	@Autowired
 	private WorkingRepositoryCustomImpl workingRepositoryCustom;
+
 	@Autowired
 	private EntityManager entityManager;
+
 	private WorkingJpaEntity working1;
+
 	private WorkingJpaEntity working2;
 
 	@BeforeEach

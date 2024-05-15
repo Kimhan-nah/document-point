@@ -9,6 +9,8 @@ import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.domain.type.DocStatusType;
 import com.docpoint.domain.type.DocType;
 import com.docpoint.domain.type.WorkingStatusType;
+import com.docpoint.infrastructure.entity.WorkingDocumentJpaEntity;
+import com.docpoint.infrastructure.entity.WorkingJpaEntity;
 
 public class WorkingDocumentTestData {
 	private static Long workingId = 1L;
@@ -45,5 +47,30 @@ public class WorkingDocumentTestData {
 
 	public static Map<DocType, List<String>> createLinks(DocType docType, List<String> links) {
 		return Map.of(docType, links);
+	}
+
+	public static WorkingDocumentJpaEntity createWorkingDocumentJpaEntity(WorkingJpaEntity working) {
+		return WorkingDocumentJpaEntity.builder()
+			.working(working)
+			.title("title")
+			.content("content")
+			.status(DocStatusType.REVIEW)
+			.type(DocType.GITLAB)
+			.link("gitlab.com")
+			.isDeleted(false)
+			.build();
+	}
+
+	public static WorkingDocumentJpaEntity createWorkingDocumentJpaEntity(WorkingJpaEntity working,
+		DocStatusType status) {
+		return WorkingDocumentJpaEntity.builder()
+			.working(working)
+			.title("title")
+			.content("content")
+			.status(status)
+			.type(DocType.GITLAB)
+			.link("gitlab.com")
+			.isDeleted(false)
+			.build();
 	}
 }
