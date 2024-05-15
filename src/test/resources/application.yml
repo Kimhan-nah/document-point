@@ -1,4 +1,7 @@
 spring:
+  config:
+    activate:
+      on-profile: test
   h2:
     console:
       enabled: true
@@ -17,6 +20,6 @@ spring:
     password:
   sql:
     init:
-      data-locations: classpath:data.sql
+      mode: never
 logging.level:
   org.hibernate.SQL: debug

@@ -7,6 +7,9 @@ import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.Working;
 import com.docpoint.domain.type.WorkingCategoryType;
 import com.docpoint.domain.type.WorkingStatusType;
+import com.docpoint.infrastructure.entity.UserJpaEntity;
+import com.docpoint.infrastructure.entity.WorkingAssigneeJpaEntity;
+import com.docpoint.infrastructure.entity.WorkingJpaEntity;
 
 public class WorkingTestData {
 
@@ -82,4 +85,38 @@ public class WorkingTestData {
 			.build();
 	}
 
+	public static WorkingJpaEntity createWorkingJpaEntity(UserJpaEntity user) {
+		return WorkingJpaEntity.builder()
+			.writer(user)
+			.cp(1)
+			.title("title")
+			.content("content")
+			.status(WorkingStatusType.PROCEEDING)
+			.category(WorkingCategoryType.DEV)
+			.dueDate(LocalDateTime.now().plusDays(1))
+			.recruitDate(LocalDateTime.now())
+			.isDeleted(false)
+			.build();
+	}
+
+	public static WorkingJpaEntity createWorkingJpaEntity(UserJpaEntity user, String title) {
+		return WorkingJpaEntity.builder()
+			.writer(user)
+			.cp(1)
+			.title(title)
+			.content("content")
+			.status(WorkingStatusType.PROCEEDING)
+			.category(WorkingCategoryType.DEV)
+			.dueDate(LocalDateTime.now().plusDays(1))
+			.recruitDate(LocalDateTime.now())
+			.isDeleted(false)
+			.build();
+	}
+
+	public static WorkingAssigneeJpaEntity createWorkingAssignee(WorkingJpaEntity working, UserJpaEntity assignee) {
+		return WorkingAssigneeJpaEntity.builder()
+			.working(working)
+			.assignee(assignee)
+			.build();
+	}
 }
