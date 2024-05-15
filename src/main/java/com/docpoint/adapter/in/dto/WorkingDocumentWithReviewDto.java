@@ -35,7 +35,7 @@ public class WorkingDocumentWithReviewDto {
 		this.isReviewed = isReviewed;
 	}
 
-	public static WorkingDocumentWithReviewDto toDto(WorkingDocument workingDocument, boolean isReviewed) {
+	public static WorkingDocumentWithReviewDto toDto(WorkingDocument workingDocument, Boolean isReviewed) {
 		return WorkingDocumentWithReviewDto.builder()
 			.id(workingDocument.getId())
 			.title(workingDocument.getTitle())
@@ -43,19 +43,19 @@ public class WorkingDocumentWithReviewDto {
 			.registerDate(workingDocument.getRegisterDate())
 			.status(workingDocument.getStatus())
 			.link(workingDocument.getLink())
-			.isReviewed(isReviewed)
+			.isReviewed(isReviewed != null && isReviewed)
 			.build();
 	}
 
-	public static WorkingDocumentWithReviewDto toDto(WorkingDocument workingDocument) {
-		return WorkingDocumentWithReviewDto.builder()
-			.id(workingDocument.getId())
-			.title(workingDocument.getTitle())
-			.assigneeName(workingDocument.getWorking().getAssignee().getName())
-			.registerDate(workingDocument.getRegisterDate())
-			.status(workingDocument.getStatus())
-			.link(workingDocument.getLink())
-			.isReviewed(false)
-			.build();
-	}
+	// public static WorkingDocumentWithReviewDto toDto(WorkingDocument workingDocument) {
+	// 	return WorkingDocumentWithReviewDto.builder()
+	// 		.id(workingDocument.getId())
+	// 		.title(workingDocument.getTitle())
+	// 		.assigneeName(workingDocument.getWorking().getAssignee().getName())
+	// 		.registerDate(workingDocument.getRegisterDate())
+	// 		.status(workingDocument.getStatus())
+	// 		.link(workingDocument.getLink())
+	// 		.isReviewed(false)
+	// 		.build();
+	// }
 }
