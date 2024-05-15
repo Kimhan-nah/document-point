@@ -19,8 +19,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.docpoint.application.port.out.LoadEmployeePort;
+import com.docpoint.application.port.out.LoadReviewPort;
 import com.docpoint.application.port.out.SaveWorkingDocumentPort;
+import com.docpoint.common.exception.ErrorType;
 import com.docpoint.common.exception.custom.BadRequestException;
+import com.docpoint.common.exception.custom.ConflictException;
 import com.docpoint.common.exception.custom.ForbiddenException;
 import com.docpoint.domain.entity.Team;
 import com.docpoint.domain.entity.User;
@@ -44,6 +47,9 @@ class RegisterWorkingDocumentServiceTest {
 
 	@Mock
 	private LoadEmployeePort loadEmployeePort;
+
+	@Mock
+	private LoadReviewPort loadReviewPort;
 
 	private static Stream<Arguments> teamMembersAndPartLeadersAndTeamLeader() {
 		Team team = new Team(1L, "team", false);
@@ -70,6 +76,25 @@ class RegisterWorkingDocumentServiceTest {
 		// when
 		registerWorkingDocumentService.registerWorkingDocument(
 			workingDocument, working, working.getAssignee(), teamMembers);
+
+		// then
+		verify(saveWorkingDocumentPort, times(1)).save(any(WorkingDocument.class), anyList());
+	}
+
+	@ParameterizedTest
+	@DisplayName("WorkingDocument 수정 성공")
+	@MethodSource("teamMembersAndPartLeadersAndTeamLeader")
+	void workingDocument_수정_성공(Team team, List<User> teamMembers, List<User> partLeaders, User teamLeader) {
+		// given
+		User assignee = UserTestData.createTeamLeader(team);
+		Working working = WorkingTestData.createWorkingWithAssignee(assignee);
+		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocumentWithWorking(working);
+		given(loadReviewPort.existsReview(workingDocument)).willReturn(false);
+		given(loadEmployeePort.loadByTeamAndRole(team, RoleType.PART_LEADER)).willReturn(partLeaders);
+		given(loadEmployeePort.loadTeamLeaderByTeam(team)).willReturn(Optional.of(teamLeader));
+
+		// when
+		registerWorkingDocumentService.updateWorkingDocument(workingDocument, workingDocument, assignee, teamMembers);
 
 		// then
 		verify(saveWorkingDocumentPort, times(1)).save(any(WorkingDocument.class), anyList());
@@ -167,6 +192,26 @@ class RegisterWorkingDocumentServiceTest {
 			assertThatThrownBy(() -> registerWorkingDocumentService
 				.registerWorkingDocument(workingDocument, working, assignee, reviewers))
 				.isInstanceOf(BadRequestException.class);
+		}
+	}
+
+	@Nested
+	@DisplayName("WorkingDocument 수정 실패")
+	class UpdateWorkingDocumentFail {
+		@Test
+		@DisplayName("리뷰가 존재하여 리뷰 수정 불가능한 경우, ConflictException이 발생한다.")
+		void 리뷰어_목록_생성_실패() {
+			// given
+			WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
+			Working working = workingDocument.getWorking();
+			User assignee = working.getAssignee();
+			given(loadReviewPort.existsReview(workingDocument)).willReturn(true);
+
+			// when, then
+			assertThatThrownBy(() -> registerWorkingDocumentService
+				.updateWorkingDocument(workingDocument, mock(WorkingDocument.class), assignee, List.of()))
+				.isInstanceOf(ConflictException.class)
+				.hasMessage(ErrorType.CONFLICT_REVIEW.getMessage());
 		}
 	}
 }
