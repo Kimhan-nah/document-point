@@ -21,6 +21,13 @@ public class DeleteReviewService implements DeleteReviewUseCase {
 	private final LoadReviewPort loadReviewPort;
 	private final LoadDocumentReviewerPort loadDocumentReviewerPort;
 
+	/**
+	 * 리뷰 삭제
+	 * @param workingDocument 삭제할 리뷰의 워킹 문서
+	 * @param user 삭제 요청한 사용자
+	 * @throws ForbiddenException 리뷰어가 아닌 경우
+	 * @throws NotFoundException 리뷰가 존재하지 않는 경우
+	 */
 	@Override
 	public void deleteReview(WorkingDocument workingDocument, User user) {
 		DocumentReviewer documentReviewer = loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, user)
