@@ -281,20 +281,20 @@ DROP PROCEDURE IF EXISTS createCpEvaluationAndReview;
 DELIMITER $$
 CREATE PROCEDURE createCpEvaluationAndReview()
 BEGIN
-    DECLARE i INT DEFAULT 1;
-    WHILE i <= 20
+    DECLARE i INT DEFAULT 0;
+    WHILE i < 20
         DO
             INSERT INTO `review` (`document_reviewer_id`, `answer`, `question`)
-                VALUE (@part_leader_id_1, 'BAD', 'CLARITY');
+                VALUE (i * 6 + 2, 'BAD', 'CLARITY');
             INSERT INTO `review` (`document_reviewer_id`, `answer`, `question`)
-                VALUE (@part_leader_id_1, 'NORMAL', 'CONSISTENCY');
+                VALUE (i * 6 + 2, 'NORMAL', 'CONSISTENCY');
             INSERT INTO `review` (`document_reviewer_id`, `answer`, `question`)
-                VALUE (@part_leader_id_1, 'GOOD', 'COMPLETENESS');
+                VALUE (i * 6 + 2, 'GOOD', 'COMPLETENESS');
             INSERT INTO `cp_evaluation` (`cp`, `document_reviewer_id`, `comment`)
-                VALUE (1000, @part_leader_id_1,
+                VALUE (1000, i * 6 + 2,
                        '기여도에 대한 코멘트입니다. 명확성은 부족하지만 완성도가 좋았습니다. 문서화가 잘 되어있어서 좋았고 중요한 부분이라고 생각되어 1000으로 책정하였습니다.');
             INSERT INTO `cp_evaluation` (`cp`, `document_reviewer_id`, `comment`)
-                VALUE (1200, @team_leader_id,
+                VALUE (1200, i * 6 + 1,
                        '기여도에 대한 코멘트입니다. 완성도와 퀄리티가 너무 좋네요. 꼼꼼하게 잘 작성하신 것 같아서 더 높은 기여도로 승인합니다. :)');
             SET i = i + 1;
         END WHILE;
@@ -306,8 +306,8 @@ DROP PROCEDURE IF EXISTS createCpEvaluationAndReview2;
 DELIMITER $$
 CREATE PROCEDURE createCpEvaluationAndReview2()
 BEGIN
-    DECLARE i INT DEFAULT 1;
-    WHILE i <= 10
+    DECLARE i INT DEFAULT 20;
+    WHILE i < 30
         DO
             INSERT INTO `review` (`document_reviewer_id`, `answer`, `question`)
                 VALUE (i * 6 + 2, 'BAD', 'CLARITY');
