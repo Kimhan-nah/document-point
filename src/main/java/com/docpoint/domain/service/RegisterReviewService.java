@@ -17,6 +17,7 @@ import com.docpoint.domain.entity.Evaluation;
 import com.docpoint.domain.entity.Review;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.DocStatusType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -57,6 +58,7 @@ public class RegisterReviewService implements RegisterReviewUseCase {
 	 * @param reviewer review를 수정할 사용자
 	 * @param workingDocument review를 수정할 workingDocument
 	 * @throws ForbiddenException 지정된 reivewer가 아닌 경우
+	 * @throws ForbiddenException REVIEW 상태가 아닌 경우
 	 */
 	@Override
 	@Transactional
@@ -64,6 +66,9 @@ public class RegisterReviewService implements RegisterReviewUseCase {
 		DocumentReviewer documentReviewer = loadDocumentReviewerPort.loadByWorkingDocumentAndUser(
 				workingDocument, reviewer)
 			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));
+		if (workingDocument.getStatus() != DocStatusType.REVIEW) {
+			throw new ForbiddenException(ErrorType.BAD_WORKING_DOCUMENT_STATUS);
+		}
 		for (Evaluation evaluation : review) {
 			saveReviewPort.save(
 				new Review(null, documentReviewer, evaluation.getQuestion(), evaluation.getAnswer(), false));

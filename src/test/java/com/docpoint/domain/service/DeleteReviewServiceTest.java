@@ -21,6 +21,7 @@ import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.util.WorkingDocumentTestData;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("리뷰 삭제 테스트")
@@ -41,7 +42,7 @@ class DeleteReviewServiceTest {
 	@DisplayName("working document의 리뷰어가 등록한 리뷰가 있을 경우, Port의 delete 함수를 호출하고 삭제를 성공한다.")
 	void 리뷰_삭제_성공() {
 		// given
-		WorkingDocument workingDocument = mock(WorkingDocument.class);
+		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 		User user = mock(User.class);
 		DocumentReviewer documentReviewer = mock(DocumentReviewer.class);
 		given(loadDocumentReviewerPort.loadByWorkingDocumentAndUser(workingDocument, user)).willReturn(

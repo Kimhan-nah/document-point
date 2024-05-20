@@ -11,6 +11,7 @@ import com.docpoint.common.exception.custom.NotFoundException;
 import com.docpoint.domain.entity.DocumentReviewer;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
+import com.docpoint.domain.type.DocStatusType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +28,7 @@ public class DeleteReviewService implements DeleteReviewUseCase {
 	 * @param user 삭제 요청한 사용자
 	 * @throws ForbiddenException 리뷰어가 아닌 경우
 	 * @throws NotFoundException 리뷰가 존재하지 않는 경우
+	 * @throws ForbiddenException REVIEW 상태가 아닌 경우
 	 */
 	@Override
 	public void deleteReview(WorkingDocument workingDocument, User user) {
@@ -34,6 +36,9 @@ public class DeleteReviewService implements DeleteReviewUseCase {
 			.orElseThrow(() -> new ForbiddenException(ErrorType.FORBIDDEN_REVIEWER));
 		if (!loadReviewPort.existsReviewByReviewer(workingDocument, user)) {
 			throw new NotFoundException(ErrorType.NOT_FOUND_REVIEW);
+		}
+		if (workingDocument.getStatus() != DocStatusType.REVIEW) {
+			throw new ForbiddenException(ErrorType.BAD_WORKING_DOCUMENT_STATUS);
 		}
 		saveReviewPort.delete(documentReviewer);
 	}

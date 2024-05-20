@@ -26,6 +26,7 @@ import com.docpoint.domain.entity.Review;
 import com.docpoint.domain.entity.User;
 import com.docpoint.domain.entity.WorkingDocument;
 import com.docpoint.util.ReviewTestData;
+import com.docpoint.util.WorkingDocumentTestData;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("review 등록 테스트")
@@ -65,7 +66,7 @@ class RegisterReviewServiceTest {
 	@DisplayName("리뷰 수정 성공")
 	void 리뷰_수정_성공() {
 		// given
-		WorkingDocument workingDocument = mock(WorkingDocument.class);
+		WorkingDocument workingDocument = WorkingDocumentTestData.createWorkingDocument();
 		DocumentReviewer documentReviewer = mock(DocumentReviewer.class);
 		User reviewer = mock(User.class);
 		List<Evaluation> reviews = ReviewTestData.createReviewsWithoutReviewer();
