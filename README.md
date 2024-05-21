@@ -1,80 +1,76 @@
 # 목차
-
 - [목차](#목차)
+- [Hexagonal Architecture](#hexagonal-architecture)
 - [기능 명세](#기능-명세)
     - [Working (수행 워킹)](#working-수행-워킹)
     - [WorkingDocument (워킹 문서)](#workingdocument-워킹-문서)
-    - [DocumentReviewr (문서 리뷰어)](#documentreviewr-문서-리뷰어)
-    - [DocumentReview (문서 리뷰)](#documentreview-문서-리뷰)
+    - [Review (문서 리뷰)](#review-문서-리뷰)
+    - [CpEvaluation (CP 기여도 평가)](#cpevaluation-cp-기여도-평가)
+
+# Hexagonal Architecture
+
 
 # 기능 명세
 
-## Working (수행 워킹)
+> 이미 만들어진 기능에 대한 기능 명세는 생략한다. (로그인, Working 등록 및 조회 등)
 
-- [ ] Working은 작성자, 담당자, 기여도(cp), 제목, 내용, 삭제 여부, 상태, 종류, 마감일, 지원 마감일을 갖는다.
-- [ ] 담당자를 제외한 모든 정보는 필수로 입력해야 한다.
-- [ ] 완료 여부를 체크할 수 있다.
-- [ ] Working은 등록이 가능하다.
-- [ ] Working은 담당자 등록이 가능하다.
+### Working (수행 워킹)
 
-> 이미 만들어진 기능이므로 사용하지 않는 기능 명세는 생략한다. (상태, 종류에 대한 enum type도 생략)
+- [x] Working은 작성자, 담당자, 기여도(cp), 제목, 내용, 삭제 여부, 상태, 종류, 마감일, 지원 마감일을 갖는다.
+- [x] 담당자를 제외한 모든 정보는 필수로 입력해야 한다.
+- [x] 완료 여부를 체크할 수 있다.
+- [x] Working은 등록이 가능하다.
+- [x] Working은 담당자 등록이 가능하다.
+- [x] Working은 삭제가 가능하다. (삭제 여부를 true로 변경)
 
-## WorkingDocument (워킹 문서)
 
-### Domain Model
+### WorkingDocument (워킹 문서)
 
-- [x] WorkingDocument는 수행 워킹, 제목, 내용, 상태, 삭제 여부, 문서 링크를 가진다.
+- [x] 팀 멤버가 새로운 WorkingDocument를 등록한다.
+  - [x] 제목을 입력한다.
+  - [x] 내용을 입력한다.
+  - [x] Working을 입력한다.
+    - [x] 본인이 수행한 Working에 대한 WorkingDocument만 등록 가능하다.
+    - [x] Working이 '대기중' 상태이면 등록 불가능하다.
+  - [x] 문서 링크 종류를 선택한다.
+    - [x] 링크 종류는 confluence, gitlab 2가지 종류가 존재한다.
+  - [x] 링크를 입력한다.
+  - [x] 리뷰 요청할 리뷰어를 선택한다.
+    - [x] 1개의 WorkingDocument에 대한 리뷰어는 파트리더 2명과 팀 멤버 1명 이상을 가진다.
+- [x] 등록 완료하면 '검토중' 상태로 초기화 된다.
+- [x] 리뷰어 N명도 함께 생성된다.
 
----
+- [x] 본인이 등록한 WorkingDocument를 수정 및 삭제한다.
+  - [x] 리뷰가 없을 경우에만 가능하며, 리뷰가 존재할 경우 불가능하다.
 
-### 등록 Use Case
+- [x] 팀 멤버가 본인이 작성한 전체 WorkingDocument 목록을 조회한다.
+- [x] 파트 리더/팀 리더가 팀의 전체 WorkingDocument 목록을 조회한다.
+- [x] 팀 멤버/파트 리더/팀 리더가 리뷰 요청 받은 전체 WorkingDocument 목록을 조회한다.
+- [x] 팀 멤버/파트 리더/팀 리더가 WorkingDocument 상세 조회를 한다.
+- [x] 팀 멤버/파트 리더/팀 리더가 WorkingDocument 전체 리뷰를 조회한다.
+  - [x] 팀 멤버는 작성자 본인만 조회 가능하다.
+- [x] 팀 멤버/파트 리더/팀 리더가 본인이 남긴 리뷰를 조회한다.
+  - [x] 리뷰 작성자만 조회 가능하다.
+- [x] 팀 멤버가 승인 완료된 WorkingDocument의 최종 기여도를 조회한다.
 
-[//]: # (adapter level)
+### Review (문서 리뷰)
 
-- [ ] working이 존재해야 한다. <- working 조회 use case
-- [ ] 수행 워킹의 담당자가 본인이 수행한 워킹에 대한 WorkingDocument는 등록이 가능하다.
-- [ ] 이미 Working에 대한 요청된 WorkingDocument가 있을 경우 등록이 불가능하다.
-    - X!! 가능하다.
-    - 일단 해당 검증은 생략.. 등록 기능이 이미 구현된 사항이라면 중요하지 않은 것 같다..
+- [x] 팀 멤버/파트 리더는 리뷰 요청을 받은 WorkingDocument에 대해 리뷰를 남긴다.
+  - [x] 리뷰는 '명확성', '일관성', '완성도' 3가지 문항이 존재한다.
+  - [x] '좋아요', '보통', '아쉬워요' 3가지로 응답한다.
+  - [x] 지정된 리뷰어가 아닌 경우, 리뷰를 남길 수 없다.
+- [x] 내가 등록한 리뷰를 조회한다.
+- [x] 내가 등록한 리뷰를 수정 및 삭제한다.
+  - [x] WorkingDocument 상태가 '검토중'일 때만 가능하다.
+- [x] 팀 멤버/파트 리더/팀 리더는 WorkingDocument의 전체 리뷰를 조회한다.
 
-[//]: # (service level)
-
-- [x] 삭제된 working에 대한 workingDocument는 등록이 불가능하다.
-- [x] Working의 상태가 '대기(WAITING)'일 경우 등록이 불가능하다.
-
-- [x] 링크는 1개 이상의 url이 필수로 입력되어야 한다.
-- [x] WorkingDocument의 초기 상태인 '검토중(REVIEW)'이 아닌 상태로 등록이 불가능하다.
-- [ ] 리뷰어가 1명 이상이어야 한다. <- TODO 확인 필요
-
-[//]: # (out adapter\(port\) level)
-
-- [ ] Reviewer 저장
-- [ ] DocLink 저장
-- [x] WorkingDocument 저장
-
-### 수정 및 삭제 Use Case
-
-- [ ] 수행 워킹의 담당자는 WorkingDocument 삭제가 가능하다. (삭제 여부를 true로 변경)
-- [ ] 수행 워킹의 담당자는 WorkingDocument 수정이 가능하다.
-- [ ] WorkingDocument에 대한 review가 1개 이상이면 수정/삭제가 불가능하다.
-- [ ] WorkingDocument는 상태를 변경할 수 있다.
-- [ ] 본인이 작성한 WorkingDocument 조회가 가능하다.
-- [ ] 파트 리더, 팀 리더는 팀 멤버의 WorkingDocument 조회가 가능하다.
-
-### 전체 요청 조회 Use Case (PART_LEADER, TEAM_LEADER)
-
-- [x] 완료
-
-### 내 요청 조회 Use Case (TEAM_MEMBER)
-
-- [x] 완료
-
-### 받은 요청 조회 Use case (ALL)
-
-- [ ] 완료
-
-### 상세 조회 Use Case (ALL)
-
-## DocumentReview (문서 리뷰)
+### CpEvaluation (CP 기여도 평가)
+- [x] 파트 리더/팀 리더는 요청 받은 WorkingDocument에 대해 CP를 평가한다.
+  - [x] 파트리더는 리뷰를 완료하지 않으면 cp 승인 요청을 보낼 수 없다.
+  - [x] 팀 리더는 파트리더가 요청을 보내지 않아도 승인 완료가 가능해야 한다.
+  - [x] 본인이 책정한 기여도(cp)를 입력한다.
+  - [x] 파트 리더 <-> 팀 리더 간 책정한 cp에 대하여 코멘트를 남길 수 있다.
+- [x] 팀 멤버는 CpEvaluation 내용을 조회할 수 없다.
+  - [x] WorkingDocument 작성자인 팀 멤버는 리더의 최종 기여도만 조회 가능하다.
 
 
